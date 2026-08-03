@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * README_DEPLOY.md의 웹훅 테스트 시나리오용 더미 파일입니다.
  * 의도적으로 SQL Injection(CWE-89) 취약점을 포함하고 있습니다 — 실제 서비스에 사용하지 마세요.
+ * (웹훅 데모 PR 트리거용 변경)
  */
 public class VulnerableLogin extends HttpServlet {
 
