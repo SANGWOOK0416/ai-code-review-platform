@@ -2,6 +2,8 @@
 
 > 정적분석 + LLM 하이브리드 기반 설명 가능한 보안 취약점 탐지 시스템
 
+> **다음 세션 시작점 (2026-08-03 기준)**: ANTHROPIC_API_KEY 등록 → `--mock` 없이 LLM 단독/하이브리드 실제 실행
+
 ## 1. 프로젝트 정의
 
 **주제**: AI 코드 리뷰 플랫폼 — 정적분석-LLM 하이브리드 기반 설명 가능한 보안 취약점 탐지 시스템
@@ -69,7 +71,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 |---|---|
 | 1단계 (MVP) | SQL Injection(CWE-89)만으로 정적분석 단독/LLM 단독/하이브리드 파이프라인 완주, Precision/Recall/F1 비교 |
 | 2단계 | 나머지 5개 CWE 카테고리로 확장 |
-| 3단계 (진행 중) | GitHub 실제 저장소 연동, Docker/CI-CD로 E2E 배포 — **웹훅 서버 골격은 완성, LLM은 mock 고정 상태로 파이프라인 동작만 증명함** |
+| 3단계 (진행 중) | GitHub 실제 저장소 연동, Docker/CI-CD로 E2E 배포 — **실제 GitHub 저장소+ngrok+PR로 웹훅 e2e 동작 검증 완료(2026-08-03), LLM은 여전히 mock 고정** |
 | 4단계 | 벤치마크 리포트 정리, 발표 준비 |
 
 ## 9. 현재 상태 / 다음 할 일
@@ -85,9 +87,9 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] 3단계 착수: FastAPI 웹훅 서버(`app/main.py`) 구현 — GitHub PR 웹훅 수신 → 변경 `.java` 파일 조회 → Semgrep 스캔 → LLM(mock) 판단 → 하이브리드 통합 → PR에 라인별 리뷰 코멘트 + 요약 코멘트 게시까지 로컬에서 mock 페이로드로 라우팅/파싱 동작 검증 완료 (실제 GitHub PR로는 아직 미검증 — `README_DEPLOY.md` 절차 실행 필요)
 - [x] `Dockerfile`(멀티스테이지 빌드) + `requirements.txt` + `.dockerignore` 작성
 - [x] `.github/workflows/ci.yml` 작성 — push/PR마다 `evaluate_semgrep.py`(4개 카테고리) + `evaluate_hybrid.py`(sqli) 스모크 테스트 자동 실행
-- [ ] **git 저장소 초기화 + 최초 커밋 필요** — 지금까지 로컬 파일로만 존재, CI(`ci.yml`)가 실제로 돌려면 GitHub에 push되어야 하고 `data/processed/`, `data/results/`가 커밋에 포함돼야 함 (`data/raw/`만 gitignore 대상)
-- [ ] `README_DEPLOY.md` 절차대로 ngrok + 실제 GitHub 저장소로 엔드투엔드 테스트 (더미 PR 열어서 실제 코멘트가 달리는지 확인) — 아직 미실행
-- [ ] **ANTHROPIC_API_KEY 환경변수 설정** 후 `--mock` 없이 실제 데이터로 LLM 단독·하이브리드·웹훅 재실행 필요 (지금까지의 LLM/하이브리드 지표는 전부 mock 데이터 기반이라 무의미함)
+- [x] git 저장소 초기화 + 최초 커밋 + GitHub push 완료 (`data/processed/`, `data/results/` 포함, `data/raw/`만 gitignore 대상)
+- [x] `README_DEPLOY.md` 절차대로 ngrok + 실제 GitHub 저장소로 엔드투엔드 테스트 완료 (2026-08-03) — 상세는 10장 "3단계 진행상황" 참고
+- [ ] **ANTHROPIC_API_KEY 환경변수 설정** 후 `--mock` 없이 실제 데이터로 LLM 단독·하이브리드·웹훅 재실행 필요 (지금까지의 LLM/하이브리드 지표는 전부 mock 데이터 기반이라 무의미함) — **다음 세션 시작점**
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
 - [ ] MVP(SQLi) 파이프라인 전체 완주 (LLM 단독·하이브리드 실제 API 결과로 재계산)
 
@@ -167,7 +169,13 @@ LLM 쪽이 무작위 mock 응답이라 실제 하이브리드 성능이 아니�
 - `x-github-event: ping`, `action: closed` 등 처리 대상이 아닌 이벤트/액션은 `{"status":"ignored", ...}`로 정상 무시됨
 - `test-fixtures/VulnerableLogin.java`는 semgrep `tainted-sql-from-http-request` 룰로 실제 탐지됨 (README_DEPLOY.md 데모 시나리오가 실제로 작동할 근거)
 
+**실제 GitHub 저장소 + ngrok + 진짜 PR로 엔드투엔드 검증 완료 (2026-08-03)**:
+- ngrok 설치(winget) → authtoken 등록 → `ngrok http 8000` 터널링 → GitHub REST API로 웹훅 등록(repo: `SANGWOOK0416/ai-code-review-platform`), `GITHUB_WEBHOOK_SECRET` 발급해 서명 검증도 활성화한 채로 테스트
+- `ping` 이벤트 200 OK 확인
+- `test/webhook-pr-demo` 브랜치로 실제 PR #1 오픈(`opened` 이벤트) → 분석 완료, 요약 코멘트 자동 게시 확인. 단, 첫 커밋의 diff 범위 밖 라인이라 라인 코멘트 4건은 422로 실패 (README 트러블슈팅 표에 정리된 케이스와 일치 — 정상 동작)
+- 같은 PR에 커밋 추가 푸시 → `synchronize` 이벤트 재트리거 확인, 이번엔 diff 범위 안이라 **라인 코멘트 4건 전부 성공 게시** (semgrep `tainted-sql-from-http-request`, `formatted-sql-string`, XSS `no-direct-response-writer` 룰 등 실제 탐지)
+- → 파이프라인 전체("실제 GitHub PR → 웹훅 → 정적분석 → (mock)LLM → 하이브리드 통합 → PR 코멘트 게시")가 mock 페이로드가 아닌 실제 환경에서 동작함을 증명
+
 **아직 검증 안 된 것 (다음 세션에서 확인 필요)**:
-- 실제 GitHub 저장소 + ngrok + 진짜 PR로 엔드투엔드 동작 (라인 코멘트/요약 코멘트가 실제로 PR에 달리는지)
 - Docker 이미지 빌드 자체 (`docker build` 미실행 — semgrep이 slim 이미지에서 정상 설치·동작하는지 실제 빌드로 확인 필요)
-- `.github/workflows/ci.yml`의 실제 GitHub Actions 실행 (git 저장소가 아직 없어서 push 자체가 불가능한 상태)
+- `.github/workflows/ci.yml`의 실제 GitHub Actions 실행 결과 (push는 완료했으나 Actions 탭에서 그린 확인 필요)
