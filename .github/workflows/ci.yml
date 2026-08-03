@@ -1,0 +1,36 @@
+name: Evaluate Pipeline
+
+# evaluate_semgrep.py / evaluate_hybrid.py는 순수 stdlib로만 동작하며
+# data/processed/, data/results/ 에 이미 커밋된 산출물(semgrep 스캔 결과, LLM 예측 등)을
+# 읽어서 지표를 계산한다. 즉 이 CI는 "그 산출물을 다시 로드해서 에러 없이
+# Precision/Recall/F1을 계산할 수 있는가"를 검증하는 회귀 테스트다.
+# (data/raw/ 만 .gitignore 대상 — data/processed/, data/results/는 커밋 대상이어야
+#  이 워크플로우가 통과함)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: evaluate_semgrep.py 스모크 테스트 (4개 카테고리)
+        run: |
+          set -e
+          for category in sqli xss cmdi pathtraver; do
+            echo "=== $category ==="
+            python scripts/evaluate_semgrep.py --category "$category"
+          done
+
+      - name: 하이브리드 파이프라인 스모크 테스트 (sqli — LLM 예측 결과가 있는 유일한 카테고리)
+        run: |
+          set -e
+          python scripts/merge_hybrid.py --category sqli
+          python scripts/evaluate_hybrid.py --category sqli

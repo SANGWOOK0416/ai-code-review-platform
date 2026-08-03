@@ -1,0 +1,3026 @@
+{
+  "BenchmarkTest00008": {
+    "vulnerable": false,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1241941088)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00018": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4091333563)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00024": {
+    "vulnerable": true,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4016038380)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00025": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=137594907)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00026": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1732084459)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00027": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=71340219)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00032": {
+    "vulnerable": true,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3733387942)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00033": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2908584923)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00034": {
+    "vulnerable": false,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2978337411)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00037": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2047843485)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00038": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=316950187)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00039": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2547954583)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00043": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3672387814)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00052": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1995762400)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00100": {
+    "vulnerable": false,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3056999635)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00101": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=733283675)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00102": {
+    "vulnerable": true,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3917072448)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00103": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2539433623)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00104": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2868557002)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00105": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3830560023)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00106": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1223248288)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00107": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3924768385)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00108": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2576388084)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00109": {
+    "vulnerable": true,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3033448199)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00110": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3608612587)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00111": {
+    "vulnerable": true,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=46712790)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00112": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=595601165)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00113": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3078131196)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00114": {
+    "vulnerable": true,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2836129038)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00115": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1807508331)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00190": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2977512332)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00191": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=84038763)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00192": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=269989442)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00193": {
+    "vulnerable": true,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=377738078)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00194": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=858312940)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00195": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1317368437)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00196": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2300159926)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00197": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=375351383)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00198": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4152731751)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00199": {
+    "vulnerable": false,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2779788969)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00200": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3957301351)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00201": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1232665519)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00202": {
+    "vulnerable": true,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=454412952)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00203": {
+    "vulnerable": false,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=624554219)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00204": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2823539257)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00205": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1045074662)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00206": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2278124416)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00328": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2691560700)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00329": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3062027617)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00330": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2070243649)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00331": {
+    "vulnerable": true,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2660229280)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00332": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2184143544)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00333": {
+    "vulnerable": false,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=618717476)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00334": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2679075734)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00335": {
+    "vulnerable": false,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4073934809)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00336": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3427303747)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00337": {
+    "vulnerable": true,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2068587565)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00338": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1940658177)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00339": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1129661553)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00340": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2172427193)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00341": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3628396262)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00342": {
+    "vulnerable": true,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3452373486)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00343": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3682367954)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00344": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1978480627)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00428": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3312631135)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00429": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=717425886)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00430": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3419657591)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00431": {
+    "vulnerable": false,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3210156149)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00432": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4067019803)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00433": {
+    "vulnerable": false,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=652171939)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00434": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=992386238)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00435": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1972812283)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00436": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2239175633)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00437": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3715611759)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00438": {
+    "vulnerable": false,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1551930105)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00439": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3412361384)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00440": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2344918887)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00441": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1906500719)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00509": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2490446504)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00510": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=510960909)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00511": {
+    "vulnerable": false,
+    "confidence": 0.81,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=123709137)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00512": {
+    "vulnerable": false,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3240523648)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00513": {
+    "vulnerable": true,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=124635940)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00514": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=516062347)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00515": {
+    "vulnerable": true,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=867908639)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00516": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=766909501)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00517": {
+    "vulnerable": false,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4125566400)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00518": {
+    "vulnerable": true,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4143462179)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00519": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1400126724)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00589": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=602850372)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00590": {
+    "vulnerable": false,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=632070817)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00591": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1660866215)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00592": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2963246193)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00593": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3665036016)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00594": {
+    "vulnerable": false,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3714869770)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00595": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2003043885)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00596": {
+    "vulnerable": false,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3436270479)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00597": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1480496605)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00598": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=992312719)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00599": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1132567096)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00600": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=871310434)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00601": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2169243959)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00602": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=861491963)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00603": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3851583351)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00604": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3067677804)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00605": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3792922142)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00606": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=305267944)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00672": {
+    "vulnerable": true,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2238829281)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00673": {
+    "vulnerable": true,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3594377322)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00674": {
+    "vulnerable": true,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=358240374)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00675": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2608605601)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00676": {
+    "vulnerable": true,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=353286232)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00677": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1321196389)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00678": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3988016514)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00679": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3962725852)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00680": {
+    "vulnerable": false,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2667844620)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00681": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4022290490)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00682": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3957488927)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00760": {
+    "vulnerable": false,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1919778895)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00761": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=399260744)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00762": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4450879)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00763": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=421686908)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00764": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2117374495)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00765": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1460803660)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00766": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4159726620)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00767": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4273188016)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00768": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3938055058)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00769": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2779858689)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00770": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=447877456)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00771": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1349823975)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00772": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=616674328)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00773": {
+    "vulnerable": false,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=892964408)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00774": {
+    "vulnerable": false,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3396176847)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00837": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1162372909)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00838": {
+    "vulnerable": true,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=228716354)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00839": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3571675563)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00840": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=990172190)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00841": {
+    "vulnerable": true,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3300030860)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00842": {
+    "vulnerable": false,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3238099061)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00843": {
+    "vulnerable": false,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1871687589)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00844": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4130275220)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00845": {
+    "vulnerable": true,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1915810669)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00846": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2419133639)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00847": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2021683883)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00848": {
+    "vulnerable": false,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1184200567)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00849": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=197528297)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00850": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1442915040)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00851": {
+    "vulnerable": false,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1556733763)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00924": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2826168642)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00925": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1783117732)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00926": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=847825922)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00927": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1548824280)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00928": {
+    "vulnerable": true,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3532190221)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00929": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4082335136)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00930": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4157968167)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00931": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3099178878)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00932": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2295148980)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00933": {
+    "vulnerable": false,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=383306720)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00934": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2136318177)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00935": {
+    "vulnerable": false,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3646868278)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00936": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=699036456)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00937": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=26138385)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00938": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1206783070)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00939": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3065945913)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00940": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3334666386)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00996": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2526845344)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00997": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2404073508)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00998": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2557775663)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest00999": {
+    "vulnerable": true,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3257161918)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01000": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3226111885)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01001": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1109712323)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01002": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=449714291)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01003": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1801526103)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01004": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2691130152)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01005": {
+    "vulnerable": true,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3837551155)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01006": {
+    "vulnerable": false,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=738849207)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01007": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4162774450)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01008": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1868937822)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01009": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1941646388)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01010": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2146587714)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01011": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=681834419)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01012": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2712213504)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01083": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=864644362)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01084": {
+    "vulnerable": false,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1447036260)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01085": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2045222954)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01086": {
+    "vulnerable": true,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3066281207)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01087": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2038184700)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01088": {
+    "vulnerable": false,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1986052800)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01089": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2430686302)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01090": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1185566331)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01091": {
+    "vulnerable": false,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=380546816)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01092": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4049118611)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01093": {
+    "vulnerable": true,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=134315746)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01094": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=787666529)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01095": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1091839894)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01096": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=133673190)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01097": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3712988521)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01098": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=209223452)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01208": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2456834613)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01209": {
+    "vulnerable": true,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=563357090)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01210": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3663115285)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01211": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1159717313)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01212": {
+    "vulnerable": false,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1573807979)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01213": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4269787916)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01214": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=376987300)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01215": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1705499826)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01216": {
+    "vulnerable": false,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3822905998)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01217": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=474956207)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01218": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2925925463)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01219": {
+    "vulnerable": true,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=403702737)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01220": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=398246714)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01221": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1653536788)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01222": {
+    "vulnerable": false,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=382065260)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01301": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2913394106)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01302": {
+    "vulnerable": false,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3483821135)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01303": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1743374450)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01304": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3493717117)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01305": {
+    "vulnerable": false,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=567971474)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01306": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3077267455)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01307": {
+    "vulnerable": true,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2766231365)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01308": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1479331468)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01309": {
+    "vulnerable": false,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=86400927)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01310": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3511658617)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01311": {
+    "vulnerable": true,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3292311678)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01312": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3314209481)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01313": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=401060560)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01314": {
+    "vulnerable": true,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=847262641)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01315": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=211890518)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01378": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=990507222)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01379": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1734013380)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01380": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1069415875)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01381": {
+    "vulnerable": true,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2615965979)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01382": {
+    "vulnerable": false,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4095986556)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01383": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2707585131)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01384": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4205210482)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01385": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2184309774)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01386": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3070898465)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01387": {
+    "vulnerable": false,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3443794097)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01388": {
+    "vulnerable": false,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1725033068)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01389": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1938499160)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01390": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2698413912)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01391": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2201582288)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01392": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3827813731)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01393": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=692930272)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01394": {
+    "vulnerable": false,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2916757019)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01395": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=944504033)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01396": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2817601385)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01459": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=199242075)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01460": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3737845403)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01461": {
+    "vulnerable": false,
+    "confidence": 0.81,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=969182118)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01462": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=168227348)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01463": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1335776878)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01464": {
+    "vulnerable": false,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2513488175)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01465": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4259276537)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01466": {
+    "vulnerable": false,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1482853430)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01467": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=212269092)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01468": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=361644173)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01469": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2069657422)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01470": {
+    "vulnerable": true,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=238193349)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01471": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1590118235)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01472": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3215602401)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01473": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1625959816)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01474": {
+    "vulnerable": true,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4018592717)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01475": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=795179668)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01476": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2934917002)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01477": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2617863574)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01552": {
+    "vulnerable": true,
+    "confidence": 0.89,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=37478537)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01553": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2084211221)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01554": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4169776677)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01555": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3030296322)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01556": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=408919862)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01557": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1450859838)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01558": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1367523627)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01559": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1813949011)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01560": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3127587388)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01620": {
+    "vulnerable": true,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2736398733)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01621": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=714654868)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01622": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3367345515)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01623": {
+    "vulnerable": true,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=425092011)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01624": {
+    "vulnerable": true,
+    "confidence": 0.81,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=849982561)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01625": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2750570188)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01626": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3790814830)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01627": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3434847434)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01628": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2892820596)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01629": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1099268225)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01630": {
+    "vulnerable": false,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2477437846)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01631": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2586707166)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01712": {
+    "vulnerable": false,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1055601264)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01713": {
+    "vulnerable": false,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=980928496)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01714": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1877822477)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01715": {
+    "vulnerable": true,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3701628807)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01716": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=163978647)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01717": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2942855200)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01718": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2772880664)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01719": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=17275015)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01720": {
+    "vulnerable": false,
+    "confidence": 0.81,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3421393525)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01721": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1733333298)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01722": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1749991850)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01723": {
+    "vulnerable": true,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=611017814)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01724": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2529707616)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01725": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2563718383)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01726": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4070769495)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01727": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3822086116)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01728": {
+    "vulnerable": false,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1382373582)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01729": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1054003950)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01730": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1943312680)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01731": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1333559103)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01732": {
+    "vulnerable": true,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1604627918)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01733": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4178698570)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01803": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2458800907)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01804": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=259391021)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01805": {
+    "vulnerable": true,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3850809499)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01806": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4055138174)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01807": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3113174722)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01808": {
+    "vulnerable": true,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3734776781)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01809": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1276953408)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01810": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3486686922)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01811": {
+    "vulnerable": false,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=550041101)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01812": {
+    "vulnerable": true,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3415304320)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01813": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2215679826)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01814": {
+    "vulnerable": true,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3228650352)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01815": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1532382778)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01816": {
+    "vulnerable": true,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2538857817)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01817": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=503077721)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01818": {
+    "vulnerable": false,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2457087560)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01819": {
+    "vulnerable": false,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=726366677)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01820": {
+    "vulnerable": true,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3132451215)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01877": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=477363337)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01878": {
+    "vulnerable": false,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2020806946)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01879": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2454983065)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01880": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=485266295)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01881": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1376938963)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01882": {
+    "vulnerable": false,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2050653690)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01883": {
+    "vulnerable": true,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2320537612)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01884": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1037036688)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01885": {
+    "vulnerable": true,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2995133485)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01886": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=242630223)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01887": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2974745220)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01888": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=548152948)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01889": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1498147979)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01890": {
+    "vulnerable": false,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3047897703)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01891": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1750158565)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01961": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2140399675)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01962": {
+    "vulnerable": false,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2076539749)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01963": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4123161116)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01964": {
+    "vulnerable": false,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1070768099)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01965": {
+    "vulnerable": false,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2536180621)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01966": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3697347092)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01967": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=564439999)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01968": {
+    "vulnerable": true,
+    "confidence": 0.58,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3587388220)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01969": {
+    "vulnerable": true,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1638675759)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01970": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2840428158)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01971": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4262914065)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01972": {
+    "vulnerable": true,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3279447578)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest01973": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2047594028)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02087": {
+    "vulnerable": false,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2018905423)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02088": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3369114321)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02089": {
+    "vulnerable": false,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2974151895)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02090": {
+    "vulnerable": true,
+    "confidence": 0.98,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=10100611)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02091": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3728622432)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02092": {
+    "vulnerable": true,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2642745596)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02093": {
+    "vulnerable": true,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3231788995)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02094": {
+    "vulnerable": false,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1428367379)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02095": {
+    "vulnerable": true,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1472060327)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02096": {
+    "vulnerable": true,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3327207637)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02097": {
+    "vulnerable": false,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=303407249)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02098": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=869114454)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02099": {
+    "vulnerable": true,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1320683917)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02169": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3567589669)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02170": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=970653041)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02171": {
+    "vulnerable": false,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=100553462)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02172": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3179445102)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02173": {
+    "vulnerable": true,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3885342607)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02174": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3832328776)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02175": {
+    "vulnerable": true,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3034136339)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02176": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4284252631)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02177": {
+    "vulnerable": true,
+    "confidence": 0.59,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2548432931)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02178": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1555900095)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02179": {
+    "vulnerable": false,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=54532602)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02180": {
+    "vulnerable": false,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=252962369)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02181": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2781744175)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02182": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3546693241)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02183": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2068561654)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02184": {
+    "vulnerable": true,
+    "confidence": 0.85,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2666775530)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02185": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2845321783)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02186": {
+    "vulnerable": false,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=985717182)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02187": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1641653354)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02188": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2179736982)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02264": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=729951954)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02265": {
+    "vulnerable": false,
+    "confidence": 0.99,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3960501316)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02266": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2418672450)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02267": {
+    "vulnerable": true,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3328761463)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02268": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2284543261)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02269": {
+    "vulnerable": true,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=170227280)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02270": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2665769576)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02271": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1718688289)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02272": {
+    "vulnerable": true,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3594562660)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02273": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1300018170)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02274": {
+    "vulnerable": false,
+    "confidence": 0.92,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2383368469)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02275": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2963905715)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02276": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3738841349)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02277": {
+    "vulnerable": false,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1455571950)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02278": {
+    "vulnerable": true,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1013904038)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02279": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3031180780)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02280": {
+    "vulnerable": false,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1485167144)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02281": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3854837259)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02282": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4221782506)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02283": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3874255475)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02284": {
+    "vulnerable": false,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1238769822)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02285": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1110767550)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02286": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=129324505)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02287": {
+    "vulnerable": true,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3112124724)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02288": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=22533221)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02353": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2494721916)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02354": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1351595118)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02355": {
+    "vulnerable": true,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4277674855)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02356": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3671323142)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02357": {
+    "vulnerable": false,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2471912415)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02358": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=362453894)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02359": {
+    "vulnerable": false,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3622220693)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02360": {
+    "vulnerable": true,
+    "confidence": 0.86,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1172350324)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02361": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1020073900)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02362": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1796282529)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02363": {
+    "vulnerable": false,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3067738881)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02364": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1874990236)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02365": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1408600151)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02366": {
+    "vulnerable": false,
+    "confidence": 0.67,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3039048658)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02367": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2330978402)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02368": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=212253958)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02369": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2572853113)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02449": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=189613108)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02450": {
+    "vulnerable": false,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1612961876)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02451": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1304368384)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02452": {
+    "vulnerable": false,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=440910330)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02453": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3497747810)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02454": {
+    "vulnerable": false,
+    "confidence": 0.81,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2362419837)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02455": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2331593361)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02456": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2021831727)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02528": {
+    "vulnerable": true,
+    "confidence": 0.82,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3501444768)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02529": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=718305946)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02530": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=290387322)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02531": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2556628972)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02532": {
+    "vulnerable": true,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1661749100)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02533": {
+    "vulnerable": false,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2515115585)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02534": {
+    "vulnerable": true,
+    "confidence": 0.69,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3047286610)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02535": {
+    "vulnerable": false,
+    "confidence": 0.93,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=979602367)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02536": {
+    "vulnerable": true,
+    "confidence": 0.65,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1972544441)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02537": {
+    "vulnerable": false,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=273797496)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02538": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2974448783)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02539": {
+    "vulnerable": false,
+    "confidence": 0.57,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3944907137)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02540": {
+    "vulnerable": false,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3270745561)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02541": {
+    "vulnerable": false,
+    "confidence": 0.63,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1965435309)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02542": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2133217706)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02543": {
+    "vulnerable": false,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2108129528)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02544": {
+    "vulnerable": false,
+    "confidence": 0.94,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1996349341)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02545": {
+    "vulnerable": true,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1480170742)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02546": {
+    "vulnerable": false,
+    "confidence": 0.56,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2837553048)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02625": {
+    "vulnerable": true,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=579107176)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02626": {
+    "vulnerable": false,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2498329863)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02627": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2852857272)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02628": {
+    "vulnerable": true,
+    "confidence": 0.77,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1441111803)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02629": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4046401679)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02630": {
+    "vulnerable": false,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2896427954)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02631": {
+    "vulnerable": true,
+    "confidence": 0.68,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=665434950)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02632": {
+    "vulnerable": true,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1773363279)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02633": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3781752050)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02634": {
+    "vulnerable": false,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1875674717)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02635": {
+    "vulnerable": false,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2013585666)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02636": {
+    "vulnerable": true,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2625698497)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02637": {
+    "vulnerable": true,
+    "confidence": 0.55,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2281915183)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02638": {
+    "vulnerable": true,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3741512532)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02639": {
+    "vulnerable": false,
+    "confidence": 0.72,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3269055074)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02640": {
+    "vulnerable": true,
+    "confidence": 0.95,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2720465436)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02641": {
+    "vulnerable": false,
+    "confidence": 0.61,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=20938371)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02642": {
+    "vulnerable": false,
+    "confidence": 0.76,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1361617878)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02643": {
+    "vulnerable": false,
+    "confidence": 0.6,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1791133482)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02644": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1617346846)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02645": {
+    "vulnerable": true,
+    "confidence": 0.84,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3097248494)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02646": {
+    "vulnerable": false,
+    "confidence": 0.66,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3838080544)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02647": {
+    "vulnerable": false,
+    "confidence": 0.88,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2520196365)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02648": {
+    "vulnerable": false,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1069411575)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02649": {
+    "vulnerable": false,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=384623040)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02650": {
+    "vulnerable": false,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=619610174)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02651": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2954237938)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02652": {
+    "vulnerable": true,
+    "confidence": 0.64,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3428008564)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02653": {
+    "vulnerable": true,
+    "confidence": 0.96,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3787065383)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02654": {
+    "vulnerable": true,
+    "confidence": 0.97,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1194344026)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02655": {
+    "vulnerable": false,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3480056830)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02656": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3971104210)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02657": {
+    "vulnerable": false,
+    "confidence": 0.83,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3567763532)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02727": {
+    "vulnerable": true,
+    "confidence": 0.75,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=692818033)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02728": {
+    "vulnerable": true,
+    "confidence": 0.62,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1912580546)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02729": {
+    "vulnerable": false,
+    "confidence": 0.87,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2366336831)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02730": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4119639123)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02731": {
+    "vulnerable": false,
+    "confidence": 0.74,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3841857476)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02732": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3001766378)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02733": {
+    "vulnerable": false,
+    "confidence": 0.9,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=858662469)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02734": {
+    "vulnerable": false,
+    "confidence": 0.78,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=4238133825)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02735": {
+    "vulnerable": true,
+    "confidence": 0.8,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=1449747851)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02736": {
+    "vulnerable": false,
+    "confidence": 0.71,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=3671788537)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02737": {
+    "vulnerable": false,
+    "confidence": 0.91,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2022269905)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02738": {
+    "vulnerable": false,
+    "confidence": 0.79,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=2899487385)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02739": {
+    "vulnerable": true,
+    "confidence": 0.73,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=779249551)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  },
+  "BenchmarkTest02740": {
+    "vulnerable": false,
+    "confidence": 0.7,
+    "reasoning": "[MOCK] 실제 Claude API를 호출하지 않고 생성된 가짜 응답입니다. 소스 코드 해시(crc32=288911813)를 시드로 사용해 결정론적으로 생성했으며, 실제 취약점 판단 근거가 아니라 파이프라인 검증용 placeholder입니다.",
+    "mock": true
+  }
+}

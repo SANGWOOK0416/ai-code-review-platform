@@ -1,0 +1,19 @@
+data/raw/
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# 환경변수 / 시크릿 (GITHUB_TOKEN, ANTHROPIC_API_KEY, GITHUB_WEBHOOK_SECRET 등)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ngrok 설정 (authtoken 포함될 수 있음)
+ngrok.yml
+.ngrok2/
