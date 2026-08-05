@@ -89,7 +89,10 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] `.github/workflows/ci.yml` 작성 — push/PR마다 `evaluate_semgrep.py`(4개 카테고리) + `evaluate_hybrid.py`(sqli) 스모크 테스트 자동 실행
 - [x] git 저장소 초기화 + 최초 커밋 + GitHub push 완료 (`data/processed/`, `data/results/` 포함, `data/raw/`만 gitignore 대상)
 - [x] `README_DEPLOY.md` 절차대로 ngrok + 실제 GitHub 저장소로 엔드투엔드 테스트 완료 (2026-08-03) — 상세는 10장 "3단계 진행상황" 참고
+- [x] 하이브리드 통합 규칙 재설계 (2026-08-05) — FP 원인을 실제 케이스로 분석해 **캐스케이드 규칙**(Semgrep 제안 → LLM 검증) 구현, OR 규칙은 비교용으로 유지. `dataset_split.py`(누수 방지 분할) + `measure_grounding.py`(환각률 측정) 신규 작성. 상세는 10장 "통합 규칙 재설계 근거" 참고
 - [ ] **ANTHROPIC_API_KEY 환경변수 설정** 후 `--mock` 없이 실제 데이터로 LLM 단독·하이브리드·웹훅 재실행 필요 (지금까지의 LLM/하이브리드 지표는 전부 mock 데이터 기반이라 무의미함) — **다음 세션 시작점**
+- [ ] 실측 LLM 결과 확보 후: ① confidence 보정(ECE) 확인 → ② `--reject-threshold`를 train 분할에서만 튜닝 → ③ `--rule or` vs `--rule cascade` held-out 비교 → ④ 베이지안 로그오즈 착수 판단
+- [ ] **API 키 등록 후: `run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것)
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
 - [ ] MVP(SQLi) 파이프라인 전체 완주 (LLM 단독·하이브리드 실제 API 결과로 재계산)
 
@@ -100,8 +103,13 @@ GitHub PR 이벤트 → 웹훅 트리거
 - `scripts/evaluate_semgrep.py` (구 `evaluate_semgrep_sqli.py`, sqli 전용 → 일반화하며 이름도 변경): semgrep JSON 결과 중 `--category`에 해당하는 CWE 관련 finding만 걸러서 `*_cases.csv` 정답 라벨과 매칭 → Precision/Recall/F1 계산. 카테고리→CWE 번호 매핑(`CATEGORY_TO_CWE`)은 `download_owasp_benchmark.py`와 동일한 값을 사용. p/java, p/owasp-top-ten에는 여러 취약점 룰이 섞여 있어서 반드시 해당 CWE 태그로 필터링해야 공정한 비교가 됨
 - `scripts/run_llm_only_sqli.py`: Claude API(`claude-sonnet-5`)만으로 SQLi 여부 판단. **정적분석 결과는 절대 프롬프트에 포함하지 않음**(단독 방식 간 공정 비교를 위해). `output_format`(Pydantic `SqliJudgment`)으로 `{vulnerable, confidence, reasoning}` 구조 강제, 레이트리밋/5xx는 지수 백오프 재시도. `--mock`으로 실제 API 없이 결정론적 가짜 응답을 생성해 파이프라인만 검증 가능. (아직 sqli 전용 — 다른 카테고리로 일반화는 미착수)
 - `scripts/evaluate_llm_sqli.py`: `evaluate_semgrep.py`와 동일 패턴으로 LLM 예측 vs 정답 라벨 Precision/Recall/F1 계산. API 실패로 판단이 없는 케이스는 지표 계산에서 제외하고 별도 카운트
-- `scripts/merge_hybrid.py` (UC4 통합 로직): `evaluate_semgrep.py`가 만든 `semgrep_predictions.csv`와 `run_llm_only_sqli.py`가 만든 `llm_predictions.json`을 `test_name` 기준으로 매칭. 통합 규칙(OR 룰 + 신뢰도 티어) — 둘 다 탐지 시 `high`, 한쪽만 탐지 시 `medium`(둘 다 `predicted=true`), 둘 다 미탐지 시 `low`(`predicted=false`). `--category`로 재사용 가능하나 현재 LLM 결과가 sqli에만 있어 실질적으로는 sqli만 동작
-- `scripts/evaluate_hybrid.py`: `merge_hybrid.py` 산출물로 하이브리드 방식 Precision/Recall/F1 계산 + 신뢰도 티어별(High/Medium/Low) TP/FP/FN/TN 분포까지 리포트 — 세 방식(Semgrep 단독/LLM 단독/하이브리드) 비교의 최종 산출물
+- `scripts/merge_hybrid.py` (UC4 통합 로직): `evaluate_semgrep.py`가 만든 `semgrep_predictions.csv`와 `run_llm_only_sqli.py`가 만든 `llm_predictions.json`을 `test_name` 기준으로 매칭. **통합 규칙은 `--rule`로 선택** (Ablation에서 나란히 비교하려고 둘 다 유지):
+  - `cascade` (**기본값**) — "Semgrep이 제안하고 LLM이 검증한다". Semgrep 미탐지 → `low`(LLM 심사 안 함) / Semgrep 탐지+LLM도 취약 → `high` / Semgrep 탐지+LLM이 confidence≥`--reject-threshold`로 안전 확신 → `filtered`(오탐으로 기각) / 그 외 → `medium`(보수적 유지). 설계 근거는 아래 "통합 규칙 재설계 근거" 참고
+  - `or` — 기존 방식(한쪽이라도 탐지하면 취약). 비교용 베이스라인으로 남겨둠
+  - 티어→최종예측 매핑은 `tier_to_predicted()` 한 곳에서만 정의(규칙이 흩어지는 걸 방지). `--category`로 재사용 가능하나 현재 LLM 결과가 sqli에만 있어 실질적으로는 sqli만 동작
+- `scripts/evaluate_hybrid.py`: `merge_hybrid.py` 산출물로 하이브리드 방식 Precision/Recall/F1 계산 + **티어별 TP/FP/FN/TN 분포**를 리포트. cascade일 때는 "LLM 필터 효과"(기각 건수, 오탐 제거 성공 vs 정탐 손실, **기각 정확도**)를 따로 출력 — 필터가 실제로 이득이었는지 판단하는 핵심 지표. 티어 정의는 `merge_hybrid.TIER_ORDER`를 import해서 한 곳에서만 관리
+- `scripts/dataset_split.py` (신규): 벤치마크 케이스를 train/held-out으로 **결정론적·층화 분할**. 하이퍼파라미터(`--reject-threshold`, 향후 LR/보정계수)를 평가에 쓰는 데이터에서 고르면 누수이므로, 튜닝은 train에서만 하고 최종 지표는 held-out에서만 보고하기 위한 것. `hashlib.sha256`로 배정(파이썬 `hash()`는 프로세스마다 salt가 달라 재현 불가) → 실행할 때마다 같은 분할이 나오고, 케이스가 추가돼도 기존 배정이 안 흔들림. 라벨별로 seed를 분리해 양성비율 보존. `load_split()`/`filter_by_split()`으로 다른 스크립트에서 import 가능
+- `scripts/measure_grounding.py` (신규): LLM `reasoning`이 **실제로 존재하는 코드를 근거로 들었는지** 검증해 환각률 측정. P/R/F1만으로는 "정답을 맞혔지만 근거가 날조된" 경우를 구분할 수 없어서, 프로젝트 핵심 주장(grounding→환각 억제)을 정량화하려면 이 지표가 필요함. reasoning에서 인용(`line` 라인번호 / `ident` 백틱 코드 / `call` 메서드호출 / `type` 타입명)을 추출해 원본 `.java`와 대조. **권고문 제외 처리가 핵심** — "PreparedStatement를 썼어야 함"은 코드에 대한 주장이 아니라 제안이므로 인용으로 세면 안 됨(안 걸러내면 올바른 보안 권고가 전부 환각으로 잘못 집계됨). `type`은 일반론 언급이 잦아 기본 종합지표에서 제외(`--include-types`로 포함). `--compare-json`으로 grounding 제공/미제공 두 arm 비교
 - `data/raw/`: 원본 clone 결과 (gitignore 대상, 용량 큼)
 - `data/processed/<category>/`: 필터링된 CSV(`<category>_cases.csv`) + 소스 파일 서브셋(`sources/`)
 - `data/results/<category>/semgrep/`: semgrep 원본 결과(`semgrep_results.json/.sarif`) + 평가 산출물(`semgrep_predictions.csv`, `semgrep_metrics.json`)
@@ -132,9 +140,58 @@ Semgrep 단독은 4개 카테고리 모두 **Recall이 Precision보다 뚜렷하
 | 방식 | TP / FP / FN / TN | Precision | Recall | F1-score |
 |---|---|---|---|---|
 | Semgrep 단독 | 234 / 143 / 38 / 89 | 0.6207 | 0.8603 | 0.7211 |
-| 하이브리드 (Semgrep + **mock** LLM, OR 룰) | 256 / 189 / 16 / 43 | 0.5753 | 0.9412 | 0.7141 |
+| 하이브리드 (Semgrep + **mock** LLM, **OR** 룰) | 256 / 189 / 16 / 43 | 0.5753 | 0.9412 | 0.7141 |
+| 하이브리드 (Semgrep + **mock** LLM, **cascade**) | 154 / 92 / 118 / 140 | 0.6260 | 0.5662 | 0.5946 |
 
-LLM 쪽이 무작위 mock 응답이라 실제 하이브리드 성능이 아니라 **"OR 룰이 파이프라인 상으로 정상 작동하는지"만 확인된 상태**임. Semgrep 단독 대비 Recall이 오르고 Precision이 떨어지는 방향성 자체는 OR 룰(한쪽만 탐지해도 predicted=true) 설계상 당연한 결과 — API 키 등록 후 실제 LLM 판단으로 재실행해야 의미 있는 비교가 됨.
+LLM 쪽이 무작위 mock 응답이라 **어느 쪽도 실제 성능이 아님** — 파이프라인 동작 검증용 수치임.
+- OR 룰: Recall이 오르고 Precision이 떨어지는 방향성은 설계상 당연한 결과
+- cascade: mock LLM의 **기각 정확도가 0.3893**(무작위 수준)이라 필터가 정탐 80건을 죽여 Recall이 폭락했음. 이건 규칙의 결함이 아니라 **계측이 의도대로 작동한다는 증거** — 무가치한 필터를 "기각 정확도" 지표가 즉시 드러냄. 실제 LLM에서 이 값이 0.5를 크게 밑돌면 `--reject-threshold`를 올리거나 cascade를 포기해야 한다는 신호로 쓸 것
+
+API 키 등록 후 실제 LLM 판단으로 재실행해야 의미 있는 비교가 됨. 재실행 시 `--rule or`와 `--rule cascade`를 모두 돌려 나란히 비교할 것.
+
+### 통합 규칙 재설계 근거 — FP 원인 분석 (2026-08-05)
+
+**Semgrep FP의 실제 원인** (추측이 아니라 벤치마크 케이스를 직접 열어 확인):
+
+1. **소스 과대추정 (룰 수준 차이)** — OWASP Benchmark 헬퍼 `SeparateClassRequest.getTheValue()`는 요청을 무시하고 상수 `"bar"`를 반환하는 **안전 소스**(헬퍼 원본 주석에 `This method is a 'safe' source.`라고 명시). 그런데 이걸 sqli/xss 룰은 올바르게 무시(97건 전부 TN)하는 반면 **cmdi/pathtraver 룰만 오탐**(45건 중 39건, 87%). 결정적 증거는 대조쌍 `cmdi/BenchmarkTest00051` vs `sqli/BenchmarkTest00052` — 소스·전파 구조가 완전히 동일하고 **싱크만 다른데** 전자는 FP, 후자는 TN. "sqli 룰이 `prepareCall`을 싱크로 안 봐서 우연히 통과한 것"이라는 대안 가설은 배제됨(진짜 취약한 `prepareCall` 케이스는 TP=29/FN=2로 정상 탐지). **추가 실험: 헬퍼 소스를 같은 디렉토리에 넣고 재스캔해도 finding이 그대로 남음** → 데이터 준비 실수가 아니라 Semgrep OSS의 파일 단위 taint 분석의 한계(교차 파일 해석은 Pro Engine 기능). 즉 "헬퍼를 복사해서 고치는" 방향은 효과 없음
+2. **죽은 분기 (상수 폴딩 부재)** — `int num=86; if ((7*42)-num > 200) bar="상수"; else bar=param;` 처럼 조건이 **항상 참**이라 taint 대입이 죽은 코드인 케이스(294-86=208>200). 오탐률 sqli 89.6% / xss 73.3% / cmdi 91.3% / pathtraver 90.6% — **카테고리 격차의 원인은 아니고(sqli도 똑같이 당함) 전 카테고리 공통 천장**이지만 절대 건수로는 최대 FP 유발원
+3. **switch문** — cmdi 100%(18/18), pathtraver 92.9% vs sqli 62.5%, xss 75.0%
+
+**격차의 정체는 특이도(TNR)**: 네 카테고리 양성비율이 50~54%로 거의 같으므로(기저율 차이 아님) Precision 격차는 전적으로 TNR 차이 — sqli 38.4% / xss 48.3% / **cmdi 23.2% / pathtraver 21.5%**. cmdi/pathtraver는 전체 파일의 83~84%에 경보를 울림("거의 항상 발화").
+
+**Semgrep을 증거로 봤을 때의 우도비** (캐스케이드 설계의 직접 근거):
+
+| 카테고리 | LR+ (탐지 시) | LR− (미탐지 시) |
+|---|---|---|
+| sqli | 1.40 | 0.36 |
+| xss | 1.59 | 0.37 |
+| cmdi | 1.16 | 0.48 |
+| pathtraver | 1.15 | 0.46 |
+
+→ **Semgrep의 "침묵"이 "경보"보다 2~3배 정보량이 많다.** 기존 OR 룰은 정확히 반대로, 약한 증거(LR+ 1.15)를 확정 판정으로 승격시키고 강한 증거(미탐지)는 LLM이 울리면 버렸음 — 이것이 Precision이 무너진 구조적 이유. 캐스케이드는 미탐지를 최종 판정으로 받아들이고(`low`) 탐지분만 재심사하도록 뒤집은 것.
+
+**캐스케이드 기대 효과** (LLM 민감도 0.9 가정, 특이도 t별 F1 시뮬레이션):
+
+| 카테고리 | Semgrep 단독 F1 | t=0.5 | t=0.7 | t=0.9 |
+|---|---|---|---|---|
+| sqli | 0.721 | 0.760 | 0.802 | 0.848 |
+| xss | 0.727 | 0.755 | 0.790 | 0.829 |
+| cmdi | 0.671 | 0.734 | 0.789 | **0.853** |
+| pathtraver | 0.669 | 0.735 | 0.792 | **0.859** |
+
+Semgrep이 가장 약한 카테고리에서 이득이 가장 큼(걸러낼 오탐이 많으므로). 손익분기는 LLM 특이도 약 0.3~0.35.
+
+### 향후 과제 — 베이지안 로그오즈 결합 (미구현, 리포트용)
+
+캐스케이드는 Semgrep을 게이트로 쓰는 **하드 결합**이라, Semgrep이 놓친 취약점(FN)을 LLM이 복구할 수 없다는 구조적 한계가 있다. 이를 완화하는 다음 단계로 **베이지안 로그오즈 결합**을 제안한다: 두 탐지기의 출력을 각각 독립 증거로 보고
+
+```
+logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여부] + log LR_llm[신뢰도구간]
+```
+
+로 사후확률을 계산한 뒤, 신뢰도 티어를 투표 수가 아니라 **사후확률 구간**으로 재정의하는 방식이다. 위 표의 카테고리별 우도비를 그대로 주입하면 "pathtraver에서 Semgrep 경보는 약한 증거(LR+ 1.15)"라는 사실이 임의 가중치가 아니라 **벤치마크 실측값**으로 반영되므로, 가중치 선택의 자의성 문제를 피할 수 있다. 캐스케이드와 달리 Semgrep 미탐지 건도 LLM 신뢰도가 충분히 높으면 뒤집을 수 있어 Recall 손실을 줄일 여지가 있다.
+
+다만 (1) LLM confidence가 보정(calibration)되어 있지 않으면 로그오즈 합산이 왜곡되므로 ECE 측정과 Platt/isotonic 보정이 선행되어야 하고, (2) 우도비를 평가에 쓰는 데이터에서 추정하면 데이터 누수이므로 `dataset_split.py`의 train 분할에서만 추정해야 한다. 두 전제 모두 실제 LLM 결과가 있어야 검증 가능하므로, API 키 등록 후 SQLi 실측 결과가 나온 뒤 착수한다.
 
 ### CWE 데이터 커버리지 갭 — CWE-502, CWE-798 (2026-08-03 확인)
 

@@ -32,5 +32,30 @@ jobs:
       - name: 하이브리드 파이프라인 스모크 테스트 (sqli — LLM 예측 결과가 있는 유일한 카테고리)
         run: |
           set -e
-          python scripts/merge_hybrid.py --category sqli
+          # 두 통합 규칙 모두 검증 (Ablation에서 나란히 비교하므로 둘 다 살아있어야 함)
+          python scripts/merge_hybrid.py --category sqli --rule cascade
           python scripts/evaluate_hybrid.py --category sqli
+          python scripts/merge_hybrid.py --category sqli --rule or
+          python scripts/evaluate_hybrid.py --category sqli
+
+      - name: OR 규칙 회귀 테스트 (커밋된 기준 지표와 일치하는지)
+        run: |
+          set -e
+          python scripts/merge_hybrid.py --category sqli --rule or
+          python scripts/evaluate_hybrid.py --category sqli
+          python - <<'PY'
+          import json, sys
+          m = json.load(open("data/results/sqli/hybrid/hybrid_metrics.json", encoding="utf-8"))
+          # mock LLM + OR 규칙에서 고정되어야 하는 값 (리팩터링이 판정을 바꾸면 여기서 걸린다)
+          expected = {"tp": 256, "fp": 189, "fn": 16, "tn": 43}
+          actual = {k: m[k] for k in expected}
+          if actual != expected:
+              sys.exit(f"OR 규칙 회귀 실패: 기대 {expected}, 실제 {actual}")
+          print(f"OR 규칙 회귀 통과: {actual}")
+          PY
+
+      - name: 분할/grounding 스크립트 스모크 테스트
+        run: |
+          set -e
+          python scripts/dataset_split.py --category sqli --dry-run
+          python scripts/measure_grounding.py --category sqli
