@@ -1,0 +1,15 @@
+{
+  "category": "sqli",
+  "baseline": {
+    "n_cases_with_reasoning": 504,
+    "n_no_citation": 504,
+    "n_skipped": 0,
+    "n_mock": 504,
+    "citations_total": 0,
+    "citations_verified": 0,
+    "grounding_precision": 0.0,
+    "hallucination_rate": 0.0,
+    "per_kind": {},
+    "hallucinated_examples": []
+  }
+}
