@@ -15,6 +15,9 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from merge_hybrid import TIER_ORDER  # noqa: E402  (티어 정의는 merge_hybrid 한 곳에서만 관리)
+
 for _stream in (sys.stdout, sys.stderr):
     if hasattr(_stream, "reconfigure"):
         _stream.reconfigure(encoding="utf-8")
@@ -29,11 +32,12 @@ def load_hybrid_predictions(csv_path: Path) -> list[dict]:
 
 def evaluate(rows: list[dict]) -> dict:
     tp = fp = fn = tn = 0
-    tier_breakdown = {
-        "high": {"tp": 0, "fp": 0},
-        "medium": {"tp": 0, "fp": 0},
-        "low": {"fn": 0, "tn": 0},
-    }
+    # 티어별로 tp/fp/fn/tn을 모두 집계한다 (예전에는 미탐지 건을 무조건 low로 넣어서,
+    # cascade의 'filtered' 티어가 실제로 오탐을 걸러낸 건지 정탐을 죽인 건지 구분할 수 없었음)
+    tier_breakdown: dict[str, dict[str, int]] = {}
+
+    def bucket(tier: str) -> dict[str, int]:
+        return tier_breakdown.setdefault(tier, {"tp": 0, "fp": 0, "fn": 0, "tn": 0})
 
     for row in rows:
         gt_raw = row["ground_truth"]
@@ -43,19 +47,20 @@ def evaluate(rows: list[dict]) -> dict:
         actual = gt_raw.strip().lower() == "true"
         predicted = row["predicted"].strip().lower() == "true"
         tier = row["confidence_tier"]
+        b = bucket(tier)
 
         if actual and predicted:
             tp += 1
-            tier_breakdown[tier]["tp"] += 1
+            b["tp"] += 1
         elif not actual and predicted:
             fp += 1
-            tier_breakdown[tier]["fp"] += 1
+            b["fp"] += 1
         elif actual and not predicted:
             fn += 1
-            tier_breakdown["low"]["fn"] += 1
+            b["fn"] += 1
         else:
             tn += 1
-            tier_breakdown["low"]["tn"] += 1
+            b["tn"] += 1
 
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall = tp / (tp + fn) if (tp + fn) else 0.0
@@ -94,9 +99,28 @@ def print_report(metrics: dict, category: str) -> None:
     print("-" * 50)
     tb = metrics["tier_breakdown"]
     print("  신뢰도 티어별 분포:")
-    print(f"    High   (둘 다 탐지)  : TP={tb['high']['tp']:>4}  FP={tb['high']['fp']:>4}")
-    print(f"    Medium (한쪽만 탐지) : TP={tb['medium']['tp']:>4}  FP={tb['medium']['fp']:>4}")
-    print(f"    Low    (둘 다 미탐지): FN={tb['low']['fn']:>4}  TN={tb['low']['tn']:>4}")
+    for tier in TIER_ORDER:
+        if tier not in tb:
+            continue
+        c = tb[tier]
+        print(
+            f"    {tier:<9}: TP={c['tp']:>4}  FP={c['fp']:>4}  FN={c['fn']:>4}  TN={c['tn']:>4}"
+        )
+
+    # 캐스케이드 전용 — LLM 필터가 실제로 이득이었는지 한 줄로 요약
+    filt = tb.get("filtered")
+    if filt:
+        removed_fp = filt["tn"]   # 기각한 게 실제로 안전했다 = 오탐 제거 성공
+        killed_tp = filt["fn"]    # 기각했는데 진짜 취약이었다 = 정탐 손실
+        total_filtered = removed_fp + killed_tp
+        print("-" * 50)
+        print("  LLM 필터 효과 (cascade):")
+        print(f"    Semgrep 경보 중 LLM이 기각한 건 : {total_filtered}")
+        print(f"      ├ 오탐 제거 성공 (TN)         : {removed_fp}")
+        print(f"      └ 정탐 손실   (FN)           : {killed_tp}")
+        if total_filtered:
+            print(f"    기각 정확도                    : {removed_fp / total_filtered:.4f}")
+        print("    (기각 정확도가 낮으면 --reject-threshold를 올릴 것)")
     print("=" * 50)
 
 

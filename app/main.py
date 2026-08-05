@@ -50,6 +50,17 @@ GITHUB_API = "https://api.github.com"
 SQLI_CWE_TAG = f"CWE-{CATEGORY_TO_CWE['sqli']}"
 SQLI_KEYWORDS = CATEGORY_TO_VULN_KEYWORDS["sqli"]
 
+# 캐스케이드 티어를 PR 코멘트에서 사람이 읽을 문구로 옮긴 것.
+# 'filtered'라도 코멘트 자체는 계속 게시한다 — 현재 LLM이 mock이라, 검증되지 않은
+# 필터로 실제 보안 경보를 조용히 감추는 건 위험하기 때문. 실 API로 전환하고
+# 기각 정확도를 확인한 뒤에 억제 여부를 결정할 것.
+TIER_VERDICT = {
+    "high": "Semgrep 탐지 + LLM도 취약 판단",
+    "medium": "Semgrep 탐지, LLM 판단은 불확실 — 확인 권장",
+    "filtered": "⚠️ LLM은 오탐으로 판단함 (참고용으로 남김)",
+    "low": "Semgrep 미탐지",
+}
+
 app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=mock)")
 
 
@@ -191,12 +202,20 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
             llm_judgment = classify_file_mock(source_code)
             llm_sqli_detected = bool(llm_judgment.vulnerable)
             semgrep_sqli_detected = safe_name in sqli_flagged_files
-            tier = confidence_tier(semgrep_sqli_detected, llm_sqli_detected)
+            # 캐스케이드 규칙: Semgrep이 탐지한 건만 LLM이 재심사하고, LLM이 충분히
+            # 확신할 때(confidence >= reject_threshold)만 경보를 기각한다.
+            tier = confidence_tier(
+                semgrep_sqli_detected,
+                llm_sqli_detected,
+                llm_confidence=llm_judgment.confidence,
+                llm_available=True,
+            )
 
             file_findings = findings_by_file.get(safe_name, [])
+            verdict = TIER_VERDICT.get(tier, tier)
             summary_lines.append(
                 f"- `{real_path}`: Semgrep {len(file_findings)}건 탐지 · "
-                f"SQLi 하이브리드 신뢰도=**{tier}** "
+                f"SQLi 하이브리드 판정=**{tier}** ({verdict}) "
                 f"(semgrep={semgrep_sqli_detected}, llm[mock]={llm_sqli_detected}, "
                 f"llm confidence={llm_judgment.confidence})"
             )
@@ -209,8 +228,9 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 message = finding.get("extra", {}).get("message", "")
                 is_sqli = is_category_finding(finding, SQLI_CWE_TAG, SQLI_KEYWORDS)
                 tier_note = (
-                    f" · SQLi 하이브리드 신뢰도: **{tier}** "
-                    f"(Semgrep={semgrep_sqli_detected}, LLM[mock]={llm_sqli_detected})"
+                    f" · SQLi 하이브리드 판정: **{tier}** — {verdict}"
+                    f" (Semgrep={semgrep_sqli_detected}, LLM[mock]={llm_sqli_detected},"
+                    f" confidence={llm_judgment.confidence})"
                     if is_sqli
                     else ""
                 )
