@@ -2,7 +2,7 @@
 
 > 정적분석 + LLM 하이브리드 기반 설명 가능한 보안 취약점 탐지 시스템
 
-> **다음 세션 시작점 (2026-08-03 기준)**: ANTHROPIC_API_KEY 등록 → `--mock` 없이 LLM 단독/하이브리드 실제 실행
+> **다음 세션 시작점 (2026-08-05 기준)**: SQLi 실측 LLM 결과 확보 완료 → confidence 보정(ECE) 확인 → `run_llm_grounded.py` 작성
 
 ## 1. 프로젝트 정의
 
@@ -81,8 +81,8 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] 유스케이스 설계 및 지도교수 보고 문서 작성
 - [x] 데이터 수집 스크립트 작성 (OWASP Benchmark 4개 카테고리 필터링 완료, Juliet Test Suite는 CWE-502/798 커버리지 확인 목적으로만 조회함 — 본 수집엔 미사용)
 - [x] 정적분석(Semgrep) 단독 파이프라인 구현 및 4개 카테고리(sqli/xss/cmdi/pathtraver) 벤치마크 평가 완료
-- [x] LLM 단독(Claude Sonnet 5) 파이프라인 스크립트 구현, `--mock` 옵션으로 파이프라인 자체는 검증 완료 (SQLi만)
-- [x] 하이브리드(UC4) 통합 로직 설계·구현 (`merge_hybrid.py` + `evaluate_hybrid.py`), SQLi에 한해 mock 데이터로 파이프라인 검증 완료
+- [x] LLM 단독(Claude Sonnet 5) 파이프라인 스크립트 구현 및 **SQLi 504건 실제 API 실행 완료** (2026-08-05, 실패 0건) — 상세는 10장 "SQLi 실측 결과" 참고
+- [x] 하이브리드(UC4) 통합 로직 설계·구현 (`merge_hybrid.py` + `evaluate_hybrid.py`), **SQLi 실측 LLM 결과로 OR/cascade 양쪽 재평가 완료**
 - [x] CWE-502(Insecure Deserialization), CWE-798(Hardcoded Credentials) 데이터 커버리지 갭 확인 (OWASP Benchmark·Juliet Test Suite 모두 없음 — 10장 참고)
 - [x] 3단계 착수: FastAPI 웹훅 서버(`app/main.py`) 구현 — GitHub PR 웹훅 수신 → 변경 `.java` 파일 조회 → Semgrep 스캔 → LLM(mock) 판단 → 하이브리드 통합 → PR에 라인별 리뷰 코멘트 + 요약 코멘트 게시까지 로컬에서 mock 페이로드로 라우팅/파싱 동작 검증 완료 (실제 GitHub PR로는 아직 미검증 — `README_DEPLOY.md` 절차 실행 필요)
 - [x] `Dockerfile`(멀티스테이지 빌드) + `requirements.txt` + `.dockerignore` 작성
@@ -90,11 +90,12 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] git 저장소 초기화 + 최초 커밋 + GitHub push 완료 (`data/processed/`, `data/results/` 포함, `data/raw/`만 gitignore 대상)
 - [x] `README_DEPLOY.md` 절차대로 ngrok + 실제 GitHub 저장소로 엔드투엔드 테스트 완료 (2026-08-03) — 상세는 10장 "3단계 진행상황" 참고
 - [x] 하이브리드 통합 규칙 재설계 (2026-08-05) — FP 원인을 실제 케이스로 분석해 **캐스케이드 규칙**(Semgrep 제안 → LLM 검증) 구현, OR 규칙은 비교용으로 유지. `dataset_split.py`(누수 방지 분할) + `measure_grounding.py`(환각률 측정) 신규 작성. 상세는 10장 "통합 규칙 재설계 근거" 참고
-- [ ] **ANTHROPIC_API_KEY 환경변수 설정** 후 `--mock` 없이 실제 데이터로 LLM 단독·하이브리드·웹훅 재실행 필요 (지금까지의 LLM/하이브리드 지표는 전부 mock 데이터 기반이라 무의미함) — **다음 세션 시작점**
-- [ ] 실측 LLM 결과 확보 후: ① confidence 보정(ECE) 확인 → ② `--reject-threshold`를 train 분할에서만 튜닝 → ③ `--rule or` vs `--rule cascade` held-out 비교 → ④ 베이지안 로그오즈 착수 판단
-- [ ] **API 키 등록 후: `run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것)
+- [x] **ANTHROPIC_API_KEY 등록 + SQLi 504건 LLM 단독·하이브리드 실제 API 재실행 완료** (2026-08-05) — 상세는 10장 "SQLi 실측 결과" 참고. MVP(SQLi) 파이프라인 3방식(정적분석 단독/LLM 단독/하이브리드) 전체 완주
+- [x] `measure_grounding.py`의 인용 추출 정규식 버그 수정 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 실측 데이터 892건 인용을 전수 확인해 STOPWORDS에 반영 (환각률 0.0191→0.0023으로 재측정)
+- [ ] confidence 보정(ECE) 확인 → `--reject-threshold`를 train 분할에서만 튜닝 → `--rule or` vs `--rule cascade` held-out 비교 → 베이지안 로그오즈 착수 판단 — **다음 세션 시작점**
+- [ ] **`run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것). ⚠️ ungrounded 환각률이 이미 0.0023으로 매우 낮게 나와서, grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안할 것
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
-- [ ] MVP(SQLi) 파이프라인 전체 완주 (LLM 단독·하이브리드 실제 API 결과로 재계산)
+- [ ] 웹훅 서버(`app/main.py`)의 LLM을 mock에서 실 API로 전환 (`classify_file_mock` → `classify_file_via_api` 한 줄 교체) 및 재검증
 
 ## 10. 리포지토리 메모
 
@@ -135,19 +136,33 @@ GitHub PR 이벤트 → 웹훅 트리거
 
 Semgrep 단독은 4개 카테고리 모두 **Recall이 Precision보다 뚜렷하게 높은 패턴**(0.82~0.90 vs 0.53~0.65) — 안전한 코드를 오탐(FP)하는 경향이 일관되게 나타남. LLM 단독/하이브리드가 이 오탐을 얼마나 줄이는지가 Ablation의 핵심 관전 포인트.
 
-### 하이브리드(UC4) 파이프라인 검증 결과 — ⚠️ mock 데이터 기반, 참고용 (SQLi만)
+### SQLi 실측 결과 — Claude Sonnet 5 실제 API, 504건 (2026-08-05, 실패 0건)
 
 | 방식 | TP / FP / FN / TN | Precision | Recall | F1-score |
 |---|---|---|---|---|
 | Semgrep 단독 | 234 / 143 / 38 / 89 | 0.6207 | 0.8603 | 0.7211 |
-| 하이브리드 (Semgrep + **mock** LLM, **OR** 룰) | 256 / 189 / 16 / 43 | 0.5753 | 0.9412 | 0.7141 |
-| 하이브리드 (Semgrep + **mock** LLM, **cascade**) | 154 / 92 / 118 / 140 | 0.6260 | 0.5662 | 0.5946 |
+| **LLM 단독** | 272 / 135 / 0 / 97 | 0.6683 | **1.0000** | **0.8012** |
+| 하이브리드 (**OR** 룰) | 272 / 199 / 0 / 33 | 0.5775 | 1.0000 | 0.7322 |
+| 하이브리드 (**cascade**) | 234 / 79 / 38 / 153 | **0.7476** | 0.8603 | 0.8000 |
 
-LLM 쪽이 무작위 mock 응답이라 **어느 쪽도 실제 성능이 아님** — 파이프라인 동작 검증용 수치임.
-- OR 룰: Recall이 오르고 Precision이 떨어지는 방향성은 설계상 당연한 결과
-- cascade: mock LLM의 **기각 정확도가 0.3893**(무작위 수준)이라 필터가 정탐 80건을 죽여 Recall이 폭락했음. 이건 규칙의 결함이 아니라 **계측이 의도대로 작동한다는 증거** — 무가치한 필터를 "기각 정확도" 지표가 즉시 드러냄. 실제 LLM에서 이 값이 0.5를 크게 밑돌면 `--reject-threshold`를 올리거나 cascade를 포기해야 한다는 신호로 쓸 것
+**LLM 단독이 Semgrep 단독을 F1 기준 8.0%p 앞섬**, 특히 504건 중 **놓친 취약점 0건**(FN=0, Recall 1.0000). 지난 세션에 벤치마크 우도비(LR-가 LR+보다 강함)를 근거로 예측했던 "OR은 증거 방향이 거꾸로"라는 가설이 실측으로 확인됨 — OR 룰은 이미 완벽한 LLM 단독 Recall에 Semgrep의 FP까지 얹어 F1을 오히려 떨어뜨림(0.8012→0.7322).
 
-API 키 등록 후 실제 LLM 판단으로 재실행해야 의미 있는 비교가 됨. 재실행 시 `--rule or`와 `--rule cascade`를 모두 돌려 나란히 비교할 것.
+**캐스케이드의 기각 정확도 = 1.0000** — LLM이 기각한 Semgrep 경보 64건이 전부 실제 안전 케이스였고, 정탐 손실 0건. Precision을 0.5775(OR)→0.7476으로 크게 끌어올리면서 F1은 LLM 단독과 사실상 동률. 다만 Recall이 Semgrep 상한(0.8603)에 묶여있음 — 캐스케이드가 Semgrep 미탐지(FN 38건)를 애초에 재심사하지 않는 설계이기 때문이며, 이것이 "향후 과제" 절에서 언급한 캐스케이드의 구조적 한계가 실측으로 나타난 지점. 이 한계를 베이지안 로그오즈 결합이 완화할 수 있는지가 다음 단계의 핵심 질문.
+
+### Grounding precision 실측 결과 — LLM 단독(ungrounded), SQLi 504건
+
+| 지표 | 값 |
+|---|---|
+| 전체 인용 수 | 877 (ident 25 + call 852) |
+| 검증 성공 | 875 |
+| **Grounding precision** | **0.9977** |
+| 환각률 | 0.0023 |
+
+잔여 실패 2건(`index0`/`index1`, 단일 케이스)은 LLM이 리스트 인덱스를 설명한 표현이지 진짜 날조가 아님 — 즉 실질 환각률은 사실상 0에 수렴. `line` 인용이 0건인 건 버그가 아니라 시스템 프롬프트가 라인 번호가 아닌 변수/데이터흐름 서술을 요구하기 때문(`run_llm_only_sqli.py`의 `SYSTEM_PROMPT` 참고).
+
+⚠️ **grounding 없이도 환각률이 이미 매우 낮다**는 뜻이므로, `run_llm_grounded.py`로 grounded arm과 비교할 때 개선 여지가 크지 않을 수 있음 — grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안해서 해석할 것 (예: 더 모호하거나 헬퍼 소스가 필요한 케이스를 별도로 볼 필요가 있을 수 있음).
+
+(위 표들의 산출 과정에서 `measure_grounding.py`의 인용 추출 정규식 버그를 발견해 수정함 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 892건 인용을 전수 확인해 STOPWORDS에 반영했고, 수정 전 환각률은 0.0191이었음.)
 
 ### 통합 규칙 재설계 근거 — FP 원인 분석 (2026-08-05)
 
@@ -206,7 +221,7 @@ logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여�
 
 | 카테고리 | CWE | 데이터 필터링 | Semgrep 스캔·평가 | LLM 단독 | 하이브리드 |
 |---|---|---|---|---|---|
-| sqli | 89 | ✅ | ✅ | ⚠️ mock만 | ⚠️ mock만 |
+| sqli | 89 | ✅ | ✅ | ✅ 실측 완료 | ✅ 실측 완료 |
 | xss | 79 | ✅ | ✅ | 미착수 | 미착수 |
 | cmdi | 78 | ✅ | ✅ | 미착수 | 미착수 |
 | pathtraver | 22 | ✅ | ✅ | 미착수 | 미착수 |
