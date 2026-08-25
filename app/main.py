@@ -6,7 +6,7 @@ FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + L
   - LLM 분석은 ANTHROPIC_API_KEY가 아직 없어 scripts/run_llm_only_sqli.py의
     classify_file_mock()을 그대로 재사용 (실제 API 호출 없음).
     나중에 키가 생기면 이 파일에서 classify_file_mock 호출 한 줄만
-    classify_file_via_api(client, source_code)로 바꾸면 됨.
+    classify_file_via_api(client, source_code, "sqli")로 바꾸면 됨.
   - 정적분석/하이브리드 통합 로직은 scripts/의 기존 함수를 import해서 그대로 재사용
     (run_semgrep_scan.run_semgrep, evaluate_semgrep.is_category_finding,
     merge_hybrid.confidence_tier) — 로직이 두 군데서 따로 구현되며 어긋나는 걸 방지.

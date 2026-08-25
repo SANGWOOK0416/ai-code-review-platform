@@ -1,12 +1,14 @@
 """
-LLM 단독(Claude Sonnet 5) 방식의 SQL Injection(CWE-89) 탐지 결과(json)를
+LLM 단독(Claude Sonnet 5) 방식의 --category 취약점 탐지 결과(json)를
 OWASP Benchmark 정답 라벨(csv)과 매칭해서 Precision/Recall/F1을 계산한다.
-evaluate_semgrep_sqli.py와 동일한 패턴/출력 구조를 따름 — 두 방식을 나란히 비교하기 위함.
+evaluate_semgrep.py와 동일한 패턴/출력 구조를 따름 — 두 방식을 나란히 비교하기 위함.
+(과거에는 SQLi 전용이었으나 --category로 일반화함. 파일명은 하위 호환을 위해 유지)
 
 run_llm_only_sqli.py --mock 으로 생성한 결과에도 그대로 동작한다 (파이프라인 검증용).
 
 사용 예:
-    python scripts/evaluate_llm_sqli.py
+    python scripts/evaluate_llm_sqli.py --category sqli
+    python scripts/evaluate_llm_sqli.py --category xss
 """
 
 from __future__ import annotations
@@ -16,6 +18,9 @@ import csv
 import json
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from evaluate_semgrep import CATEGORY_TO_CWE  # noqa: E402
 
 for _stream in (sys.stdout, sys.stderr):
     if hasattr(_stream, "reconfigure"):
@@ -125,9 +130,10 @@ def write_metrics_json(metrics: dict, out_path: Path) -> None:
         json.dump(metrics, f, indent=2, ensure_ascii=False)
 
 
-def print_report(metrics: dict) -> None:
+def print_report(metrics: dict, category: str) -> None:
+    cwe = CATEGORY_TO_CWE[category]
     print("=" * 50)
-    print("Claude Sonnet 5 단독 SQL Injection(CWE-89) 탐지 성능")
+    print(f"Claude Sonnet 5 단독 {category.upper()}(CWE-{cwe}) 탐지 성능")
     print("=" * 50)
     print(f"  전체 케이스     : {metrics['total']}")
     print(f"  평가 성공       : {metrics['total_evaluated']}")
@@ -152,7 +158,12 @@ def main() -> None:
         default=Path(__file__).resolve().parent.parent,
         help="프로젝트 루트 경로",
     )
-    parser.add_argument("--category", default="sqli", help="평가할 카테고리 (기본: sqli)")
+    parser.add_argument(
+        "--category",
+        default="sqli",
+        choices=sorted(CATEGORY_TO_CWE),
+        help="평가할 카테고리 (기본: sqli)",
+    )
     parser.add_argument(
         "--ground-truth-csv",
         type=Path,
@@ -188,7 +199,7 @@ def main() -> None:
 
     write_predictions_csv(rows, output_dir / "llm_eval_predictions.csv")
     write_metrics_json(metrics, output_dir / "llm_metrics.json")
-    print_report(metrics)
+    print_report(metrics, args.category)
     print(f"\n[write] {output_dir / 'llm_eval_predictions.csv'}")
     print(f"[write] {output_dir / 'llm_metrics.json'}")
 
