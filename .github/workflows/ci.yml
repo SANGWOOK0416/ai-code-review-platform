@@ -29,7 +29,7 @@ jobs:
             python scripts/evaluate_semgrep.py --category "$category"
           done
 
-      - name: 하이브리드 파이프라인 스모크 테스트 (sqli — LLM 예측 결과가 있는 유일한 카테고리)
+      - name: 하이브리드 파이프라인 스모크 테스트 (sqli만 — xss/cmdi/pathtraver 회귀검증은 아직 미포함, CLAUDE.md 참고)
         run: |
           set -e
           # 두 통합 규칙 모두 검증 (Ablation에서 나란히 비교하므로 둘 다 살아있어야 함)
