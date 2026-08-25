@@ -2,7 +2,7 @@
 
 > 정적분석 + LLM 하이브리드 기반 설명 가능한 보안 취약점 탐지 시스템
 
-> **다음 세션 시작점 (2026-08-05 기준)**: 4개 카테고리(sqli/xss/cmdi/pathtraver) 전부 실측 LLM 결과 확보 완료 → confidence 보정(ECE) 확인 → `run_llm_grounded.py` 작성
+> **다음 세션 시작점 (2026-08-05 기준)**: 4개 카테고리 실측 + confidence 보정/threshold 튜닝 + held-out 확인까지 완료 → 다음은 `run_llm_grounded.py` 작성(핵심 주장 검증) 또는 베이지안 로그오즈 착수 판단
 
 ## 1. 프로젝트 정의
 
@@ -94,7 +94,9 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] `measure_grounding.py`의 인용 추출 정규식 버그 수정 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 실측 데이터 892건 인용을 전수 확인해 STOPWORDS에 반영 (환각률 0.0191→0.0023으로 재측정)
 - [x] **나머지 3개 카테고리(xss/cmdi/pathtraver)로 실측 확장 완료** (2026-08-05) — 4개 카테고리 전부에서 LLM 단독 Recall=1.0000, cascade 기각 정확도=1.0000이 재현됨. 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
 - [x] **CI 갭 해소** (2026-08-05) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인
-- [ ] confidence 보정(ECE) 확인 → `--reject-threshold`를 train 분할에서만 튜닝(카테고리별로 최적값이 다를 수 있음) → `--rule or` vs `--rule cascade` held-out 비교 → 베이지안 로그오즈 착수 판단 — **다음 세션 시작점**
+- [x] **confidence 보정(ECE) 측정 + threshold 튜닝 + held-out 최종 확인 완료** (2026-08-05) — 4개 카테고리 전부 과신(ECE 0.12~0.28), 다만 **threshold 튜닝의 실익은 없음**(기존 기본값 0.7이 이미 F1 최대 구간 안). held-out에서도 기각정확도 1.0000 재현. 상세는 10장 "Confidence 보정 및 threshold 튜닝 결과" 참고
+- [x] LLM confidence 백분율 오염 버그 수정 — 모델이 확률(0.92) 대신 백분율(92.0)로 답한 22건(1,478건 중 1.5%)이 검증 없이 저장돼 있었음. `VulnJudgment`에 `field_validator` 추가로 재발 방지 + 기존 데이터 정규화(판정 결과는 불변임을 확인)
+- [ ] 베이지안 로그오즈 착수 판단 — ⚠️ 착수 시 **Platt/isotonic 보정이 반드시 선행**되어야 함(ECE 0.12~0.28의 과신을 그대로 로그오즈에 넣으면 사후확률 왜곡). 보정 계수도 train 분할에서만 추정할 것
 - [ ] SQLi에서만 측정한 grounding precision을 xss/cmdi/pathtraver로 확장할지 결정 (범위가 넓어지면 `run_llm_grounded.py` 작업량도 4배가 됨 — 우선 SQLi로 핵심 주장 검증부터 마치는 게 합리적일 수 있음)
 - [ ] **`run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것). ⚠️ ungrounded 환각률이 이미 0.0023으로 매우 낮게 나와서, grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안할 것
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
@@ -113,6 +115,7 @@ GitHub PR 이벤트 → 웹훅 트리거
   - 티어→최종예측 매핑은 `tier_to_predicted()` 한 곳에서만 정의(규칙이 흩어지는 걸 방지). `--category`로 sqli/xss/cmdi/pathtraver 4개 카테고리 모두 실측 완료(2026-08-05)
 - `scripts/evaluate_hybrid.py`: `merge_hybrid.py` 산출물로 하이브리드 방식 Precision/Recall/F1 계산 + **티어별 TP/FP/FN/TN 분포**를 리포트. cascade일 때는 "LLM 필터 효과"(기각 건수, 오탐 제거 성공 vs 정탐 손실, **기각 정확도**)를 따로 출력 — 필터가 실제로 이득이었는지 판단하는 핵심 지표. 티어 정의는 `merge_hybrid.TIER_ORDER`를 import해서 한 곳에서만 관리
 - `scripts/dataset_split.py` (신규): 벤치마크 케이스를 train/held-out으로 **결정론적·층화 분할**. 하이퍼파라미터(`--reject-threshold`, 향후 LR/보정계수)를 평가에 쓰는 데이터에서 고르면 누수이므로, 튜닝은 train에서만 하고 최종 지표는 held-out에서만 보고하기 위한 것. `hashlib.sha256`로 배정(파이썬 `hash()`는 프로세스마다 salt가 달라 재현 불가) → 실행할 때마다 같은 분할이 나오고, 케이스가 추가돼도 기존 배정이 안 흔들림. 라벨별로 seed를 분리해 양성비율 보존. `load_split()`/`filter_by_split()`으로 다른 스크립트에서 import 가능
+- `scripts/calibrate_confidence.py` (신규): LLM confidence의 보정 상태(ECE/MCE/signed gap)를 측정하고 캐스케이드 `--reject-threshold`를 튜닝. **보정 대상은 "취약할 확률"이 아니라 "LLM 자신의 판정이 맞을 확률"** — 캐스케이드가 confidence를 그 용도로 쓰기 때문. `--split`은 기본이 `train`이고 `heldout`은 명시해야만 열리게 해서 누수를 구조적으로 막음(held-out 사용 시 경고 배너 출력). `--bin-mode equal-width`(표준 ECE 정의)와 `quantile`(confidence가 0.9+에 몰려 있어 실질 해상도가 높음) 둘 다 지원. `--sweep`으로 threshold별 F1·기각정확도·정탐손실 트레이드오프를 표로 출력, `--threshold`로 단일 값 최종 평가. 캐스케이드 판정은 `merge_hybrid.confidence_tier_cascade`를 import해 재사용(규칙 이중 구현 방지)
 - `scripts/measure_grounding.py` (신규): LLM `reasoning`이 **실제로 존재하는 코드를 근거로 들었는지** 검증해 환각률 측정. P/R/F1만으로는 "정답을 맞혔지만 근거가 날조된" 경우를 구분할 수 없어서, 프로젝트 핵심 주장(grounding→환각 억제)을 정량화하려면 이 지표가 필요함. reasoning에서 인용(`line` 라인번호 / `ident` 백틱 코드 / `call` 메서드호출 / `type` 타입명)을 추출해 원본 `.java`와 대조. **권고문 제외 처리가 핵심** — "PreparedStatement를 썼어야 함"은 코드에 대한 주장이 아니라 제안이므로 인용으로 세면 안 됨(안 걸러내면 올바른 보안 권고가 전부 환각으로 잘못 집계됨). `type`은 일반론 언급이 잦아 기본 종합지표에서 제외(`--include-types`로 포함). `--compare-json`으로 grounding 제공/미제공 두 arm 비교
 - `data/raw/`: 원본 clone 결과 (gitignore 대상, 용량 큼)
 - `data/processed/<category>/`: 필터링된 CSV(`<category>_cases.csv`) + 소스 파일 서브셋(`sources/`)
@@ -216,6 +219,55 @@ Semgrep 단독은 4개 카테고리 모두 **Recall이 Precision보다 뚜렷하
 | pathtraver | 0.669 | 0.735 | 0.792 | **0.859** |
 
 Semgrep이 가장 약한 카테고리에서 이득이 가장 큼(걸러낼 오탐이 많으므로). 손익분기는 LLM 특이도 약 0.3~0.35.
+
+### Confidence 보정(calibration) 및 threshold 튜닝 결과 (2026-08-05)
+
+`scripts/calibrate_confidence.py`로 측정. **튜닝·탐색은 train 분할에서만 수행하고, held-out은 최종 확인 1회에만 열었다** (`dataset_split.py`의 결정론적 층화 분할, train 약 30%).
+
+**보정 상태 — train 분할, equal-width 10구간**
+
+측정 대상은 "취약할 확률"이 아니라 **"LLM 자신의 판정이 맞을 확률"** — 캐스케이드가 confidence를 "LLM의 '안전' 판정을 믿고 Semgrep 경보를 기각할지"에 쓰기 때문.
+
+| 카테고리 | train n | 평균 confidence | 실제 판정 정확도 | ECE | MCE | signed gap |
+|---|---|---|---|---|---|---|
+| SQLi | 140 | 0.9261 | 0.7357 | 0.2050 | 0.6500 | +0.1904 |
+| XSS | 149 | 0.9191 | 0.8389 | **0.1200** | 0.1485 | +0.0801 |
+| CMDI | 77 | 0.9206 | 0.6364 | **0.2843** | 0.6800 | +0.2843 |
+| PathTraversal | 78 | 0.9026 | 0.7436 | 0.1590 | 0.7500 | +0.1590 |
+
+**4개 카테고리 전부 과신(overconfident)** — signed gap이 모두 양수. 정도는 카테고리마다 다르며 **CMDI가 가장 심하고(ECE 0.284) XSS가 가장 양호**(0.120). 이는 Semgrep 성능 순서(cmdi/pathtraver가 약하고 xss가 강함)와 대체로 일치 — 어려운 카테고리에서 LLM도 함께 과신한다.
+
+⚠️ confidence가 0.9 이상에 85~90%가 몰려 있어 equal-width 구간은 대부분 비어 있다(`--bin-mode quantile`로 분포 기반 재확인 가능). 또 cmdi/pathtraver는 train n이 77~78로 작아 구간별 추정이 불안정하다 — MCE가 0.65~0.75로 큰 것도 소수 표본 구간(1~3건) 때문이므로 MCE는 과대해석하지 말 것.
+
+**threshold 스윕 — train 분할, 캐스케이드 F1 및 기각정확도/Recall 트레이드오프**
+
+| 카테고리 | F1 최대 구간 | 선택한 threshold | train F1 | 기존 기본값(0.7) 대비 |
+|---|---|---|---|---|
+| SQLi | 0.00 ~ 0.85 | 0.85 | 0.8024 | **+0.0000** |
+| XSS | 0.00 ~ 0.80 | 0.80 | 0.8252 | **+0.0000** |
+| CMDI | 0.00 ~ 0.75 | 0.75 | 0.7045 | **+0.0000** |
+| PathTraversal | 0.00 ~ 0.85 | 0.85 | 0.7843 | **+0.0000** |
+
+**핵심 발견 — threshold 튜닝의 실익이 없다.** 4개 카테고리 전부에서 **threshold를 0.00까지 낮춰도 정탐 손실(rejected_vuln)이 0건**이었다. 즉 LLM이 "안전"이라고 판정한 Semgrep 탐지 건은 train 분할에서 **하나도 빠짐없이 실제로 안전**했고, 그래서 기각을 많이 할수록(threshold를 낮출수록) Precision만 오르고 Recall은 그대로다. F1 최대 구간이 0.00부터 넓게 형성되며 **기존 하드코딩 기본값 0.7이 이미 그 최적 구간 안에 있다**. 위 표의 선택값은 "F1 동률 구간에서 가장 보수적인(높은) 값"을 고른 것이라 실질 성능 차이가 없다.
+
+threshold가 성능에 영향을 주기 시작하는 지점은 0.90 이상(기각 건수가 급감)이며, 0.95 이상에서는 기각이 0건이 되어 캐스케이드가 사실상 Semgrep 단독으로 퇴화한다.
+
+**held-out 최종 결과 — 위에서 결정한 threshold를 딱 한 번 적용**
+
+| 카테고리 | threshold | held-out n | TP / FP / FN / TN | Precision | Recall | F1 | 기각 | 기각정확도 |
+|---|---|---|---|---|---|---|---|---|
+| SQLi | 0.85 | 364 | 167 / 58 / 26 / 113 | 0.7422 | 0.8653 | 0.7990 | 49 | **1.0000** |
+| XSS | 0.80 | 306 | 143 / 25 / 28 / 110 | 0.8512 | 0.8363 | 0.8437 | 44 | **1.0000** |
+| CMDI | 0.75 | 174 | 81 / 46 / 9 / 38 | 0.6378 | 0.9000 | 0.7465 | 19 | **1.0000** |
+| PathTraversal | 0.85 | 190 | 80 / 40 / 10 / 60 | 0.6667 | 0.8889 | 0.7619 | 34 | **1.0000** |
+
+**held-out에서도 기각 정확도 1.0000이 4개 카테고리 전부 재현됐다** — 총 146건을 기각하면서 정탐 손실 0건. train에서 관찰한 "LLM의 안전 판정은 (이 벤치마크에서) 완벽하게 신뢰할 수 있다"는 패턴이 미개봉 데이터에서도 유지된다는 뜻으로, 캐스케이드 설계의 핵심 전제가 검증된 셈이다. F1도 train 값과 근접해(예: sqli 0.8024→0.7990, xss 0.8252→0.8437) 과적합 징후가 없다.
+
+**해석과 한계**
+
+- confidence는 과신 편향이 뚜렷하지만(ECE 0.12~0.28), **캐스케이드가 confidence를 임계값 비교로만 쓰기 때문에 이 편향이 성능에 거의 영향을 주지 않는다.** LLM의 이진 판정(vulnerable=False)이 정확하다면 confidence 값 자체는 부차적이다.
+- 반대로 **베이지안 로그오즈 결합에는 이 과신이 치명적**이다. 로그오즈 합산은 confidence를 확률로 직접 쓰므로, ECE 0.28짜리 값을 그대로 넣으면 사후확률이 왜곡된다. 착수한다면 Platt/isotonic 보정이 반드시 선행되어야 하고, 보정 계수도 train 분할에서만 추정해야 한다.
+- 이 벤치마크(OWASP Benchmark)는 안전 케이스가 "죽은 분기/상수 헬퍼" 같은 정형화된 패턴이라 LLM이 판별하기 쉬운 편이다. 실제 오픈소스 코드에서도 기각 정확도가 1.0을 유지할지는 별개 문제이며, 3단계 실사례 검증에서 확인이 필요하다.
 
 ### 향후 과제 — 베이지안 로그오즈 결합 (미구현, 리포트용)
 
