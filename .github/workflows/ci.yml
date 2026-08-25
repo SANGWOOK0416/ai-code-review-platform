@@ -83,8 +83,12 @@ jobs:
               sys.exit(f"cascade 회귀 실패: {failed}")
           PY
 
-      - name: 분할/grounding 스크립트 스모크 테스트
+      - name: 분할/grounding/보정/규칙비교 스크립트 스모크 테스트
         run: |
           set -e
           python scripts/dataset_split.py --category sqli --dry-run
           python scripts/measure_grounding.py --category sqli
+          # 보정 측정은 train 분할만 사용 (held-out은 최종 보고용이라 CI에서 열지 않음)
+          python scripts/calibrate_confidence.py --category sqli --sweep
+          # Ablation 최종 비교표 (held-out) — 산출물이 재현되는지만 확인
+          python scripts/compare_rules_heldout.py
