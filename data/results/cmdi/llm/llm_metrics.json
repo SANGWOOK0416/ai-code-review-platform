@@ -1,0 +1,13 @@
+{
+  "tp": 126,
+  "fp": 84,
+  "fn": 0,
+  "tn": 41,
+  "failed": 0,
+  "precision": 0.6,
+  "recall": 1.0,
+  "f1": 0.7499999999999999,
+  "accuracy": 0.6653386454183267,
+  "total_evaluated": 251,
+  "total": 251
+}
