@@ -89,6 +89,11 @@ STOPWORDS = {
     # 자바 예약어/제어 구문 (호출 패턴에 걸리지만 인용으로 볼 수 없음)
     "if", "for", "while", "switch", "catch", "return", "new", "throw", "try",
     "do", "else", "synchronized", "super", "this", "assert",
+    # 보안 분석 서술 용어 — "false positive(설명)", "dead code(설명)"처럼 괄호로
+    # 부연하는 문장 구조에서 CALL_PATTERN에 걸리지만 실제 코드 호출이 아님.
+    # 실측 데이터(SQLi 504건, 892개 인용 중 17건)에서 전수 확인 후 추가함
+    "positive", "negative", "propagation", "sink", "source", "code", "case",
+    "placeholder", "pattern", "setxxx", "preparedcall",
 }
 
 

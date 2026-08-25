@@ -46,8 +46,9 @@ jobs:
           python - <<'PY'
           import json, sys
           m = json.load(open("data/results/sqli/hybrid/hybrid_metrics.json", encoding="utf-8"))
-          # mock LLM + OR 규칙에서 고정되어야 하는 값 (리팩터링이 판정을 바꾸면 여기서 걸린다)
-          expected = {"tp": 256, "fp": 189, "fn": 16, "tn": 43}
+          # 실측 LLM(Claude Sonnet 5, 2026-08-05) + OR 규칙에서 고정되어야 하는 값
+          # (리팩터링이 판정을 바꾸면 여기서 걸린다. LLM을 재실행해 결과가 달라지면 이 값도 갱신할 것)
+          expected = {"tp": 272, "fp": 199, "fn": 0, "tn": 33}
           actual = {k: m[k] for k in expected}
           if actual != expected:
               sys.exit(f"OR 규칙 회귀 실패: 기대 {expected}, 실제 {actual}")
