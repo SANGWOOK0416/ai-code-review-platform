@@ -31,7 +31,7 @@ from pathlib import Path
 from random import Random
 
 import anthropic
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from evaluate_semgrep import CATEGORY_TO_CWE  # noqa: E402  (카테고리->CWE 매핑을 한 곳에서만 관리)
@@ -66,6 +66,20 @@ class VulnJudgment(BaseModel):
     vulnerable: bool
     confidence: float
     reasoning: str
+
+    @field_validator("confidence")
+    @classmethod
+    def _normalize_confidence(cls, v: float) -> float:
+        """confidence를 0~1로 정규화한다.
+
+        실측에서 모델이 확률(0.92) 대신 백분율(92.0)로 답하는 경우가 1,478건 중
+        22건(1.5%) 발생했다. 스키마가 그냥 float이라 그대로 통과했고, 캐스케이드의
+        `confidence >= reject_threshold` 비교에서 백분율 값은 사실상 항상 참이 되어
+        threshold 튜닝을 왜곡한다. 1을 넘으면 백분율로 보고 100으로 나눈다.
+        """
+        if v > 1.0:
+            v = v / 100.0
+        return min(max(v, 0.0), 1.0)
 
 
 def build_system_prompt(category: str) -> str:

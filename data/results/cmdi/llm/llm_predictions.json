@@ -709,7 +709,7 @@
   },
   "BenchmarkTest01353": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력은 request.getParameterMap()에서 'BenchmarkTest01353' 파라미터로 받아 param 변수에 저장되고, 이를 내부 클래스 Test.doSomething()에 전달합니다. 그러나 switch문에서 switchTarget은 guess=\"ABC\"의 charAt(1)인 'B'로 고정되어 있어 항상 case 'B'가 실행되고 bar = \"bob\"으로 하드코딩된 값이 반환됩니다. case 'A', 'C', 'D'에서 param이 bar에 할당되는 코드가 있지만 실제로는 도달 불가능한 데드코드입니다. 따라서 최종적으로 ProcessBuilder에 전달되는 'echo ' + bar 문자열은 항상 'echo bob'이 되어 사용자 입력이 명령어 실행에 영향을 미치지 않습니다. 이는 OWASP Benchmark의 false positive 테스트 케이스로, 실제 커맨드 인젝션 취약점은 존재하지 않습니다.",
     "mock": false
   },
@@ -877,13 +877,13 @@
   },
   "BenchmarkTest01607": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력은 request.getParameterValues(\"BenchmarkTest01607\")를 통해 param으로 전달되고, Test.doSomething 메서드 내 switch문에서 switchTarget이 guess.charAt(1)='B'로 고정되어 있어 항상 case 'B'가 실행됩니다. 이 경우 bar는 하드코딩된 문자열 \"bob\"으로 설정되며, 사용자 입력값인 param은 실제로 bar에 할당되지 않습니다(case 'A', 'C', 'D'는 도달 불가능한 데드코드). 따라서 bar는 항상 고정값 \"bob\"이 되고, 이후 Runtime.exec()에 전달되는 cmd+bar 또는 args 배열에는 사용자 입력이 실제로 유입되지 않습니다. 코드 구조상 외견상 Runtime.exec()로 명령어를 실행하는 싱크가 존재하지만, 데이터 흐름을 분석하면 사용자 입력이 실제로 해당 싱크에 도달하지 않으므로 이 특정 코드 경로에서는 OS Command Injection이 발생하지 않습니다. 이는 OWASP Benchmark의 false negative 테스트케이스 패턴으로, switch문의 조건이 상수로 고정되어 취약한 것처럼 보이지만 실제로는 안전한 경우입니다.",
     "mock": false
   },
   "BenchmarkTest01608": {
     "vulnerable": false,
-    "confidence": 88.0,
+    "confidence": 0.88,
     "reasoning": "사용자 입력은 request.getParameterValues(\"BenchmarkTest01608\")를 통해 param에 저장되고, Test.doSomething 내부에서 HashMap에 'keyB-55872' 키로 저장된 후 다시 조회됩니다. 그러나 반환 직전에 bar 변수가 map55872.get(\"keyA-55872\")의 값(고정 문자열 'a_Value')으로 재할당되어, 실제로 doSomething이 반환하는 값은 사용자 입력이 아니라 하드코딩된 'a_Value'입니다. 따라서 doPost에서 얻은 bar 값은 argsEnv 배열(환경변수)로 Runtime.exec에 전달되지만, 이 값은 사용자 입력과 무관한 고정 문자열입니다. 또한 실제 실행되는 명령어(cmd)도 Utils.getInsecureOSCommandString에서 가져온 값으로 사용자 입력과는 무관합니다. 결과적으로 사용자 입력이 명령 실행에 영향을 미치는 데이터 흐름이 끊겨 있어 이 코드 경로에서는 OS Command Injection이 발생하지 않습니다. (OWASP Benchmark의 'false negative' 스타일 테스트 케이스로, 데이터흐름이 안전하게 차단된 예시입니다.)",
     "mock": false
   },
@@ -985,7 +985,7 @@
   },
   "BenchmarkTest01780": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력은 request 파라미터 'BenchmarkTest01780'을 통해 param 변수로 들어오고, Test.doSomething 내부에서 HashMap에 저장된 후 최종적으로 'keyA-90655'에 해당하는 고정 문자열 'a_Value'를 반환합니다. 즉 사용자 입력값(param, keyB-90655에 저장됨)은 반환값에 영향을 주지 않고, 실제로 ProcessBuilder에 전달되는 bar 값은 항상 하드코딩된 'a_Value'입니다. 따라서 ProcessBuilder(args)로 실행되는 명령어 'echo a_Value'에는 사용자 입력이 실제로 반영되지 않으므로, 데이터 흐름상 명령어 인젝션이 발생하지 않습니다. 이는 OWASP Benchmark의 false positive 패턴(데이터플로우가 안전한 값으로 종료되는 경우)에 해당합니다.",
     "mock": false
   },

@@ -925,7 +925,7 @@
   },
   "BenchmarkTest01574": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력 param은 HashMap에 'keyB-48244'로 저장되지만, 최종적으로 bar에 다시 할당될 때는 map48244.get('keyA-48244')의 값인 고정 문자열 'a_Value'를 가져옵니다. 즉 실제로 반환되는 bar는 사용자 입력이 아니라 하드코딩된 안전한 값입니다. 이후 fileName = TESTFILES_DIR + bar 로 FileOutputStream을 생성하지만 bar가 사용자 입력과 무관하므로 Path Traversal이 발생하지 않습니다. 이는 OWASP Benchmark의 false positive 테스트 케이스로, 데이터 흐름이 실제로는 사용자 입력을 사용하지 않도록 설계되어 있습니다.",
     "mock": false
   },
@@ -1027,7 +1027,7 @@
   },
   "BenchmarkTest01834": {
     "vulnerable": false,
-    "confidence": 85.0,
+    "confidence": 0.85,
     "reasoning": "doPost는 쿠키 값(param, 사용자 조작 가능)을 doSomething에 전달하지만, doSomething 내부에서 switchTarget은 항상 guess.charAt(1)='B'로 고정되어 있어 실제로는 항상 case 'B'가 실행되어 bar='bob'으로 고정됩니다. param이 그대로 전달되는 case 'A','C','D'는 switchTarget이 'B'이므로 결코 실행되지 않는 데드코드입니다. 따라서 fileTarget = new File(TESTFILES_DIR, bar)에서 bar는 항상 'bob'이라는 고정 문자열이며, 사용자 입력(쿠키값)이 실제로 파일 경로 생성에 영향을 주지 못합니다. 코드 흐름상 데이터가 싱크까지 도달하지 않으므로 이 특정 벤치마크 테스트케이스는 실제로는 취약하지 않은(false negative 유도용) 패턴입니다.",
     "mock": false
   },
@@ -1393,7 +1393,7 @@
   },
   "BenchmarkTest02381": {
     "vulnerable": false,
-    "confidence": 88.0,
+    "confidence": 0.88,
     "reasoning": "사용자 입력 param은 HttpServletRequest로부터 SeparateClassRequest를 통해 받아지고, doSomething() 메서드 내 HashMap에 'keyB-75774'로 저장됩니다. 그러나 최종적으로 bar 변수에 할당되는 값은 'keyA-75774'에 대응하는 값('a_Value', 고정 문자열)입니다. 즉 map75774.get('keyB-75774')로 사용자 입력값을 가져온 뒤 다시 map75774.get('keyA-75774')로 덮어써서, 실제로 파일 경로(fileName) 생성에 사용되는 bar 값은 사용자 입력과 무관한 고정 문자열 'a_Value'입니다. 따라서 fileName = TESTFILES_DIR + bar 는 사용자 입력에 의해 영향받지 않으며, FileInputStream/FileOutputStream 싱크에 도달하는 경로 값이 오염되지 않습니다. 이는 OWASP Benchmark의 'false negative' 테스트케이스 패턴으로, 데이터 흐름상 실제로는 취약하지 않은 코드입니다.",
     "mock": false
   },
@@ -1471,7 +1471,7 @@
   },
   "BenchmarkTest02554": {
     "vulnerable": false,
-    "confidence": 88.0,
+    "confidence": 0.88,
     "reasoning": "사용자 입력 param은 doSomething()에서 (7*18)+106=232>200 이라는 항상 true인 상수 조건에 의해 삼항 연산자로 평가되며, 실제로는 항상 'This_should_always_happen'라는 하드코딩된 문자열이 반환됩니다. 즉 조건식이 컴파일 타임에 결정되는 상수이므로 param 값은 실제 실행 흐름에서 절대 반영되지 않습니다. 따라서 File 객체 생성에 사용되는 bar 변수는 사용자 입력이 아니라 고정 문자열이 되어 Path Traversal이 실제로 발생할 수 없는 구조입니다. 이는 OWASP Benchmark의 false positive 테스트 케이스 패턴(조건이 항상 특정 분기로 흐르도록 설계된 경우)에 해당합니다.",
     "mock": false
   },

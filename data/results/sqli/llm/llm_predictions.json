@@ -1279,7 +1279,7 @@
   },
   "BenchmarkTest01301": {
     "vulnerable": false,
-    "confidence": 88.0,
+    "confidence": 0.88,
     "reasoning": "사용자 입력 param은 doSomething 메서드에서 여러 문자열 조작을 거치지만, 최종적으로 반환되는 값은 thing.doSomething(g11416)의 결과이며, g11416은 하드코딩된 상수 문자열 \"barbarians_at_the_gate\"입니다. 즉 실제 SQL 문자열(sql = \"{call \" + bar + \"}\")에 삽입되는 bar 값은 사용자 입력과 무관한 정적 문자열에서 파생된 값입니다. 사용자 입력(param)으로부터 파생된 f11416 등의 변수는 계산되지만 실제로 사용되지 않고 버려집니다(데드코드). 따라서 데이터 흐름상 사용자 입력이 실제 실행되는 SQL 쿼리에 영향을 주지 않으므로, 이 코드는 OWASP Benchmark의 'false positive' 패턴에 해당하며 SQL Injection 취약점이 없다고 판단됩니다. 다만 prepareCall에 문자열을 그대로 결합하는 패턴 자체는 위험하고, ThingFactory/ThingInterface의 실제 구현에 따라 결과가 달라질 수 있어 확신도는 100%가 아닙니다.",
     "mock": false
   },
@@ -2353,7 +2353,7 @@
   },
   "BenchmarkTest02268": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력 param은 request.getParameterMap()에서 가져와 doSomething 메서드에서 HashMap에 저장됩니다. 그러나 최종적으로 bar 변수에는 map95440.get('keyA-95440')의 값인 고정 문자열 'a_Value'가 할당되며, 사용자 입력이 담긴 'keyB-95440' 값은 무시됩니다. 따라서 SQL 쿼리 문자열에 삽입되는 bar는 실제로는 사용자 입력과 무관한 하드코딩된 값입니다. 또한 SQL 문자열 자체는 문자열 연결로 구성되어 있어 잠재적으로 위험한 패턴이지만, 실제 데이터 흐름상 사용자 입력이 도달하지 않으므로 이 코드에서는 SQL Injection이 발생하지 않습니다. 참고로 PreparedStatement를 사용하고 있으나 setString(1, \"foo\")만 바인딩하고 있어 쿼리의 password 부분은 바인딩되지 않은 채 문자열 연결로 처리되고 있다는 점은 설계상 취약한 패턴이지만, 실제 이 벤치마크 테스트 케이스는 '안전한 경우(false positive 테스트)'로 설계된 것으로 판단됩니다.",
     "mock": false
   },
@@ -2737,7 +2737,7 @@
   },
   "BenchmarkTest02546": {
     "vulnerable": false,
-    "confidence": 92.0,
+    "confidence": 0.92,
     "reasoning": "사용자 입력은 request.getParameterValues(\"BenchmarkTest02546\")를 통해 param에 저장되고, doSomething() 메서드로 전달됩니다. 이 메서드 내부에서 switchTarget은 고정 문자열 \"ABC\"의 두 번째 문자인 'B'로 하드코딩되어 있어, switch문은 항상 case 'B'로 분기되어 bar 변수에는 고정 문자열 \"bob\"이 할당됩니다. param을 그대로 반환하는 case 'A', 'C', 'D' 분기는 결코 실행되지 않는 데드코드입니다. 따라서 최종적으로 SQL 쿼리 문자열에 삽입되는 bar 값은 사용자 입력과 무관한 상수 \"bob\"이며, 실제 데이터 흐름상 사용자 입력이 SQL 쿼리에 도달하지 않습니다. 비록 SQL 문자열이 String 연결로 구성되고 PreparedStatement 대신 Statement.executeUpdate()를 사용하는 안전하지 않은 패턴이지만, 실제로 실행 가능한 경로에서는 외부 입력이 반영되지 않으므로 이 코드는 SQL Injection에 취약하지 않습니다(OWASP Benchmark의 false negative 테스트 케이스로 설계됨).",
     "mock": false
   },
