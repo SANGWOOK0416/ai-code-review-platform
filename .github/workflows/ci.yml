@@ -29,7 +29,7 @@ jobs:
             python scripts/evaluate_semgrep.py --category "$category"
           done
 
-      - name: 하이브리드 파이프라인 스모크 테스트 (sqli만 — xss/cmdi/pathtraver 회귀검증은 아직 미포함, CLAUDE.md 참고)
+      - name: 하이브리드 파이프라인 스모크 테스트 (sqli — cascade/or 둘 다 검증)
         run: |
           set -e
           # 두 통합 규칙 모두 검증 (Ablation에서 나란히 비교하므로 둘 다 살아있어야 함)
@@ -38,7 +38,7 @@ jobs:
           python scripts/merge_hybrid.py --category sqli --rule or
           python scripts/evaluate_hybrid.py --category sqli
 
-      - name: OR 규칙 회귀 테스트 (커밋된 기준 지표와 일치하는지)
+      - name: sqli OR 규칙 회귀 테스트 (커밋된 기준 지표와 일치하는지)
         run: |
           set -e
           python scripts/merge_hybrid.py --category sqli --rule or
@@ -53,6 +53,34 @@ jobs:
           if actual != expected:
               sys.exit(f"OR 규칙 회귀 실패: 기대 {expected}, 실제 {actual}")
           print(f"OR 규칙 회귀 통과: {actual}")
+          PY
+
+      - name: xss/cmdi/pathtraver 하이브리드 회귀 테스트 (cascade 규칙, 커밋된 기준 지표와 일치하는지)
+        run: |
+          set -e
+          for category in xss cmdi pathtraver; do
+            python scripts/merge_hybrid.py --category "$category" --rule cascade
+            python scripts/evaluate_hybrid.py --category "$category"
+          done
+          python - <<'PY'
+          import json, sys
+          # 실측 LLM(Claude Sonnet 5, 2026-08-05) + cascade 규칙(기본값)에서 고정되어야 하는 값
+          # (리팩터링이 판정을 바꾸면 여기서 걸린다. LLM을 재실행해 결과가 달라지면 이 값도 갱신할 것)
+          expected = {
+              "xss": {"tp": 202, "fp": 33, "fn": 44, "tn": 176},
+              "cmdi": {"tp": 112, "fp": 67, "fn": 14, "tn": 58},
+              "pathtraver": {"tp": 120, "fp": 59, "fn": 13, "tn": 76},
+          }
+          failed = []
+          for category, exp in expected.items():
+              m = json.load(open(f"data/results/{category}/hybrid/hybrid_metrics.json", encoding="utf-8"))
+              actual = {k: m[k] for k in exp}
+              status = "PASS" if actual == exp else "FAIL"
+              print(f"[{category}] {status} — 기대 {exp}, 실제 {actual}")
+              if actual != exp:
+                  failed.append(category)
+          if failed:
+              sys.exit(f"cascade 회귀 실패: {failed}")
           PY
 
       - name: 분할/grounding 스크립트 스모크 테스트

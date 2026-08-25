@@ -93,7 +93,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] **ANTHROPIC_API_KEY 등록 + SQLi 504건 LLM 단독·하이브리드 실제 API 재실행 완료** (2026-08-05) — MVP(SQLi) 파이프라인 3방식(정적분석 단독/LLM 단독/하이브리드) 전체 완주
 - [x] `measure_grounding.py`의 인용 추출 정규식 버그 수정 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 실측 데이터 892건 인용을 전수 확인해 STOPWORDS에 반영 (환각률 0.0191→0.0023으로 재측정)
 - [x] **나머지 3개 카테고리(xss/cmdi/pathtraver)로 실측 확장 완료** (2026-08-05) — 4개 카테고리 전부에서 LLM 단독 Recall=1.0000, cascade 기각 정확도=1.0000이 재현됨. 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
-- [ ] **CI 갭**: `ci.yml`이 sqli 회귀값만 검증함. xss/cmdi/pathtraver는 CI 보호 없음 — confidence 보정/threshold 튜닝 전에 회귀테스트 확장 필요
+- [x] **CI 갭 해소** (2026-08-05) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인
 - [ ] confidence 보정(ECE) 확인 → `--reject-threshold`를 train 분할에서만 튜닝(카테고리별로 최적값이 다를 수 있음) → `--rule or` vs `--rule cascade` held-out 비교 → 베이지안 로그오즈 착수 판단 — **다음 세션 시작점**
 - [ ] SQLi에서만 측정한 grounding precision을 xss/cmdi/pathtraver로 확장할지 결정 (범위가 넓어지면 `run_llm_grounded.py` 작업량도 4배가 됨 — 우선 SQLi로 핵심 주장 검증부터 마치는 게 합리적일 수 있음)
 - [ ] **`run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것). ⚠️ ungrounded 환각률이 이미 0.0023으로 매우 낮게 나와서, grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안할 것
