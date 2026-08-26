@@ -71,12 +71,19 @@ TYPE_PATTERN = re.compile(r"\b([A-Z][a-z0-9]+(?:[A-Z][a-z0-9]*)+)\b")
 # 자바 식별자 토큰 (소스 쪽 인덱싱용)
 JAVA_TOKEN = re.compile(r"[A-Za-z_$][A-Za-z0-9_$]*")
 
-# 권고/가정 문맥 — 이 표현이 있는 문장의 인용은 '코드에 대한 주장'이 아니므로 제외
+# 권고/가정/부재 주장 문맥 — 이 표현이 있는 문장의 인용은 '코드에 대한 (긍정) 주장'이
+# 아니므로 제외. 이름은 RECOMMENDATION이지만 부재 주장(뒤쪽 항목들)도 같은 이유로 포함:
+# "~해야 한다"와 "~가 없다"는 둘 다 "코드에 실제로 있다"는 주장이 아니라는 공통점이 있음
 RECOMMENDATION_MARKERS = (
     "해야", "했어야", "썼어야", "쓰는 것이", "사용하는 것이", "권장", "권고", "필요합니다",
     "바꾸", "교체", "대신", "개선", "수정", "방어", "예방", "권한다", "좋습니다", "합니다만",
     "should", "recommend", "instead", "must be", "consider", "could be", "would be",
     "if it were", "가정", "예를 들",
+    # 부재 주장 — "FilenameUtils.getName() 등의 정규화 로직이 전혀 없으며"처럼 특정
+    # API/로직이 '없다'고 말하는 문장은 코드가 그걸 포함한다는 주장이 아니라 정반대.
+    # 어미가 "전혀 없으며"/"전혀 적용되지"/"전혀 사용되지 않았으므로"/"~없으므로" 등으로
+    # 다양해서 "전혀"와 "없으므로"를 넓게 잡음(grounded 실측 감사에서 확인된 전체 변형)
+    "전혀", "없으므로", "존재하지 않", "어디에도 없", "없으며", "없이", "없습니다",
 )
 
 # 코드 인용이 아니라 일반 용어로 흔히 쓰이는 단어 — 인용 집계에서 제외
@@ -94,6 +101,16 @@ STOPWORDS = {
     # 실측 데이터(SQLi 504건, 892개 인용 중 17건)에서 전수 확인 후 추가함
     "positive", "negative", "propagation", "sink", "source", "code", "case",
     "placeholder", "pattern", "setxxx", "preparedcall",
+    # grounded 4개 카테고리(1,478건) 감사에서 추가로 확인된 오탐 유형:
+    #   - 취약점 이름 자체가 "Traversal(CWE-22)"처럼 CALL_PATTERN에 걸림
+    #   - "propagator(설명)", "concatenation(+ bar)", "envp(환경변수)", "chain(a~f)",
+    #     "shell(-c)", "branch(상수 할당)"처럼 괄호로 부연하는 서술 용어
+    #   - XSS 페이로드 예시(`<script>alert(1)</script>`, `; DROP TABLE ...`)를
+    #     코드 인용으로 오인 — alert/script/drop/table
+    #   - "helper 클래스들은", "sanitization 없음"처럼 일반 서술에 쓰이는 보안 용어
+    "traversal", "propagator", "concatenation", "envp", "chain", "shell", "branch",
+    "alert", "script", "drop", "table", "helper", "sanitization", "sanitized", "encode",
+    "decode", "encoding", "data", "malicious", "calc", "outputstream",
 }
 
 

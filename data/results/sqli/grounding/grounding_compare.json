@@ -1,0 +1,56 @@
+{
+  "category": "sqli",
+  "baseline": {
+    "n_cases_with_reasoning": 504,
+    "n_no_citation": 139,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 653,
+    "citations_verified": 651,
+    "grounding_precision": 0.996937212863706,
+    "hallucination_rate": 0.003062787136294043,
+    "per_kind": {
+      "call": {
+        "total": 628,
+        "verified": 626
+      },
+      "ident": {
+        "total": 25,
+        "verified": 25
+      }
+    },
+    "hallucinated_examples": [
+      [
+        "BenchmarkTest01216",
+        "call",
+        "index0"
+      ],
+      [
+        "BenchmarkTest01216",
+        "call",
+        "index1"
+      ]
+    ]
+  },
+  "grounded": {
+    "n_cases_with_reasoning": 504,
+    "n_no_citation": 37,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 1064,
+    "citations_verified": 1064,
+    "grounding_precision": 1.0,
+    "hallucination_rate": 0.0,
+    "per_kind": {
+      "call": {
+        "total": 1040,
+        "verified": 1040
+      },
+      "ident": {
+        "total": 24,
+        "verified": 24
+      }
+    },
+    "hallucinated_examples": []
+  }
+}

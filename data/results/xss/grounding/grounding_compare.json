@@ -1,0 +1,65 @@
+{
+  "category": "xss",
+  "baseline": {
+    "n_cases_with_reasoning": 455,
+    "n_no_citation": 102,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 866,
+    "citations_verified": 863,
+    "grounding_precision": 0.9965357967667436,
+    "hallucination_rate": 0.0034642032332563577,
+    "per_kind": {
+      "call": {
+        "total": 865,
+        "verified": 862
+      },
+      "ident": {
+        "total": 1,
+        "verified": 1
+      }
+    },
+    "hallucinated_examples": [
+      [
+        "BenchmarkTest00645",
+        "call",
+        "through"
+      ],
+      [
+        "BenchmarkTest02328",
+        "call",
+        "encodeForHTML"
+      ],
+      [
+        "BenchmarkTest02328",
+        "call",
+        "encoder"
+      ]
+    ]
+  },
+  "grounded": {
+    "n_cases_with_reasoning": 455,
+    "n_no_citation": 33,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 1294,
+    "citations_verified": 1294,
+    "grounding_precision": 1.0,
+    "hallucination_rate": 0.0,
+    "per_kind": {
+      "call": {
+        "total": 1271,
+        "verified": 1271
+      },
+      "line": {
+        "total": 22,
+        "verified": 22
+      },
+      "ident": {
+        "total": 1,
+        "verified": 1
+      }
+    },
+    "hallucinated_examples": []
+  }
+}

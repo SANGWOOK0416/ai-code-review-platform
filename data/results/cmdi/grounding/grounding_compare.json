@@ -1,0 +1,61 @@
+{
+  "category": "cmdi",
+  "baseline": {
+    "n_cases_with_reasoning": 251,
+    "n_no_citation": 39,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 447,
+    "citations_verified": 444,
+    "grounding_precision": 0.9932885906040269,
+    "hallucination_rate": 0.006711409395973145,
+    "per_kind": {
+      "call": {
+        "total": 447,
+        "verified": 444
+      }
+    },
+    "hallucinated_examples": [
+      [
+        "BenchmarkTest00558",
+        "call",
+        "exec"
+      ],
+      [
+        "BenchmarkTest01442",
+        "call",
+        "CMDi"
+      ],
+      [
+        "BenchmarkTest02515",
+        "call",
+        "through"
+      ]
+    ]
+  },
+  "grounded": {
+    "n_cases_with_reasoning": 251,
+    "n_no_citation": 10,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 697,
+    "citations_verified": 697,
+    "grounding_precision": 1.0,
+    "hallucination_rate": 0.0,
+    "per_kind": {
+      "call": {
+        "total": 681,
+        "verified": 681
+      },
+      "ident": {
+        "total": 12,
+        "verified": 12
+      },
+      "line": {
+        "total": 4,
+        "verified": 4
+      }
+    },
+    "hallucinated_examples": []
+  }
+}

@@ -2,17 +2,17 @@
   "category": "sqli",
   "baseline": {
     "n_cases_with_reasoning": 504,
-    "n_no_citation": 61,
+    "n_no_citation": 139,
     "n_skipped": 0,
     "n_mock": 0,
-    "citations_total": 877,
-    "citations_verified": 875,
-    "grounding_precision": 0.9977194982896237,
-    "hallucination_rate": 0.0022805017103763037,
+    "citations_total": 653,
+    "citations_verified": 651,
+    "grounding_precision": 0.996937212863706,
+    "hallucination_rate": 0.003062787136294043,
     "per_kind": {
       "call": {
-        "total": 852,
-        "verified": 850
+        "total": 628,
+        "verified": 626
       },
       "ident": {
         "total": 25,

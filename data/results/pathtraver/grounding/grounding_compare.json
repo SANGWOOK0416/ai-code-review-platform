@@ -1,0 +1,51 @@
+{
+  "category": "pathtraver",
+  "baseline": {
+    "n_cases_with_reasoning": 268,
+    "n_no_citation": 93,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 277,
+    "citations_verified": 276,
+    "grounding_precision": 0.9963898916967509,
+    "hallucination_rate": 0.0036101083032491488,
+    "per_kind": {
+      "call": {
+        "total": 277,
+        "verified": 276
+      }
+    },
+    "hallucinated_examples": [
+      [
+        "BenchmarkTest02203",
+        "call",
+        "benign"
+      ]
+    ]
+  },
+  "grounded": {
+    "n_cases_with_reasoning": 268,
+    "n_no_citation": 22,
+    "n_skipped": 0,
+    "n_mock": 0,
+    "citations_total": 589,
+    "citations_verified": 589,
+    "grounding_precision": 1.0,
+    "hallucination_rate": 0.0,
+    "per_kind": {
+      "call": {
+        "total": 561,
+        "verified": 561
+      },
+      "line": {
+        "total": 23,
+        "verified": 23
+      },
+      "ident": {
+        "total": 5,
+        "verified": 5
+      }
+    },
+    "hallucinated_examples": []
+  }
+}
