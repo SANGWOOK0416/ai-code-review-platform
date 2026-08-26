@@ -1,0 +1,1280 @@
+[
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00052",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00924",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00925",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00926",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00927",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00928",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.94,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00929",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.94,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00930",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00931",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.94,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00932",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00933",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00934",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00935",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.94,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00936",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00937",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00938",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00939",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest00940",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01803",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01804",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01805",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01806",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01807",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01808",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01809",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01810",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01811",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01812",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01813",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01814",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01815",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01816",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.55,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01817",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01818",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01819",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest01820",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02727",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02728",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02729",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02730",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02731",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02732",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02733",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02734",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02735",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.15,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02736",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02737",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02738",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02739",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "sqli",
+    "test_name": "BenchmarkTest02740",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00879",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.72,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00880",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00881",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00882",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00883",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00884",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.82,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00885",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00886",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00887",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00888",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00889",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00890",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00891",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00892",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00893",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest00894",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01767",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.75,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01768",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01769",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01770",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01771",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.88,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01772",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01773",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01774",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01775",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01776",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.88,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01777",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest01790",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02679",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02680",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02681",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02682",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02683",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02684",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02685",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02686",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.88,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02687",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.75,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02688",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.82,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02689",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02690",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.83,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02691",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02692",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02693",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02694",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02695",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02696",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "xss",
+    "test_name": "BenchmarkTest02712",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.88,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00051",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00895",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00896",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00897",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00905",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00906",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00907",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00908",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00909",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest00910",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01778",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01779",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.94,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01780",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01791",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01792",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01793",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.68,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01794",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.96,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01795",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest01796",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest02697",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest02698",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest02699",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.97,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest02713",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.75,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "cmdi",
+    "test_name": "BenchmarkTest02714",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00862",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.82,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00863",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.88,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00864",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00865",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00866",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest00867",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 0
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01744",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": false,
+    "change": "still_right",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01745",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01746",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01747",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01748",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01749",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01750",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.85,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01751",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.92,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest01752",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02664",
+    "ungrounded_vulnerable": false,
+    "grounded_vulnerable": true,
+    "change": "regressed",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02665",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.95,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02666",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02667",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.9,
+    "semgrep_findings_count": 1
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02668",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 2
+  },
+  {
+    "category": "pathtraver",
+    "test_name": "BenchmarkTest02669",
+    "ungrounded_vulnerable": true,
+    "grounded_vulnerable": true,
+    "change": "still_wrong",
+    "grounded_confidence": 0.93,
+    "semgrep_findings_count": 2
+  }
+]
