@@ -2,7 +2,7 @@
 
 > 정적분석 + LLM 하이브리드 기반 설명 가능한 보안 취약점 탐지 시스템
 
-> **다음 세션 시작점 (2026-08-05 기준)**: **연구 파트(1~2단계) 완료** — 4방식 × 4카테고리 Ablation을 held-out 기준으로 완주. 다음은 **4단계(최종 리포트 / 발표자료 정리)**. 남은 선택 과제는 `run_llm_grounded.py`(grounding 환각 억제 주장 검증)와 CWE-502/798 커버리지 갭 대응.
+> **다음 세션 시작점 (2026-08-26 기준)**: **연구 파트(1~2단계) + grounding 검증 완료** — 4방식 × 4카테고리 Ablation(held-out) + grounded vs ungrounded 환각률 비교(4카테고리 1,478건 실측, $15.08/$17.94 사용) 완주. 핵심 결론: grounding은 환각률은 낮추지만(4카테고리 전부 0.0000) 교차 파일 헬퍼 오판은 못 고침(0/142 고쳐짐, 8건 오히려 악화) — Semgrep 탐지 여부와 "실제 필요한 정보"(헬퍼 소스)가 다른 종류이기 때문. 다음은 **4단계(최종 리포트 / 발표자료 정리)**. 남은 선택 과제는 CWE-502/798 커버리지 갭 대응과 스키마 필드 순서(reasoning-먼저) 재실험.
 
 ## 1. 프로젝트 정의
 
@@ -99,8 +99,9 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] **OR vs cascade held-out 최종 비교 완료** (2026-08-05) — `compare_rules_heldout.py`. cascade가 4개 카테고리 전부에서 OR을 이김(F1 평균 +0.0685). 상세는 10장 "통합 규칙 최종 비교" 참고
 - [x] **베이지안 로그오즈 — 착수하지 않기로 결정** (2026-08-05) — (1) threshold 튜닝에서 단순 임계값이 이미 최적점 근처, (2) ECE 0.12~0.28로 보정 없이는 왜곡 위험, (3) 캐스케이드가 held-out에서 이미 견고하게 재현됨. 근거는 10장 "향후 과제" 절에 기록
 - [x] **연구 파트(1~2단계) 마무리** — 정적분석 단독/LLM 단독/하이브리드(OR/cascade) 4방식 × 4카테고리 Ablation을 held-out 기준으로 완주
-- [ ] SQLi에서만 측정한 grounding precision을 xss/cmdi/pathtraver로 확장할지 결정 (범위가 넓어지면 `run_llm_grounded.py` 작업량도 4배가 됨 — 우선 SQLi로 핵심 주장 검증부터 마치는 게 합리적일 수 있음)
-- [ ] **`run_llm_grounded.py` 작성 필요** — Semgrep 결과를 프롬프트에 포함한 LLM 배치 실행 스크립트. `measure_grounding.py --compare-json`으로 grounded vs ungrounded 환각률을 비교하는 게 목적이며, 이게 있어야 "grounding이 환각을 억제한다"는 핵심 주장을 실제로 검증할 수 있음. (`run_llm_only_sqli.py`는 단독 방식 간 공정 비교를 위해 의도적으로 grounding을 제공하지 않으므로 그대로 두고 별도 스크립트를 만들 것). ⚠️ ungrounded 환각률이 이미 0.0023으로 매우 낮게 나와서, grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안할 것
+- [x] **`run_llm_grounded.py` 작성 + 4카테고리(1,478건) grounded 실측 완료** (2026-08-26) — 예산 $15.08/$17.94 사용. `measure_grounding.py` 인용 추출기의 2차 버그(부재 주장·페이로드 예시 오인식)를 감사로 발견·수정. grounded 환각률 4카테고리 전부 0.0000(핵심 주장 부합)이나, **교차 파일 헬퍼 오판(예: `BenchmarkTest00052`)은 0/142 고쳐짐, 8건 악화** — 상세는 10장 "교차 파일 헬퍼 오판" 절 참고
+- [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
+- [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
 - [ ] 웹훅 서버(`app/main.py`)의 LLM을 mock에서 실 API로 전환 (`classify_file_mock` → `classify_file_via_api` 한 줄 교체) 및 재검증
 
@@ -119,7 +120,8 @@ GitHub PR 이벤트 → 웹훅 트리거
 - `scripts/dataset_split.py` (신규): 벤치마크 케이스를 train/held-out으로 **결정론적·층화 분할**. 하이퍼파라미터(`--reject-threshold`, 향후 LR/보정계수)를 평가에 쓰는 데이터에서 고르면 누수이므로, 튜닝은 train에서만 하고 최종 지표는 held-out에서만 보고하기 위한 것. `hashlib.sha256`로 배정(파이썬 `hash()`는 프로세스마다 salt가 달라 재현 불가) → 실행할 때마다 같은 분할이 나오고, 케이스가 추가돼도 기존 배정이 안 흔들림. 라벨별로 seed를 분리해 양성비율 보존. `load_split()`/`filter_by_split()`으로 다른 스크립트에서 import 가능
 - `scripts/calibrate_confidence.py` (신규): LLM confidence의 보정 상태(ECE/MCE/signed gap)를 측정하고 캐스케이드 `--reject-threshold`를 튜닝. **보정 대상은 "취약할 확률"이 아니라 "LLM 자신의 판정이 맞을 확률"** — 캐스케이드가 confidence를 그 용도로 쓰기 때문. `--split`은 기본이 `train`이고 `heldout`은 명시해야만 열리게 해서 누수를 구조적으로 막음(held-out 사용 시 경고 배너 출력). `--bin-mode equal-width`(표준 ECE 정의)와 `quantile`(confidence가 0.9+에 몰려 있어 실질 해상도가 높음) 둘 다 지원. `--sweep`으로 threshold별 F1·기각정확도·정탐손실 트레이드오프를 표로 출력, `--threshold`로 단일 값 최종 평가. 캐스케이드 판정은 `merge_hybrid.confidence_tier_cascade`를 import해 재사용(규칙 이중 구현 방지)
 - `scripts/compare_rules_heldout.py` (신규): held-out 분할에서 4방식(Semgrep 단독/LLM 단독/OR/cascade)을 나란히 비교하는 **Ablation 최종 산출물**. 전체 데이터로 계산하면 튜닝에 쓴 train이 섞여 낙관 편향되므로 held-out에서만 보고한다(`--split`은 기본이 heldout). cascade threshold는 `TUNED_THRESHOLDS`에 카테고리별 튜닝값을 두되 `--threshold`로 통일 가능. 판정 로직은 `merge_hybrid`의 `confidence_tier_or`/`confidence_tier_cascade`를 import해 재사용하고, 케이스 로딩은 `calibrate_confidence.load_cases`를 재사용(중복 구현 방지). 산출물은 `data/results/rule_comparison_heldout.json`
-- `scripts/measure_grounding.py` (신규): LLM `reasoning`이 **실제로 존재하는 코드를 근거로 들었는지** 검증해 환각률 측정. P/R/F1만으로는 "정답을 맞혔지만 근거가 날조된" 경우를 구분할 수 없어서, 프로젝트 핵심 주장(grounding→환각 억제)을 정량화하려면 이 지표가 필요함. reasoning에서 인용(`line` 라인번호 / `ident` 백틱 코드 / `call` 메서드호출 / `type` 타입명)을 추출해 원본 `.java`와 대조. **권고문 제외 처리가 핵심** — "PreparedStatement를 썼어야 함"은 코드에 대한 주장이 아니라 제안이므로 인용으로 세면 안 됨(안 걸러내면 올바른 보안 권고가 전부 환각으로 잘못 집계됨). `type`은 일반론 언급이 잦아 기본 종합지표에서 제외(`--include-types`로 포함). `--compare-json`으로 grounding 제공/미제공 두 arm 비교
+- `scripts/measure_grounding.py` (신규, 2026-08-26 2차 버그 수정): LLM `reasoning`이 **실제로 존재하는 코드를 근거로 들었는지** 검증해 환각률 측정. P/R/F1만으로는 "정답을 맞혔지만 근거가 날조된" 경우를 구분할 수 없어서, 프로젝트 핵심 주장(grounding→환각 억제)을 정량화하려면 이 지표가 필요함. reasoning에서 인용(`line` 라인번호 / `ident` 백틱 코드 / `call` 메서드호출 / `type` 타입명)을 추출해 원본 `.java`와 대조. **권고문 제외 처리가 핵심** — "PreparedStatement를 썼어야 함"은 코드에 대한 주장이 아니라 제안이므로 인용으로 세면 안 됨(안 걸러내면 올바른 보안 권고가 전부 환각으로 잘못 집계됨). `RECOMMENDATION_MARKERS`에는 **부재 주장**("~가 전혀 없으며/없이/없으므로/없습니다")도 포함 — "코드가 X를 포함한다"는 주장이 아니라 정반대이므로 같은 이유로 제외. `STOPWORDS`에는 취약점 이름 자체(`traversal`)나 공격 페이로드 예시(`alert`, `script`, `drop`, `table` 등 `<script>alert(1)</script>`류)도 포함 — grounded 4카테고리 실측 감사에서 전수 확인 후 추가함(자세한 발견 경위는 10장 "`run_llm_grounded.py` 작성 + 4카테고리 grounded 실측" 절 참고). `type`은 일반론 언급이 잦아 기본 종합지표에서 제외(`--include-types`로 포함). `--compare-json`으로 grounding 제공/미제공 두 arm 비교
+- `scripts/run_llm_grounded.py` (신규): `run_llm_only_sqli.py`(단독 방식, grounding 미제공)와 별도로 분리한 **하이브리드 실험용** 경로. Semgrep 탐지 결과(해당 CWE로 필터링된 finding만, `evaluate_semgrep.is_category_finding`과 동일 기준 재사용)를 프롬프트에 컨텍스트로 포함하되 "Semgrep은 오탐/미탐 가능하니 그대로 따르지 말라"고 명시. `--limit`은 "이번 실행에서 새로 호출할 건수"이고 이미 결과 있는 `test_name`은 건너뜀(이어하기 지원, 중복 과금 방지) — 파일럿 30건으로 실측 단가 확인 후 전체 실행하는 예산 관리 워크플로우를 위해 설계함. 각 응답의 `usage`(입력/출력 토큰)를 결과에 함께 저장해 실측 비용 계산 가능. `max_tokens=2048`(ungrounded의 1024보다 큼 — grounded 프롬프트가 "Semgrep 결과에 동의/반박" 논의까지 요구해 reasoning이 길어지고, 1024에서는 1,478건 중 49건이 JSON 중간에 잘리는 문제가 실측으로 확인됨)
 - `data/raw/`: 원본 clone 결과 (gitignore 대상, 용량 큼)
 - `data/processed/<category>/`: 필터링된 CSV(`<category>_cases.csv`) + 소스 파일 서브셋(`sources/`)
 - `data/results/<category>/semgrep/`: semgrep 원본 결과(`semgrep_results.json/.sarif`) + 평가 산출물(`semgrep_predictions.csv`, `semgrep_metrics.json`)
@@ -187,9 +189,59 @@ Semgrep 단독은 4개 카테고리 모두 **Recall이 Precision보다 뚜렷하
 
 잔여 실패 2건(`index0`/`index1`, 단일 케이스)은 LLM이 리스트 인덱스를 설명한 표현이지 진짜 날조가 아님 — 즉 실질 환각률은 사실상 0에 수렴. `line` 인용이 0건인 건 버그가 아니라 시스템 프롬프트가 라인 번호가 아닌 변수/데이터흐름 서술을 요구하기 때문(`run_llm_only_sqli.py`의 `build_system_prompt()` 참고).
 
-⚠️ **grounding 없이도 환각률이 이미 매우 낮다**는 뜻이므로, `run_llm_grounded.py`로 grounded arm과 비교할 때 개선 여지가 크지 않을 수 있음 — grounding 효과를 입증하려면 비교 기준선이 낮다는 점을 감안해서 해석할 것 (예: 더 모호하거나 헬퍼 소스가 필요한 케이스를 별도로 볼 필요가 있을 수 있음).
+(위 표의 산출 과정에서 `measure_grounding.py`의 인용 추출 정규식 버그를 발견해 수정함 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 892건 인용을 전수 확인해 STOPWORDS에 반영했고, 수정 전 환각률은 0.0191이었음. 이 수치는 4카테고리 grounded 실측 이전의 1차 수정 결과이며, 2차 수정 후 재측정한 최종값은 아래 표 참고.)
 
-(위 표들의 산출 과정에서 `measure_grounding.py`의 인용 추출 정규식 버그를 발견해 수정함 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 892건 인용을 전수 확인해 STOPWORDS에 반영했고, 수정 전 환각률은 0.0191이었음.)
+### `run_llm_grounded.py` 작성 + 4카테고리 grounded 실측 (2026-08-26)
+
+**실행**: `run_llm_grounded.py` 신규 작성 — Semgrep 탐지 결과(해당 CWE 카테고리로 필터링된 finding만, 없으면 "미탐지"임을 명시)를 프롬프트에 컨텍스트로 포함하되 "Semgrep은 오탐/미탐 모두 가능하니 그대로 따르지 말고 스스로 판단하라"고 명시. `run_llm_only_sqli.py`는 절대 수정하지 않고 별도 파일로 분리(단독 방식 공정 비교 유지).
+
+SQLi 30건 파일럿으로 건당 단가 확인(~$0.0095~0.0099/건) 후 전체 1,478건(잔여 1,448건) 실행. 예산 $17.94 중 **최종 $15.08 사용**(잔여 $2.86). 1,478건 전부 완료, 최종 실패 0건.
+
+- **max_tokens 버그 발견·수정**: grounded 프롬프트는 "Semgrep 결과에 동의/반박" 논의까지 요구해 ungrounded보다 reasoning이 길어짐 — 1차 실행에서 1024 토큰 한도에 걸려 49건(3.3%)이 JSON 중간에 잘려 파싱 실패. 2048로 올려 49건 전부 재시도 성공(추가 비용 약 $0.62, 예산 내)
+
+- **`measure_grounding.py` 2차 버그 수정**: grounded 결과로 처음 비교했을 때 4개 카테고리 중 3개에서 "grounding이 오히려 환각을 늘림"으로 나와 전수 감사함 — 실패 사례 전부가 인용 추출기의 오탐이었음(진짜 코드 날조 0건):
+  - 취약점 이름 자체가 오인식됨: `Path Traversal(CWE-22)` → `Traversal(` 을 메서드 호출로 오인
+  - 서술적 괄호 부연: `propagator(설명)`, `envp(환경변수)`, `shell(-c)` 등
+  - **공격 페이로드 예시**를 코드 인용으로 오인: `<script>alert(1)</script>`, `` `; DROP TABLE users; --` `` (grounded 프롬프트가 Semgrep 근거를 반박/동의하며 예시를 드는 경우가 늘어 이 패턴이 급증)
+  - **부재 주장**을 존재 주장으로 오인: "FilenameUtils.getName() 등의 정규화 로직이 전혀 없으며/없이/없으므로/없습니다"처럼 특정 API가 **없다**는 문장은 코드가 그걸 포함한다는 주장이 아닌데도 인용으로 집계됨 — 어미가 다양해("전혀 없으며"/"없이"/"없으므로"/"없습니다") 하나씩 패턴을 넓혀야 했음
+
+  `STOPWORDS`와 부재 주장 필터(`RECOMMENDATION_MARKERS`에 "전혀"/"없으므로"/"없이"/"없습니다" 등 추가)를 확장해 재측정. **수정 전후 판정이 완전히 뒤집힘** — 이 버그가 없었다면 "grounding이 환각을 늘린다"는 잘못된 결론을 리포트에 실을 뻔했음.
+
+**Grounding precision 최종 비교 (4카테고리, --compare-json)**
+
+| 카테고리 | ungrounded precision (n) | grounded precision (n) |
+|---|---|---|
+| SQLi | 0.9969 (653) | **1.0000** (1064) |
+| XSS | 0.9965 (866) | **1.0000** (1294) |
+| CMDI | 0.9933 (447) | **1.0000** (697) |
+| PathTraversal | 0.9964 (277) | **1.0000** (589) |
+
+**4개 카테고리 전부에서 grounded 환각률이 0.0000으로, 핵심 주장("grounding이 환각을 억제한다")과 방향이 일치**. 다만 두 가지 유보 사항:
+1. ungrounded의 기준선 자체가 이미 0.9933~0.9969로 매우 높아 개선 여지가 원래 작았음(위 절에서 이미 예고한 우려)
+2. 부재 주장 필터를 넓히면서 두 arm 모두 "판단 불가(근거 미제시)"로 빠지는 케이스가 늘어 총 인용 수가 줄었음(예: xss 1843→1294) — 정밀도 자체는 남은 인용 중 검증 성공 비율이라 왜곡되지 않지만, "grounded가 근거를 더 많이/정확히 댄다"는 강한 주장을 하려면 인용 수 자체의 감소도 함께 언급해야 공정함
+
+### 교차 파일 헬퍼 오판 — grounding이 못 고친 것 (2026-08-26, 핵심 발견)
+
+**질문**: 3단계 전 세션에서 발견한 "LLM이 `SeparateClassRequest.getTheValue()`가 상수 `"bar"`를 반환하는 걸 모르고 오탐하는" 패턴(예: `BenchmarkTest00052`)이, Semgrep 결과를 grounding으로 주면 고쳐지는가?
+
+**답: 아니다.** `getTheValue()` 헬퍼를 쓰는 안전 케이스(4카테고리 합산 142건)를 전수 대조한 결과:
+
+| 결과 | 건수 |
+|---|---|
+| 고쳐짐 (ungrounded 오답 → grounded 정답) | **0건** |
+| 여전히 오답 (양쪽 다 틀림) | 110건 |
+| 원래 정답 (양쪽 다 맞음) | 24건 |
+| **악화** (ungrounded 정답 → grounded 오답) | **8건** |
+
+**원인**: `run_llm_grounded.py`가 프롬프트에 넣는 grounding은 **Semgrep의 탐지 여부(있음/없음)뿐**, 헬퍼 클래스의 실제 소스 코드가 아니다. `BenchmarkTest00052`의 grounded reasoning을 직접 보면:
+
+> "SeparateClassRequest.getTheValue(...) 호출 결과이며(**대부분의 OWASP Benchmark 케이스에서 이는 request parameter 값을 그대로 반환**), ..."
+
+LLM은 헬퍼 파일을 볼 수 없으니 **OWASP Benchmark에 대한 사전 학습 지식으로 "이런 이름의 메서드는 보통 이렇게 동작한다"고 추정**하고 있다 — 정확히 이 케이스에서는 틀린 추정. Semgrep의 신호(sqli/xss는 이 패턴을 미탐지 = "안전"이라는 올바른 신호)를 grounding으로 줘도 LLM이 자기 소스코드 기반 추론을 우선시해 뒤집지 못했다. 즉 **"정적분석의 탐지 여부"라는 신호와 "실제로 필요한 정보"(헬퍼의 진짜 구현)는 다른 종류의 정보라서, Semgrep 신호만으로는 이 클래스의 오판을 구조적으로 고칠 수 없다.**
+
+부수 발견 — 악화 8건 중 1건(`sqli/BenchmarkTest02735`)은 grounding 문제가 아니라 **스키마 필드 순서 아티팩트**로 보임: `confidence=0.15`(매우 낮음)인데 `vulnerable=true`이고, reasoning 전체가 "실제로는 익스플로잇 불가능", "실질적인 취약점은 없다고 판단됩니다"로 끝남 — 즉 모델이 스스로 안전하다고 결론 내렸는데 최종 필드는 취약으로 나옴. `VulnJudgment` 스키마가 `vulnerable`(bool)을 `reasoning`(str)보다 먼저 요구해서, 구조화 출력이 reasoning을 다 쓰기 전에 verdict를 먼저 커밋하는 구조이기 때문일 가능성이 높다(다만 118건 대조 중 이 패턴은 1건뿐이라 지배적 원인은 아님). **향후 스키마를 reasoning-먼저-verdict-나중 순서로 바꾸면 개선될 수 있는 지점** — 다음 세션 과제로 남김.
+
+**결론 및 향후 방향**: grounding의 정의를 "Semgrep 탐지 여부"에서 "관련 파일의 실제 소스(헬퍼 클래스 등)"로 넓히는 실험이 다음 단계로 유효함. 다만 예산($2.86 남음)과 범위(어떤 파일을 "관련"으로 볼지 자동 판단 필요) 문제로 이번 세션에서는 착수하지 않음.
 
 ### 통합 규칙 재설계 근거 — FP 원인 분석 (2026-08-05)
 
