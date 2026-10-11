@@ -72,7 +72,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 | 1단계 (MVP) | SQL Injection(CWE-89)만으로 정적분석 단독/LLM 단독/하이브리드 파이프라인 완주, Precision/Recall/F1 비교 |
 | 2단계 | 나머지 5개 CWE 카테고리로 확장 |
 | 3단계 (진행 중) | GitHub 실제 저장소 연동, Docker/CI-CD로 E2E 배포 — **실제 GitHub 저장소+ngrok+PR로 웹훅 e2e 동작 검증 완료(2026-08-03), LLM은 여전히 mock 고정** |
-| 4단계 (**현재 단계**) | 벤치마크 리포트 정리, 발표 준비 — 연구 파트(1~2단계)는 2026-08-05 완료(4방식 × 4카테고리 Ablation, held-out 기준) |
+| 4단계 (**현재 단계**) | 벤치마크 리포트 정리, 발표 준비 — 연구 파트(1~2단계)는 2026-08-25 완료(4방식 × 4카테고리 Ablation, held-out 기준) |
 
 ## 9. 현재 상태 / 다음 할 일
 
@@ -81,23 +81,23 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] 유스케이스 설계 및 지도교수 보고 문서 작성
 - [x] 데이터 수집 스크립트 작성 (OWASP Benchmark 4개 카테고리 필터링 완료, Juliet Test Suite는 CWE-502/798 커버리지 확인 목적으로만 조회함 — 본 수집엔 미사용)
 - [x] 정적분석(Semgrep) 단독 파이프라인 구현 및 4개 카테고리(sqli/xss/cmdi/pathtraver) 벤치마크 평가 완료
-- [x] LLM 단독(Claude Sonnet 5) 파이프라인을 `--category`로 일반화(`run_llm_only_sqli.py`/`evaluate_llm_sqli.py`)하고 **4개 카테고리(sqli/xss/cmdi/pathtraver) 1,478건 실제 API 실행 완료** (2026-08-05, 실패 0건) — 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
+- [x] LLM 단독(Claude Sonnet 5) 파이프라인을 `--category`로 일반화(`run_llm_only_sqli.py`/`evaluate_llm_sqli.py`)하고 **4개 카테고리(sqli/xss/cmdi/pathtraver) 1,478건 실제 API 실행 완료** (2026-08-25, 실패 0건) — 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
 - [x] 하이브리드(UC4) 통합 로직 설계·구현 (`merge_hybrid.py` + `evaluate_hybrid.py`), **4개 카테고리 전부 실측 LLM 결과로 OR/cascade 양쪽 재평가 완료**
-- [x] CWE-502(Insecure Deserialization), CWE-798(Hardcoded Credentials) 데이터 커버리지 갭 확인 (OWASP Benchmark·Juliet Test Suite 모두 없음 — 10장 참고)
-- [x] 3단계 착수: FastAPI 웹훅 서버(`app/main.py`) 구현 — GitHub PR 웹훅 수신 → 변경 `.java` 파일 조회 → Semgrep 스캔 → LLM(mock) 판단 → 하이브리드 통합 → PR에 라인별 리뷰 코멘트 + 요약 코멘트 게시까지 로컬에서 mock 페이로드로 라우팅/파싱 동작 검증 완료 (실제 GitHub PR로는 아직 미검증 — `README_DEPLOY.md` 절차 실행 필요)
+- [x] CWE-502(Insecure Deserialization), CWE-798(Hardcoded Credentials) 데이터 커버리지 갭 확인 (OWASP Benchmark에는 없음(2,740건 재확인), Juliet은 조회 기록만 있고 로컬 원본이 없어 재검증 불가 — 10장 참고)
+- [x] 3단계 착수: FastAPI 웹훅 서버(`app/main.py`) 구현 — GitHub PR 웹훅 수신 → 변경 `.java` 파일 조회 → Semgrep 스캔 → LLM(mock) 판단 → 하이브리드 통합 → PR에 라인별 리뷰 코멘트 + 요약 코멘트 게시까지 로컬에서 mock 페이로드로 라우팅/파싱 동작 검증 완료 (이후 ngrok + 실제 GitHub PR로 E2E 검증 완료, 2026-08-03 — 아래 항목 참고)
 - [x] `Dockerfile`(멀티스테이지 빌드) + `requirements.txt` + `.dockerignore` 작성
 - [x] `.github/workflows/ci.yml` 작성 — push/PR마다 `evaluate_semgrep.py`(4개 카테고리) + `evaluate_hybrid.py`(sqli) 스모크 테스트 자동 실행
 - [x] git 저장소 초기화 + 최초 커밋 + GitHub push 완료 (`data/processed/`, `data/results/` 포함, `data/raw/`만 gitignore 대상)
 - [x] `README_DEPLOY.md` 절차대로 ngrok + 실제 GitHub 저장소로 엔드투엔드 테스트 완료 (2026-08-03) — 상세는 10장 "3단계 진행상황" 참고
 - [x] 하이브리드 통합 규칙 재설계 (2026-08-05) — FP 원인을 실제 케이스로 분석해 **캐스케이드 규칙**(Semgrep 제안 → LLM 검증) 구현, OR 규칙은 비교용으로 유지. `dataset_split.py`(누수 방지 분할) + `measure_grounding.py`(환각률 측정) 신규 작성. 상세는 10장 "통합 규칙 재설계 근거" 참고
-- [x] **ANTHROPIC_API_KEY 등록 + SQLi 504건 LLM 단독·하이브리드 실제 API 재실행 완료** (2026-08-05) — MVP(SQLi) 파이프라인 3방식(정적분석 단독/LLM 단독/하이브리드) 전체 완주
+- [x] **ANTHROPIC_API_KEY 등록 + SQLi 504건 LLM 단독·하이브리드 실제 API 재실행 완료** (2026-08-25) — MVP(SQLi) 파이프라인 3방식(정적분석 단독/LLM 단독/하이브리드) 전체 완주
 - [x] `measure_grounding.py`의 인용 추출 정규식 버그 수정 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 실측 데이터 892건 인용을 전수 확인해 STOPWORDS에 반영 (환각률 0.0191→0.0023으로 재측정)
-- [x] **나머지 3개 카테고리(xss/cmdi/pathtraver)로 실측 확장 완료** (2026-08-05) — 4개 카테고리 전부에서 LLM 단독 Recall=1.0000, cascade 기각 정확도=1.0000이 재현됨. 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
-- [x] **CI 갭 해소** (2026-08-05) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인
-- [x] **confidence 보정(ECE) 측정 + threshold 튜닝 + held-out 최종 확인 완료** (2026-08-05) — 4개 카테고리 전부 과신(ECE 0.12~0.28), 다만 **threshold 튜닝의 실익은 없음**(기존 기본값 0.7이 이미 F1 최대 구간 안). held-out에서도 기각정확도 1.0000 재현. 상세는 10장 "Confidence 보정 및 threshold 튜닝 결과" 참고
+- [x] **나머지 3개 카테고리(xss/cmdi/pathtraver)로 실측 확장 완료** (2026-08-25) — 4개 카테고리 전부에서 LLM 단독 Recall=1.0000, cascade 기각 정확도=1.0000이 재현됨. 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
+- [x] **CI 갭 해소** (2026-08-25) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인
+- [x] **confidence 보정(ECE) 측정 + threshold 튜닝 + held-out 최종 확인 완료** (2026-08-25) — 4개 카테고리 전부 과신(ECE 0.12~0.28), 다만 **threshold 튜닝의 실익은 없음**(기존 기본값 0.7이 이미 F1 최대 구간 안). held-out에서도 기각정확도 1.0000 재현. 상세는 10장 "Confidence 보정 및 threshold 튜닝 결과" 참고
 - [x] LLM confidence 백분율 오염 버그 수정 — 모델이 확률(0.92) 대신 백분율(92.0)로 답한 22건(1,478건 중 1.5%)이 검증 없이 저장돼 있었음. `VulnJudgment`에 `field_validator` 추가로 재발 방지 + 기존 데이터 정규화(판정 결과는 불변임을 확인)
-- [x] **OR vs cascade held-out 최종 비교 완료** (2026-08-05) — `compare_rules_heldout.py`. cascade가 4개 카테고리 전부에서 OR을 이김(F1 평균 +0.0685). 상세는 10장 "통합 규칙 최종 비교" 참고
-- [x] **베이지안 로그오즈 — 착수하지 않기로 결정** (2026-08-05) — (1) threshold 튜닝에서 단순 임계값이 이미 최적점 근처, (2) ECE 0.12~0.28로 보정 없이는 왜곡 위험, (3) 캐스케이드가 held-out에서 이미 견고하게 재현됨. 근거는 10장 "향후 과제" 절에 기록
+- [x] **OR vs cascade held-out 최종 비교 완료** (2026-08-25) — `compare_rules_heldout.py`. cascade가 4개 카테고리 전부에서 OR을 이김(F1 평균 +0.0685). 상세는 10장 "통합 규칙 최종 비교" 참고
+- [x] **베이지안 로그오즈 — 착수하지 않기로 결정** (2026-08-25) — (1) threshold 튜닝에서 단순 임계값이 이미 최적점 근처, (2) ECE 0.12~0.28로 보정 없이는 왜곡 위험, (3) 캐스케이드가 held-out에서 이미 견고하게 재현됨. 근거는 10장 "향후 과제" 절에 기록
 - [x] **연구 파트(1~2단계) 마무리** — 정적분석 단독/LLM 단독/하이브리드(OR/cascade) 4방식 × 4카테고리 Ablation을 held-out 기준으로 완주
 - [x] **`run_llm_grounded.py` 작성 + 4카테고리(1,478건) grounded 실측 완료** (2026-08-26) — 예산 $15.08/$17.94 사용. `measure_grounding.py` 인용 추출기의 2차 버그(부재 주장·페이로드 예시 오인식)를 감사로 발견·수정. grounded 환각률 4카테고리 전부 0.0000(핵심 주장 부합)이나, **교차 파일 헬퍼 오판(예: `BenchmarkTest00052`)은 0/142 고쳐짐, 8건 악화** — 상세는 10장 "교차 파일 헬퍼 오판" 절 참고
 - [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
@@ -110,12 +110,12 @@ GitHub PR 이벤트 → 웹훅 트리거
 - `scripts/download_owasp_benchmark.py`: OWASP Benchmark(Java) 저장소를 clone하고 `expectedresults-1.2.csv`를 파싱해 CWE 카테고리별(기본 SQL Injection/CWE-89)로 필터링 + 해당 소스 파일을 복사하는 스크립트
 - `scripts/run_semgrep_scan.py`: `p/java` + `p/owasp-top-ten` 룰셋으로 `data/processed/<category>/sources/`를 스캔해 JSON+SARIF로 저장 (Windows cp949 콘솔에서 SARIF에 포함된 유니코드 문자가 깨지는 걸 막으려 `PYTHONUTF8=1` 강제 설정함). `--category` 인자로 sqli/xss 등 어떤 카테고리든 재사용 가능 (처음부터 일반화되어 있었음)
 - `scripts/evaluate_semgrep.py` (구 `evaluate_semgrep_sqli.py`, sqli 전용 → 일반화하며 이름도 변경): semgrep JSON 결과 중 `--category`에 해당하는 CWE 관련 finding만 걸러서 `*_cases.csv` 정답 라벨과 매칭 → Precision/Recall/F1 계산. 카테고리→CWE 번호 매핑(`CATEGORY_TO_CWE`)은 `download_owasp_benchmark.py`와 동일한 값을 사용. p/java, p/owasp-top-ten에는 여러 취약점 룰이 섞여 있어서 반드시 해당 CWE 태그로 필터링해야 공정한 비교가 됨
-- `scripts/run_llm_only_sqli.py` (**2026-08-05 카테고리 일반화 완료** — 파일명은 하위 호환을 위해 유지): Claude API(`claude-sonnet-5`)만으로 `--category` 취약점 여부 판단. **정적분석 결과는 절대 프롬프트에 포함하지 않음**(단독 방식 간 공정 비교를 위해). 시스템/유저 프롬프트를 `CATEGORY_TO_CWE`+`CATEGORY_TO_NAME`으로 카테고리별 동적 생성(`build_system_prompt`/`build_user_prompt`). `output_format`(Pydantic `VulnJudgment`, 구 `SqliJudgment`)으로 `{vulnerable, confidence, reasoning}` 구조 강제, 레이트리밋/5xx는 지수 백오프 재시도. `--mock`으로 실제 API 없이 결정론적 가짜 응답을 생성해 파이프라인만 검증 가능
-- `scripts/evaluate_llm_sqli.py` (2026-08-05 `--category` 리포트 제목 일반화): `evaluate_semgrep.py`와 동일 패턴으로 LLM 예측 vs 정답 라벨 Precision/Recall/F1 계산. API 실패로 판단이 없는 케이스는 지표 계산에서 제외하고 별도 카운트
+- `scripts/run_llm_only_sqli.py` (**2026-08-25 카테고리 일반화 완료** — 파일명은 하위 호환을 위해 유지): Claude API(`claude-sonnet-5`)만으로 `--category` 취약점 여부 판단. **정적분석 결과는 절대 프롬프트에 포함하지 않음**(단독 방식 간 공정 비교를 위해). 시스템/유저 프롬프트를 `CATEGORY_TO_CWE`+`CATEGORY_TO_NAME`으로 카테고리별 동적 생성(`build_system_prompt`/`build_user_prompt`). `output_format`(Pydantic `VulnJudgment`, 구 `SqliJudgment`)으로 `{vulnerable, confidence, reasoning}` 구조 강제, 레이트리밋/5xx는 지수 백오프 재시도. `--mock`으로 실제 API 없이 결정론적 가짜 응답을 생성해 파이프라인만 검증 가능
+- `scripts/evaluate_llm_sqli.py` (2026-08-25 `--category` 리포트 제목 일반화): `evaluate_semgrep.py`와 동일 패턴으로 LLM 예측 vs 정답 라벨 Precision/Recall/F1 계산. API 실패로 판단이 없는 케이스는 지표 계산에서 제외하고 별도 카운트
 - `scripts/merge_hybrid.py` (UC4 통합 로직): `evaluate_semgrep.py`가 만든 `semgrep_predictions.csv`와 `run_llm_only_sqli.py`가 만든 `llm_predictions.json`을 `test_name` 기준으로 매칭. **통합 규칙은 `--rule`로 선택** (Ablation에서 나란히 비교하려고 둘 다 유지):
   - `cascade` (**기본값**) — "Semgrep이 제안하고 LLM이 검증한다". Semgrep 미탐지 → `low`(LLM 심사 안 함) / Semgrep 탐지+LLM도 취약 → `high` / Semgrep 탐지+LLM이 confidence≥`--reject-threshold`로 안전 확신 → `filtered`(오탐으로 기각) / 그 외 → `medium`(보수적 유지). 설계 근거는 아래 "통합 규칙 재설계 근거" 참고
   - `or` — 기존 방식(한쪽이라도 탐지하면 취약). 비교용 베이스라인으로 남겨둠
-  - 티어→최종예측 매핑은 `tier_to_predicted()` 한 곳에서만 정의(규칙이 흩어지는 걸 방지). `--category`로 sqli/xss/cmdi/pathtraver 4개 카테고리 모두 실측 완료(2026-08-05)
+  - 티어→최종예측 매핑은 `tier_to_predicted()` 한 곳에서만 정의(규칙이 흩어지는 걸 방지). `--category`로 sqli/xss/cmdi/pathtraver 4개 카테고리 모두 실측 완료(2026-08-25)
 - `scripts/evaluate_hybrid.py`: `merge_hybrid.py` 산출물로 하이브리드 방식 Precision/Recall/F1 계산 + **티어별 TP/FP/FN/TN 분포**를 리포트. cascade일 때는 "LLM 필터 효과"(기각 건수, 오탐 제거 성공 vs 정탐 손실, **기각 정확도**)를 따로 출력 — 필터가 실제로 이득이었는지 판단하는 핵심 지표. 티어 정의는 `merge_hybrid.TIER_ORDER`를 import해서 한 곳에서만 관리
 - `scripts/dataset_split.py` (신규): 벤치마크 케이스를 train/held-out으로 **결정론적·층화 분할**. 하이퍼파라미터(`--reject-threshold`, 향후 LR/보정계수)를 평가에 쓰는 데이터에서 고르면 누수이므로, 튜닝은 train에서만 하고 최종 지표는 held-out에서만 보고하기 위한 것. `hashlib.sha256`로 배정(파이썬 `hash()`는 프로세스마다 salt가 달라 재현 불가) → 실행할 때마다 같은 분할이 나오고, 케이스가 추가돼도 기존 배정이 안 흔들림. 라벨별로 seed를 분리해 양성비율 보존. `load_split()`/`filter_by_split()`으로 다른 스크립트에서 import 가능
 - `scripts/calibrate_confidence.py` (신규): LLM confidence의 보정 상태(ECE/MCE/signed gap)를 측정하고 캐스케이드 `--reject-threshold`를 튜닝. **보정 대상은 "취약할 확률"이 아니라 "LLM 자신의 판정이 맞을 확률"** — 캐스케이드가 confidence를 그 용도로 쓰기 때문. `--split`은 기본이 `train`이고 `heldout`은 명시해야만 열리게 해서 누수를 구조적으로 막음(held-out 사용 시 경고 배너 출력). `--bin-mode equal-width`(표준 ECE 정의)와 `quantile`(confidence가 0.9+에 몰려 있어 실질 해상도가 높음) 둘 다 지원. `--sweep`으로 threshold별 F1·기각정확도·정탐손실 트레이드오프를 표로 출력, `--threshold`로 단일 값 최종 평가. 캐스케이드 판정은 `merge_hybrid.confidence_tier_cascade`를 import해 재사용(규칙 이중 구현 방지)
@@ -147,7 +147,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 
 Semgrep 단독은 4개 카테고리 모두 **Recall이 Precision보다 뚜렷하게 높은 패턴**(0.82~0.90 vs 0.53~0.65) — 안전한 코드를 오탐(FP)하는 경향이 일관되게 나타남. LLM 단독/하이브리드가 이 오탐을 얼마나 줄이는지가 Ablation의 핵심 관전 포인트.
 
-### 4방식 × 4카테고리 종합 실측 비교 — Claude Sonnet 5 실제 API (2026-08-05, 전체 1,478건, 실패 0건)
+### 4방식 × 4카테고리 종합 실측 비교 — Claude Sonnet 5 실제 API (2026-08-25, 전체 1,478건, 실패 0건)
 
 | 카테고리 | 방식 | TP / FP / FN / TN | Precision | Recall | F1-score |
 |---|---|---|---|---|---|
@@ -220,6 +220,21 @@ SQLi 30건 파일럿으로 건당 단가 확인(~$0.0095~0.0099/건) 후 전체 
 1. ungrounded의 기준선 자체가 이미 0.9933~0.9969로 매우 높아 개선 여지가 원래 작았음(위 절에서 이미 예고한 우려)
 2. 부재 주장 필터를 넓히면서 두 arm 모두 "판단 불가(근거 미제시)"로 빠지는 케이스가 늘어 총 인용 수가 줄었음(예: xss 1843→1294) — 정밀도 자체는 남은 인용 중 검증 성공 비율이라 왜곡되지 않지만, "grounded가 근거를 더 많이/정확히 댄다"는 강한 주장을 하려면 인용 수 자체의 감소도 함께 언급해야 공정함
 
+**참고 — grounded를 "환각률"이 아니라 단독 분류기 성능(P/R/F1)으로 봤을 때**: 위 표는 reasoning의 근거가 실제 코드에 있는지(환각률)만 측정한 것이고, 최종 `vulnerable` 판정 자체의 정오답 성능은 별개 지표다. 저장된 예측과 정답 라벨을 직접 대조하면:
+
+| 카테고리 | arm | TP/FP/FN/TN | Precision | Recall | F1 |
+|---|---|---|---|---|---|
+| SQLi | ungrounded | 272/135/0/97 | 0.6683 | 1.0000 | 0.8012 |
+| | grounded | 272/163/0/69 | 0.6253 | 1.0000 | 0.7694 |
+| XSS | ungrounded | 246/78/0/131 | 0.7593 | 1.0000 | 0.8632 |
+| | grounded | 246/100/0/109 | 0.7110 | 1.0000 | 0.8311 |
+| CMDI | ungrounded | 126/84/0/41 | 0.6000 | 1.0000 | 0.7500 |
+| | grounded | 126/104/0/21 | 0.5478 | 1.0000 | 0.7079 |
+| PathTraversal | ungrounded | 133/74/0/61 | 0.6425 | 1.0000 | 0.7824 |
+| | grounded | 133/93/0/42 | 0.5885 | 1.0000 | 0.7409 |
+
+Recall은 양쪽 다 1.0000으로 동일하지만, **4개 카테고리 전부에서 grounded가 ungrounded보다 Precision이 낮다**(FP가 더 많음). 즉 grounding이 "근거의 사실성"(환각률)은 개선해도, 최종 판정의 정확도(P/R/F1)는 오히려 악화시켰다. 교차 파일 헬퍼 오판 분석(아래 절)에서 본 "Semgrep 신호·벤치마크 의도를 의식해 자기 판단을 뒤집는" 경향과 같은 방향이다.
+
 ### 교차 파일 헬퍼 오판 — grounding이 못 고친 것 (2026-08-26, 핵심 발견)
 
 **질문**: 3단계 전 세션에서 발견한 "LLM이 `SeparateClassRequest.getTheValue()`가 상수 `"bar"`를 반환하는 걸 모르고 오탐하는" 패턴(예: `BenchmarkTest00052`)이, Semgrep 결과를 grounding으로 주면 고쳐지는가?
@@ -275,9 +290,9 @@ LLM은 헬퍼 파일을 볼 수 없으니 **OWASP Benchmark에 대한 사전 학
 
 Semgrep이 가장 약한 카테고리에서 이득이 가장 큼(걸러낼 오탐이 많으므로). 손익분기는 LLM 특이도 약 0.3~0.35.
 
-### Confidence 보정(calibration) 및 threshold 튜닝 결과 (2026-08-05)
+### Confidence 보정(calibration) 및 threshold 튜닝 결과 (2026-08-25)
 
-`scripts/calibrate_confidence.py`로 측정. **튜닝·탐색은 train 분할에서만 수행하고, held-out은 최종 확인 1회에만 열었다** (`dataset_split.py`의 결정론적 층화 분할, train 약 30%).
+`scripts/calibrate_confidence.py`로 측정. **튜닝·탐색은 train 분할에서만 수행하고, held-out은 튜닝에 쓰지 않았고, 최종 확인용으로 열었다(이후 사후 확인 1회 추가 — 아래 '통합 규칙 최종 비교' 절의 재열람 기록 참고)** (`dataset_split.py`의 결정론적 층화 분할, train 약 30%).
 
 **보정 상태 — train 분할, equal-width 10구간**
 
@@ -324,7 +339,7 @@ threshold가 성능에 영향을 주기 시작하는 지점은 0.90 이상(기�
 - 반대로 **베이지안 로그오즈 결합에는 이 과신이 치명적**이다. 로그오즈 합산은 confidence를 확률로 직접 쓰므로, ECE 0.28짜리 값을 그대로 넣으면 사후확률이 왜곡된다. 착수한다면 Platt/isotonic 보정이 반드시 선행되어야 하고, 보정 계수도 train 분할에서만 추정해야 한다.
 - 이 벤치마크(OWASP Benchmark)는 안전 케이스가 "죽은 분기/상수 헬퍼" 같은 정형화된 패턴이라 LLM이 판별하기 쉬운 편이다. 실제 오픈소스 코드에서도 기각 정확도가 1.0을 유지할지는 별개 문제이며, 3단계 실사례 검증에서 확인이 필요하다.
 
-### 통합 규칙 최종 비교 — held-out 분할 (2026-08-05, Ablation 최종 산출물)
+### 통합 규칙 최종 비교 — held-out 분할 (2026-08-25, Ablation 최종 산출물)
 
 `scripts/compare_rules_heldout.py`로 산출. **튜닝에 쓰지 않은 held-out 분할에서만** 4방식을 나란히 적용했다. cascade의 threshold는 train에서 고른 카테고리별 값(sqli 0.85 / xss 0.80 / cmdi 0.75 / pathtraver 0.85).
 
@@ -364,7 +379,9 @@ threshold가 성능에 영향을 주기 시작하는 지점은 0.90 이상(기�
 3. **Precision만 보면 cascade가 4개 전부 최고** — LLM 단독 대비 sqli +0.079 / xss +0.091 / cmdi +0.021 / pathtraver +0.042. PR 코멘트를 자동 게시하는 실서비스처럼 오탐 비용이 큰 맥락에서는 cascade가 합리적 선택이고, 취약점 누락 비용이 압도적인 맥락에서는 Recall 1.0000인 LLM 단독이 낫다. **어느 쪽이 "최선"인지는 지표가 아니라 운영 맥락이 정한다** — 발표/리포트에서 이 트레이드오프를 명시적으로 다룰 것.
 4. Semgrep 단독은 4개 전부 최하위. 정적분석만으로는 부족하다는 프로젝트 전제가 held-out에서 확인됨.
 
-### 향후 과제 — 베이지안 로그오즈 결합 (착수하지 않기로 결정, 2026-08-05)
+**held-out 재열람 기록 (튜닝 결정에는 미반영)**: 이후 감사 과정에서, 위 표의 튜닝 threshold 대신 **기본값 0.70을 held-out에 적용했을 때**와 비교하기 위해 held-out을 한 번 더 열었다. sqli/cmdi/pathtraver는 완전히 동일한 결과(TP/FP/FN/TN, F1 전부 일치)였고, xss만 미세한 차이가 있었다 — 0.70: TP=143/FP=24/FN=28/TN=111, F1=0.8462 vs 튜닝값 0.80(위 표): F1=0.8437. 즉 xss는 오히려 **튜닝 전 기본값이 held-out F1이 더 높다**(+0.0025). 이 비교는 사후 확인용으로만 썼고 **threshold를 다시 조정하는 데 쓰지 않았다** — 위 표의 튜닝값(0.85/0.80/0.75/0.85)은 train 분할에서 이미 확정된 값을 그대로 유지한다.
+
+### 향후 과제 — 베이지안 로그오즈 결합 (착수하지 않기로 결정, 2026-08-25)
 
 캐스케이드의 구조적 한계(Semgrep이 놓친 FN을 복구 못 함)를 완화하는 대안으로 **베이지안 로그오즈 결합**을 검토했다. 두 탐지기의 출력을 독립 증거로 보고
 
