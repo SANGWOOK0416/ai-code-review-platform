@@ -23,6 +23,9 @@ FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + L
   GITHUB_TOKEN            (필수) PR 파일 조회 + 코멘트 게시용 GitHub 토큰. 코드에 직접 넣지 말 것.
   GITHUB_WEBHOOK_SECRET   (권장) GitHub 웹훅 서명 검증용 secret. 미설정 시 검증을 건너뜀(테스트 전용).
   ANTHROPIC_API_KEY       (필수) LLM 판단용 Claude API 키. 코드에 직접 넣지 말 것.
+  DEMO_CATEGORIES         (선택) 'on'이면 CWE-502(역직렬화)/CWE-798(하드코딩 자격증명) 정성
+                          데모 카테고리를 추가로 분석(기본값 off — 정량 벤치마크 데이터가
+                          없는 카테고리이므로 명시적으로 켜야만 동작).
 """
 
 import base64
@@ -90,6 +93,40 @@ TIER_VERDICT = {
     "filtered": "⚠️ LLM은 오탐으로 판단함 (참고용으로 남김)",
     "low": "Semgrep 미탐지",
 }
+
+# --------------------------------------------------------------------------
+# 정성 데모 전용 카테고리 (CWE-502 역직렬화 / CWE-798 하드코딩 자격증명)
+# --------------------------------------------------------------------------
+# OWASP Benchmark에 데이터가 없어 정량 평가가 불가능한 두 카테고리를, 실제 CVE
+# (Apache Shiro CVE-2016-4437)로 질적으로만 보여주기 위한 경로. 사전 조사(2026-10)로
+# Semgrep 무료 룰셋(p/java+p/owasp-top-ten, 더 넓은 p/security-audit+p/secrets로도)이
+# 이 두 CWE 패턴을 전혀 탐지하지 못함을 확인했다 — 기존 캐스케이드(confidence_tier)를
+# 그대로 쓰면 Semgrep 미탐지로 LLM이 영원히 호출되지 않는 구조적 문제가 있으므로,
+# 캐스케이드와 완전히 분리된 별도 루프에서 LLM을 항상 호출한다(LLM 단독 방식).
+# 기본값은 off — 정량 벤치마크가 없는 카테고리를 실수로 운영 PR에 노출하지 않기 위함.
+DEMO_CATEGORIES_ENABLED = os.environ.get("DEMO_CATEGORIES", "off").strip().lower() == "on"
+DEMO_ONLY_CATEGORIES = ["deserial", "hardcoded"]
+
+if DEMO_CATEGORIES_ENABLED:
+    # run_llm_only_sqli.build_system_prompt/build_user_prompt가 참조하는 딕셔너리와
+    # 완전히 같은 객체(위 import들이 전부 evaluate_semgrep/run_llm_only_sqli의 모듈
+    # 전역을 그대로 가리킴)에 메모리상으로만 항목을 추가한다 — scripts/ 파일은 디스크
+    # 에서 전혀 수정하지 않으므로 기존 12개 카테고리·CI 회귀 테스트에는 영향이 없다
+    # (이 변경은 이 프로세스가 살아있는 동안에만 유효).
+    CATEGORY_TO_CWE["deserial"] = "502"
+    CATEGORY_TO_CWE["hardcoded"] = "798"
+    CATEGORY_TO_NAME["deserial"] = "Insecure Deserialization"
+    # CWE-321(Use of Hard-coded Cryptographic Key)은 MITRE View-1000에서 CWE-798의
+    # ChildOf이므로, 프롬프트에 암호화 키도 범위에 포함됨을 명시한다.
+    CATEGORY_TO_NAME["hardcoded"] = (
+        "Use of Hard-coded Credentials (암호화 키 하드코딩 포함, "
+        "CWE-321은 CWE-798의 하위 항목)"
+    )
+
+# 캐스케이드 티어(high/medium/filtered/low)와 절대 겹치지 않는 별도 표시 —
+# "정성 데모 전용, LLM 단독"임을 티어 이름에서부터 구분하기 위함.
+DEMO_VERDICT_FLAGGED = "demo-flagged"
+DEMO_VERDICT_CLEAR = "demo-clear"
 
 app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=실 API)")
 
@@ -193,6 +230,11 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
     탐지한 파일만 LLM이 재심사해서 reject_threshold 이상 확신할 때만 'filtered'로
     기각한다. 4개 카테고리 밖의 Semgrep finding은 LLM 검증 없이 그대로 노출한다.
 
+    DEMO_CATEGORIES=on이면 CWE-502/798 정성 데모 카테고리(DEMO_ONLY_CATEGORIES)를
+    캐스케이드와 완전히 분리된 별도 루프로 추가 분석한다 — Semgrep 탐지 여부와
+    무관하게 항상 LLM을 호출하고, 결과는 summary에만 표시한다(라인 코멘트 없음,
+    Semgrep finding 기반이 아니므로 앵커할 라인이 없음).
+
     반환값: {"summary_lines": [...], "line_comments": [(real_path, line, body), ...]}
     """
     with tempfile.TemporaryDirectory(prefix="pr_scan_") as tmp_dir:
@@ -234,6 +276,12 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
             f"변경된 `.java` 파일 {len(java_files)}개 분석 완료.",
             "",
         ]
+        if DEMO_CATEGORIES_ENABLED:
+            summary_lines.append(
+                "> ⚠️ **DEMO_CATEGORIES=on** — CWE-502/CWE-798 정성 데모 카테고리가 추가로 표시됩니다. "
+                "정량 벤치마크 데이터 없음, 캐스케이드 미적용(LLM 단독 판정)."
+            )
+            summary_lines.append("")
         line_comments: list = []
 
         for f in java_files:
@@ -279,6 +327,21 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     summary_lines.append(
                         f"  - {name}: 탐지됨 → LLM 검증={r['llm_detected']}"
                         f"(confidence={r['llm_confidence']}) → **{r['tier']}** ({verdict})"
+                    )
+
+            if DEMO_CATEGORIES_ENABLED:
+                summary_lines.append(
+                    "  - ⚠️ 정성 데모 전용 (정량 평가 데이터 없음, 캐스케이드 미적용 — LLM 단독):"
+                )
+                for cat in DEMO_ONLY_CATEGORIES:
+                    # 캐스케이드 게이트 없음 — Semgrep 탐지 여부와 무관하게 항상 LLM 호출
+                    # (사전 조사로 Semgrep 무료 룰셋이 이 패턴들을 전혀 탐지 못함을 확인했기 때문)
+                    judgment = classify_file_via_api(anthropic_client, source_code, cat)
+                    demo_verdict = DEMO_VERDICT_FLAGGED if judgment.vulnerable else DEMO_VERDICT_CLEAR
+                    name = CATEGORY_TO_NAME[cat]
+                    summary_lines.append(
+                        f"    - {name}: LLM 판정={judgment.vulnerable}"
+                        f"(confidence={judgment.confidence}) → **{demo_verdict}**"
                     )
 
             for finding in file_findings:
