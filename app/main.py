@@ -1,19 +1,23 @@
 """
-FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + LLM(SQLi) 하이브리드
-분석을 실행하고, 결과를 PR에 라인별 리뷰 코멘트 + 요약 코멘트로 게시한다.
+FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + LLM 하이브리드
+분석(sqli/xss/cmdi/pathtraver 4개 카테고리)을 실행하고, 결과를 PR에 라인별 리뷰
+코멘트 + 요약 코멘트로 게시한다.
 
 3단계(실 연동) MVP 범위:
-  - LLM 분석은 ANTHROPIC_API_KEY가 아직 없어 scripts/run_llm_only_sqli.py의
-    classify_file_mock()을 그대로 재사용 (실제 API 호출 없음).
-    나중에 키가 생기면 이 파일에서 classify_file_mock 호출 한 줄만
-    classify_file_via_api(client, source_code, "sqli")로 바꾸면 됨.
+  - LLM 분석은 scripts/run_llm_only_sqli.py의 classify_file_via_api()를 그대로 재사용
+    (Claude Sonnet 5 실 API 호출, VulnJudgment 스키마 강제). ANTHROPIC_API_KEY는
+    anthropic.Anthropic()이 환경변수에서 자동으로 읽는다.
   - 정적분석/하이브리드 통합 로직은 scripts/의 기존 함수를 import해서 그대로 재사용
     (run_semgrep_scan.run_semgrep, evaluate_semgrep.is_category_finding,
     merge_hybrid.confidence_tier) — 로직이 두 군데서 따로 구현되며 어긋나는 걸 방지.
+  - 캐스케이드 설계상 LLM은 "Semgrep이 그 카테고리를 탐지한 파일"에만 호출한다
+    (배치 스크립트의 cascade 결과와 동일하게 만들기 위함 + API 비용 절감).
+    Semgrep이 침묵한 카테고리는 LLM 호출 없이 바로 'low' 티어로 처리한다.
 
 환경변수:
   GITHUB_TOKEN            (필수) PR 파일 조회 + 코멘트 게시용 GitHub 토큰. 코드에 직접 넣지 말 것.
   GITHUB_WEBHOOK_SECRET   (권장) GitHub 웹훅 서명 검증용 secret. 미설정 시 검증을 건너뜀(테스트 전용).
+  ANTHROPIC_API_KEY       (필수) LLM 판단용 Claude API 키. 코드에 직접 넣지 말 것.
 """
 
 import base64
@@ -27,6 +31,7 @@ import tempfile
 from pathlib import Path
 from typing import Optional
 
+import anthropic
 import requests
 from fastapi import FastAPI, Header, HTTPException, Request
 
@@ -36,9 +41,13 @@ SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 from run_semgrep_scan import DEFAULT_CONFIGS, run_semgrep  # noqa: E402
-from run_llm_only_sqli import classify_file_mock  # noqa: E402
+from run_llm_only_sqli import CATEGORY_TO_NAME, classify_file_via_api  # noqa: E402
 from evaluate_semgrep import CATEGORY_TO_CWE, CATEGORY_TO_VULN_KEYWORDS, is_category_finding  # noqa: E402
 from merge_hybrid import confidence_tier  # noqa: E402
+# reject_threshold 출처: scripts/compare_rules_heldout.py의 TUNED_THRESHOLDS.
+# calibrate_confidence.py --sweep으로 train 분할에서 확정한 카테고리별 값(여기서
+# 다시 적지 않고 import해서 재사용 — 값이 바뀌면 자동으로 동기화됨, 이중 관리 방지).
+from compare_rules_heldout import TUNED_THRESHOLDS  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("webhook")
@@ -47,13 +56,23 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_WEBHOOK_SECRET = os.environ.get("GITHUB_WEBHOOK_SECRET")
 GITHUB_API = "https://api.github.com"
 
-SQLI_CWE_TAG = f"CWE-{CATEGORY_TO_CWE['sqli']}"
-SQLI_KEYWORDS = CATEGORY_TO_VULN_KEYWORDS["sqli"]
+# anthropic.Anthropic()은 생성 시점에 ANTHROPIC_API_KEY 환경변수를 읽는다 — 키가 없으면
+# 서버 기동 시점에 바로 실패하게 해서, 웹훅 요청이 들어온 뒤에야 알게 되는 것을 방지한다.
+anthropic_client = anthropic.Anthropic()
+
+SUPPORTED_CATEGORIES = ["sqli", "xss", "cmdi", "pathtraver"]
+
+# 카테고리 -> (CWE 태그, 키워드). evaluate_semgrep.py의 매핑을 그대로 재사용해
+# 벤치마크 평가와 웹훅이 같은 기준으로 finding을 분류하게 한다.
+CATEGORY_FILTERS = {
+    cat: (f"CWE-{CATEGORY_TO_CWE[cat]}", CATEGORY_TO_VULN_KEYWORDS[cat])
+    for cat in SUPPORTED_CATEGORIES
+}
 
 # 캐스케이드 티어를 PR 코멘트에서 사람이 읽을 문구로 옮긴 것.
-# 'filtered'라도 코멘트 자체는 계속 게시한다 — 현재 LLM이 mock이라, 검증되지 않은
-# 필터로 실제 보안 경보를 조용히 감추는 건 위험하기 때문. 실 API로 전환하고
-# 기각 정확도를 확인한 뒤에 억제 여부를 결정할 것.
+# 'filtered'라도 코멘트 자체는 계속 게시한다 — 오프라인 배치 실험(OWASP Benchmark
+# 4카테고리, 1,478건)에서는 기각 정확도 1.0000을 확인했지만, 이 웹훅 경로 자체에는
+# 아직 운영 데이터가 없으므로 당분간 필터링된 경보도 계속 노출해 모니터링한다.
 TIER_VERDICT = {
     "high": "Semgrep 탐지 + LLM도 취약 판단",
     "medium": "Semgrep 탐지, LLM 판단은 불확실 — 확인 권장",
@@ -61,7 +80,7 @@ TIER_VERDICT = {
     "low": "Semgrep 미탐지",
 }
 
-app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=mock)")
+app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=실 API)")
 
 
 # --------------------------------------------------------------------------
@@ -152,10 +171,16 @@ def post_summary_comment(owner: str, repo: str, pr_number: int, body: str) -> No
 
 
 # --------------------------------------------------------------------------
-# 분석 파이프라인 (정적분석 + LLM mock + 하이브리드 통합)
+# 분석 파이프라인 (정적분석 + LLM 실 API + 하이브리드 통합, 4개 카테고리)
 # --------------------------------------------------------------------------
 def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> dict:
-    """PR의 .java 파일들을 받아와 semgrep 스캔 + LLM(mock) SQLi 판단 + 하이브리드 통합을 수행.
+    """PR의 .java 파일들을 받아와 semgrep 스캔 + LLM 판단 + 하이브리드 통합을 수행.
+
+    4개 카테고리(sqli/xss/cmdi/pathtraver) 각각에 대해 캐스케이드 규칙을 적용한다:
+    Semgrep이 그 카테고리를 탐지하지 않은 파일은 LLM을 호출하지 않고 바로 'low'
+    티어로 처리하고(배치 스크립트의 confidence_tier_cascade와 동일한 단락),
+    탐지한 파일만 LLM이 재심사해서 reject_threshold 이상 확신할 때만 'filtered'로
+    기각한다. 4개 카테고리 밖의 Semgrep finding은 LLM 검증 없이 그대로 노출한다.
 
     반환값: {"summary_lines": [...], "line_comments": [(real_path, line, body), ...]}
     """
@@ -177,16 +202,23 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
         with semgrep_out["json"].open(encoding="utf-8") as fh:
             semgrep_data = json.load(fh)
 
+        # finding마다 (있다면) 매칭되는 카테고리를 한 번만 계산해 결과 dict에 붙여둔다
+        # — 이후 라인 코멘트 루프에서 재계산하지 않고 그대로 재사용.
         findings_by_file: dict = {}
-        sqli_flagged_files: set = set()
+        flagged_files_by_category: dict = {cat: set() for cat in SUPPORTED_CATEGORIES}
         for result in semgrep_data.get("results", []):
             safe_name = Path(result["path"]).name
+            matched_cat = None
+            for cat, (cwe_tag, keywords) in CATEGORY_FILTERS.items():
+                if is_category_finding(result, cwe_tag, keywords):
+                    matched_cat = cat
+                    flagged_files_by_category[cat].add(safe_name)
+                    break
+            result["_matched_category"] = matched_cat
             findings_by_file.setdefault(safe_name, []).append(result)
-            if is_category_finding(result, SQLI_CWE_TAG, SQLI_KEYWORDS):
-                sqli_flagged_files.add(safe_name)
 
         summary_lines = [
-            "## 🤖 AI 코드 리뷰 (Semgrep + LLM 하이브리드)",
+            "## 🤖 AI 코드 리뷰 (Semgrep + LLM 하이브리드, 4개 카테고리)",
             "",
             f"변경된 `.java` 파일 {len(java_files)}개 분석 완료.",
             "",
@@ -197,28 +229,46 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
             safe_name = f["filename"].replace("/", "__")
             real_path = f["filename"]
             source_code = (sources_dir / safe_name).read_text(encoding="utf-8")
-
-            # LLM 분석 — 현재는 API 키가 없어 mock 함수를 그대로 재사용 (실제 판단 아님)
-            llm_judgment = classify_file_mock(source_code)
-            llm_sqli_detected = bool(llm_judgment.vulnerable)
-            semgrep_sqli_detected = safe_name in sqli_flagged_files
-            # 캐스케이드 규칙: Semgrep이 탐지한 건만 LLM이 재심사하고, LLM이 충분히
-            # 확신할 때(confidence >= reject_threshold)만 경보를 기각한다.
-            tier = confidence_tier(
-                semgrep_sqli_detected,
-                llm_sqli_detected,
-                llm_confidence=llm_judgment.confidence,
-                llm_available=True,
-            )
-
             file_findings = findings_by_file.get(safe_name, [])
-            verdict = TIER_VERDICT.get(tier, tier)
-            summary_lines.append(
-                f"- `{real_path}`: Semgrep {len(file_findings)}건 탐지 · "
-                f"SQLi 하이브리드 판정=**{tier}** ({verdict}) "
-                f"(semgrep={semgrep_sqli_detected}, llm[mock]={llm_sqli_detected}, "
-                f"llm confidence={llm_judgment.confidence})"
-            )
+
+            # 카테고리별 캐스케이드: Semgrep이 탐지한 카테고리에만 LLM을 호출한다.
+            category_results: dict = {}
+            for cat in SUPPORTED_CATEGORIES:
+                semgrep_detected = safe_name in flagged_files_by_category[cat]
+                llm_detected = None
+                llm_confidence = None
+                if semgrep_detected:
+                    # LLM 분석 — Claude Sonnet 5 실 API 호출
+                    # (scripts/run_llm_only_sqli.py와 동일 설정)
+                    judgment = classify_file_via_api(anthropic_client, source_code, cat)
+                    llm_detected = bool(judgment.vulnerable)
+                    llm_confidence = judgment.confidence
+                tier = confidence_tier(
+                    semgrep_detected,
+                    bool(llm_detected),
+                    llm_confidence=llm_confidence,
+                    llm_available=llm_detected is not None,
+                    reject_threshold=TUNED_THRESHOLDS[cat],
+                )
+                category_results[cat] = {
+                    "semgrep_detected": semgrep_detected,
+                    "llm_detected": llm_detected,
+                    "llm_confidence": llm_confidence,
+                    "tier": tier,
+                }
+
+            summary_lines.append(f"- `{real_path}`: Semgrep {len(file_findings)}건 탐지")
+            for cat in SUPPORTED_CATEGORIES:
+                r = category_results[cat]
+                verdict = TIER_VERDICT.get(r["tier"], r["tier"])
+                name = CATEGORY_TO_NAME[cat]
+                if not r["semgrep_detected"]:
+                    summary_lines.append(f"  - {name}: 탐지 없음 → **{r['tier']}** (LLM 호출 안 함)")
+                else:
+                    summary_lines.append(
+                        f"  - {name}: 탐지됨 → LLM 검증={r['llm_detected']}"
+                        f"(confidence={r['llm_confidence']}) → **{r['tier']}** ({verdict})"
+                    )
 
             for finding in file_findings:
                 line = finding.get("start", {}).get("line")
@@ -226,22 +276,19 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     continue
                 rule_id = finding["check_id"]
                 message = finding.get("extra", {}).get("message", "")
-                is_sqli = is_category_finding(finding, SQLI_CWE_TAG, SQLI_KEYWORDS)
-                tier_note = (
-                    f" · SQLi 하이브리드 판정: **{tier}** — {verdict}"
-                    f" (Semgrep={semgrep_sqli_detected}, LLM[mock]={llm_sqli_detected},"
-                    f" confidence={llm_judgment.confidence})"
-                    if is_sqli
-                    else ""
-                )
+                matched_cat = finding.get("_matched_category")
+                if matched_cat is None:
+                    tier_note = " · LLM 검증 대상 아님 (지원 카테고리 밖 — Semgrep 단독 결과)"
+                else:
+                    r = category_results[matched_cat]
+                    verdict = TIER_VERDICT.get(r["tier"], r["tier"])
+                    tier_note = (
+                        f" · {CATEGORY_TO_NAME[matched_cat]} 하이브리드 판정: **{r['tier']}** — {verdict}"
+                        f" (Semgrep={r['semgrep_detected']}, LLM={r['llm_detected']},"
+                        f" confidence={r['llm_confidence']})"
+                    )
                 body = f"**[{rule_id}]**{tier_note}\n\n{message}"
                 line_comments.append((real_path, line, body))
-
-        summary_lines.append("")
-        summary_lines.append(
-            "_⚠️ LLM 분석은 현재 mock 모드로 실행되었습니다 (ANTHROPIC_API_KEY 미설정) — "
-            "실제 취약점 판단이 아니라 파이프라인 동작 검증용입니다._"
-        )
 
         return {"summary_lines": summary_lines, "line_comments": line_comments}
 
@@ -251,7 +298,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
 # --------------------------------------------------------------------------
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "llm_mode": "mock"}
+    return {"status": "ok", "llm_mode": "real"}
 
 
 @app.post("/webhook")
