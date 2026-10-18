@@ -93,7 +93,8 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] **ANTHROPIC_API_KEY 등록 + SQLi 504건 LLM 단독·하이브리드 실제 API 재실행 완료** (2026-08-25) — MVP(SQLi) 파이프라인 3방식(정적분석 단독/LLM 단독/하이브리드) 전체 완주
 - [x] `measure_grounding.py`의 인용 추출 정규식 버그 수정 — "false positive(설명)"류 괄호 서술을 코드 호출로 오인식하던 문제. 실측 데이터 892건 인용을 전수 확인해 STOPWORDS에 반영 (환각률 0.0191→0.0023으로 재측정)
 - [x] **나머지 3개 카테고리(xss/cmdi/pathtraver)로 실측 확장 완료** (2026-08-25) — 4개 카테고리 전부에서 LLM 단독 Recall=1.0000, cascade 기각 정확도=1.0000이 재현됨. 상세는 10장 "4방식 × 4카테고리 종합 실측 비교" 참고
-- [x] **CI 갭 해소** (2026-08-25) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인
+- [x] **CI 갭 해소** (2026-08-25) — `ci.yml`에 xss/cmdi/pathtraver 하이브리드 회귀 테스트 추가(cascade 규칙, 커밋된 기준 지표와 일치 검증). 로컬에서 CI 시퀀스 전체(semgrep 4개→sqli 스모크→sqli OR 회귀→xss/cmdi/pathtraver cascade 회귀→분할/grounding 스모크) 재현 후 4개 카테고리 전부 통과 확인 (⚠️ **사후 확인**: 이 "통과 확인"은 Windows 로컬 환경 기준이었고, 실제 Linux GitHub Actions는 이 커밋(`c2d5976`)을 포함해 2026-08-05(`dd1dabb`)부터 2026-10-18 이전까지 계속 failure였음 — 원인과 수정은 아래 "CI의 Linux 실패 원인 조사·수정 완료" 항목 참고)
+- [x] **CI의 Linux 실패 원인 조사·수정 완료** (2026-10-18) — GitHub Actions(Linux)가 2026-08-05 커밋(`dd1dabb`, 하이브리드 통합 규칙 재설계)부터 지금까지 계속 failure였음을 발견(그 전 마지막 success는 2026-08-03 `c8c0a65`). **원인**: `evaluate_semgrep.py`(및 `run_llm_grounded.py`, `app/main.py`)가 semgrep JSON의 `path`를 `Path(...).stem`/`.name`으로 파싱하는데, 커밋된 `semgrep_results.json`은 Windows 로컬에서 생성돼 절대경로가 백슬래시로 저장되어 있음 — Linux의 `PosixPath`는 백슬래시를 구분자로 인식하지 못해 전체 경로가 통째로 "파일명"이 되어버려 정답 라벨 CSV와 매칭이 전부 깨짐(모든 case가 predicted=False → TP=0/FP=0, 실측 로그와 정확히 일치). **수정**: `semgrep_result_path()` 공통 헬퍼(백슬래시→슬래시 치환 후 `PurePosixPath`로 강제)를 `evaluate_semgrep.py`에 추가해 3곳(`evaluate_semgrep.py`/`run_llm_grounded.py`/`app/main.py`) 모두 교체. Windows 로컬 재실행으로 4카테고리×3방식(semgrep 단독/cascade/or) TP/FP/FN/TN이 수정 전후 완전히 불변임을 확인한 뒤, `python:3.11-slim` 컨테이너에서 `ci.yml` 전체 시퀀스를 재현해 통과 확인, 커밋(`f72ea29`)·push → **Actions green 확인(2026-10-18, 2026-08-03 이후 첫 성공)**. 웹훅 실 경로(`app/main.py`)는 애초에 같은 프로세스·같은 OS 안에서 스캔 직후 바로 읽어 크로스-OS 경로 불일치가 생기지 않으므로 이 버그의 영향이 없었음(Docker 컨테이너에서 직접 스캔해 CWE-89 정상 탐지 확인, 10장 "3단계 진행상황" 참고).
 - [x] **confidence 보정(ECE) 측정 + threshold 튜닝 + held-out 최종 확인 완료** (2026-08-25) — 4개 카테고리 전부 과신(ECE 0.12~0.28), 다만 **threshold 튜닝의 실익은 없음**(기존 기본값 0.7이 이미 F1 최대 구간 안). held-out에서도 기각정확도 1.0000 재현. 상세는 10장 "Confidence 보정 및 threshold 튜닝 결과" 참고
 - [x] LLM confidence 백분율 오염 버그 수정 — 모델이 확률(0.92) 대신 백분율(92.0)로 답한 22건(1,478건 중 1.5%)이 검증 없이 저장돼 있었음. `VulnJudgment`에 `field_validator` 추가로 재발 방지 + 기존 데이터 정규화(판정 결과는 불변임을 확인)
 - [x] **OR vs cascade held-out 최종 비교 완료** (2026-08-25) — `compare_rules_heldout.py`. cascade가 4개 카테고리 전부에서 OR을 이김(F1 평균 +0.0685). 상세는 10장 "통합 규칙 최종 비교" 참고
@@ -103,7 +104,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
 - [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
-- [ ] 웹훅 서버(`app/main.py`)의 LLM을 mock에서 실 API로 전환 (`classify_file_mock` → `classify_file_via_api` 한 줄 교체) 및 재검증
+- [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료(2026-10-18), 실제 PR E2E 검증 예정
 
 ## 10. 리포지토리 메모
 
@@ -439,6 +440,9 @@ logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여�
 - 같은 PR에 커밋 추가 푸시 → `synchronize` 이벤트 재트리거 확인, 이번엔 diff 범위 안이라 **라인 코멘트 4건 전부 성공 게시** (semgrep `tainted-sql-from-http-request`, `formatted-sql-string`, XSS `no-direct-response-writer` 룰 등 실제 탐지)
 - → 파이프라인 전체("실제 GitHub PR → 웹훅 → 정적분석 → (mock)LLM → 하이브리드 통합 → PR 코멘트 게시")가 mock 페이로드가 아닌 실제 환경에서 동작함을 증명
 
-**아직 검증 안 된 것 (다음 세션에서 확인 필요)**:
-- Docker 이미지 빌드 자체 (`docker build` 미실행 — semgrep이 slim 이미지에서 정상 설치·동작하는지 실제 빌드로 확인 필요)
-- `.github/workflows/ci.yml`의 실제 GitHub Actions 실행 결과 (push는 완료했으나 Actions 탭에서 그린 확인 필요)
+**2026-10-18 갱신 — 아래 중 확인 완료된 것**:
+- Docker 이미지 빌드: `docker build` 성공(semgrep 1.181.0, `python:3.11-slim` 베이스에서 정상 설치·동작). 컨테이너 내 `semgrep --version` 정상, `ANTHROPIC_API_KEY`를 값 노출 없이 주입해 기동 후 `GET /health` → `200 {"status":"ok","llm_mode":"real"}` 확인. `BenchmarkTest00024.java`를 컨테이너 안에서 직접 스캔해 CWE-89(`tainted-sql-from-http-request`) finding도 정상 탐지(웹훅 실 배포 경로의 캐스케이드 게이트가 실제로 열림을 증명)
+- `.github/workflows/ci.yml`의 실제 GitHub Actions 실행 결과: **2026-08-05(`dd1dabb`)부터 2026-10-18 이전까지 전부 failure였음을 확인** — 원인과 수정은 9장 "CI의 Linux 실패 원인 조사·수정 완료" 참고. 수정 커밋(`f72ea29`) push 후 **Actions green 확인(2026-08-03 이후 첫 성공)**
+
+**남은 항목**:
+- 실제 PR E2E(실 API 모드) — 웹훅이 mock이 아닌 실 API로 실제 GitHub PR에서 동작하는지는 아직 미검증(webhook secret 재발급 후 진행 예정)
