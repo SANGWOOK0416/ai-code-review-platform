@@ -50,6 +50,7 @@ from evaluate_semgrep import (  # noqa: E402  (필터 기준을 evaluate_semgrep
     CATEGORY_TO_CWE,
     CATEGORY_TO_VULN_KEYWORDS,
     is_category_finding,
+    semgrep_result_path,
 )
 from run_llm_only_sqli import (  # noqa: E402  (스키마/상수 재사용 — 절대 수정하지 않음)
     CATEGORY_TO_NAME,
@@ -127,7 +128,7 @@ def load_semgrep_findings(
     for result in data.get("results", []):
         if not is_category_finding(result, cwe_tag, vuln_keywords):
             continue
-        test_name = Path(result["path"]).stem
+        test_name = semgrep_result_path(result).stem
         findings.setdefault(test_name, []).append(
             {
                 "check_id": result["check_id"],

@@ -42,7 +42,12 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 from run_semgrep_scan import DEFAULT_CONFIGS, run_semgrep  # noqa: E402
 from run_llm_only_sqli import CATEGORY_TO_NAME, classify_file_via_api  # noqa: E402
-from evaluate_semgrep import CATEGORY_TO_CWE, CATEGORY_TO_VULN_KEYWORDS, is_category_finding  # noqa: E402
+from evaluate_semgrep import (  # noqa: E402
+    CATEGORY_TO_CWE,
+    CATEGORY_TO_VULN_KEYWORDS,
+    is_category_finding,
+    semgrep_result_path,
+)
 from merge_hybrid import confidence_tier  # noqa: E402
 # reject_threshold 출처: scripts/compare_rules_heldout.py의 TUNED_THRESHOLDS.
 # calibrate_confidence.py --sweep으로 train 분할에서 확정한 카테고리별 값(여기서
@@ -207,7 +212,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
         findings_by_file: dict = {}
         flagged_files_by_category: dict = {cat: set() for cat in SUPPORTED_CATEGORIES}
         for result in semgrep_data.get("results", []):
-            safe_name = Path(result["path"]).name
+            safe_name = semgrep_result_path(result).name
             matched_cat = None
             for cat, (cwe_tag, keywords) in CATEGORY_FILTERS.items():
                 if is_category_finding(result, cwe_tag, keywords):

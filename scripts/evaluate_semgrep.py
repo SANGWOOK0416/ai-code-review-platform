@@ -21,7 +21,7 @@ import argparse
 import csv
 import json
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 for _stream in (sys.stdout, sys.stderr):
     if hasattr(_stream, "reconfigure"):
@@ -73,6 +73,19 @@ def load_ground_truth(csv_path: Path) -> dict[str, bool]:
     return truth
 
 
+def semgrep_result_path(result: dict) -> PurePosixPath:
+    """semgrep JSON의 path 필드를 OS 비의존적으로 파싱.
+
+    커밋된 semgrep_results.json은 Windows 로컬에서 생성돼 절대경로가 백슬래시로
+    저장되어 있다(예: C:\\Users\\...\\BenchmarkTest00024.java). 이를 Linux에서
+    pathlib.Path로 읽으면 PosixPath가 백슬래시를 구분자로 인식하지 못해 경로
+    전체가 하나의 파일명으로 뭉개진다(.stem/.name이 깨짐 -> test_name 매칭 실패).
+    백슬래시를 슬래시로 바꾼 뒤 항상 PurePosixPath로 강제해 실행 OS와
+    무관하게 동일한 결과가 나오도록 한다.
+    """
+    return PurePosixPath(result["path"].replace("\\", "/"))
+
+
 def is_category_finding(result: dict, cwe_tag: str, vuln_keywords: list[str]) -> bool:
     meta = result.get("extra", {}).get("metadata", {})
 
@@ -103,7 +116,7 @@ def load_predictions(
     for result in data.get("results", []):
         if not is_category_finding(result, cwe_tag, vuln_keywords):
             continue
-        test_name = Path(result["path"]).stem
+        test_name = semgrep_result_path(result).stem
         hits.setdefault(test_name, []).append(result["check_id"])
     return hits
 
