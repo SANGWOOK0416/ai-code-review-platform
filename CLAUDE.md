@@ -102,8 +102,8 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [x] **연구 파트(1~2단계) 마무리** — 정적분석 단독/LLM 단독/하이브리드(OR/cascade) 4방식 × 4카테고리 Ablation을 held-out 기준으로 완주
 - [x] **`run_llm_grounded.py` 작성 + 4카테고리(1,478건) grounded 실측 완료** (2026-08-26) — 예산 $15.08/$17.94 사용. `measure_grounding.py` 인용 추출기의 2차 버그(부재 주장·페이로드 예시 오인식)를 감사로 발견·수정. grounded 환각률 4카테고리 전부 0.0000(핵심 주장 부합)이나, **교차 파일 헬퍼 오판(예: `BenchmarkTest00052`)은 0/142 고쳐짐, 8건 악화** — 상세는 10장 "교차 파일 헬퍼 오판" 절 참고
 - [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
-- [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요
-- [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
+- [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요. **예비 근거 확보(2026-10-18)**: CVE-2016-4437 정성 데모의 B 라운드(10장 참고)에서 실제 헬퍼 구현(`generateNewKey()`)을 함께 주자 5건 중 4건이 오판에서 정답으로 바뀜(n=5, 단일 케이스라 확정적 근거는 아님)
+- [x] **CWE-502/798 대체 방안 결정 완료** (2026-10-18) — **정량 평가는 데이터가 있는 4개 CWE(sqli/xss/cmdi/pathtraver)로 한정하고, CWE-502/798은 CVE-2016-4437 실제 코드로 정성 데모(PR #3, 2026-10-18)**만 진행. 웹훅에 `DEMO_CATEGORIES=on` 경로 추가, PR #3으로 실증. 상세는 10장 "CVE-2016-4437 정성 데모" 참고
 - [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료, **실제 PR E2E 검증 완료(2026-10-18, PR #2)** — `BenchmarkTest00024`(취약)→**high**, `BenchmarkTest00105`(안전)→**filtered**, `BenchmarkTest00107`(Semgrep 미탐지)→**low**(LLM 호출 0건) 전부 배치 결과와 정확히 일치, 라인 코멘트 2건·요약 코멘트 정상 게시, 실 API 호출 2건 사용. 처음엔 **처리 시간(~41초)이 GitHub 웹훅 delivery 타임아웃(~10초)을 초과해 GitHub Recent Deliveries에 500(타임아웃)으로 기록되는 문제**가 있었으나 **해결(2026-10-18, 커밋 `85cd919`)** — `/webhook`을 서명 검증·이벤트 필터링까지만 동기 처리하고 즉시 202로 응답, 실제 분석(Semgrep 스캔+LLM 호출+코멘트 게시)은 FastAPI `BackgroundTasks`로 분리. PR #2에 빈 커밋을 push해 `synchronize`로 재검증한 결과 delivery `status_code=202`, `duration=0.54초`(수정 전 `500`/`10초`)로 확인, 코멘트도 정상 재게시됨. 10장 참고
 
 ## 10. 리포지토리 메모
@@ -408,6 +408,30 @@ logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여�
 | CWE-798 (Use of Hard-coded Credentials) | ❌ 없음 (`trustbound`는 CWE-501이지 CWE-798이 아님 — 혼동 주의) | ⚠️ 정확히 일치하는 항목 없음. 근접 하위 항목 `CWE259_Hard_Coded_Password`만 존재(CWE-798의 좁은 하위 범주) |
 
 두 데이터셋 모두 정량 벤치마크용 라벨링 테스트케이스가 없어서, 프로젝트 스코프 요약 문서에 명시된 6개 CWE 중 이 2개는 **현재 방법론(라벨링된 벤치마크 정량평가)으로 다루기 어려움**. 3단계(실제 오픈소스 PR/CVE 연동) 때 정성적 데모로 다루거나, 다른 CWE로 스코프를 조정하는 방안을 다음 논의에서 결정 필요.
+
+**최종 결정(2026-10-18)**: OWASP Benchmark 전체 2,740건 중 CWE-502/798 해당 건수는 0건(위 표, 2026-08-03 재확인 포함)이므로 정량 평가는 데이터가 있는 4개 CWE(sqli/xss/cmdi/pathtraver)로 한정하고, CWE-502/798은 실제 CVE 코드로 정성 데모만 진행하기로 결정했다. 근거와 결과는 아래 "CVE-2016-4437 정성 데모" 절 참고.
+
+### CVE-2016-4437 정성 데모 — CWE-502/798 대체 방안 (2026-10-18)
+
+**선정**: Apache Shiro **CVE-2016-4437** (`shiro-root-1.2.4`→`1.2.5`). 패치는 `AbstractRememberMeManager`의 하드코딩 AES 키(`DEFAULT_CIPHER_KEY_BYTES`)를 런타임 랜덤 생성(`cipherService.generateNewKey()`)으로 교체한 것뿐 — 역직렬화 코드(`DefaultSerializer.deserialize()`의 검증 없는 `ObjectInputStream.readObject()`) 자체는 1.2.5에서도 안 바뀜.
+
+**NVD 공식 분류**: NVD 분류는 **CWE-321(하드코딩된 암호 키)**이며, 이는 **CWE-798의 하위 항목(ChildOf, MITRE View-1000)**이다. **CWE-502는 공식 태그가 아니고, 공격 과정(위조 쿠키 → 역직렬화)에 포함된 패턴**이다.
+
+**Semgrep 탐지 — 0건 (핵심 결과)**: `p/java`+`p/owasp-top-ten`(연구와 동일 룰셋)은 물론, 훨씬 넓은 `p/security-audit`+`p/secrets`(91개 룰)로도 1.2.4/1.2.5 양쪽에서 CWE-502/798/321 전부 미탐지. 원인 추정: CWE-502는 taint 소스(쿠키)와 싱크(`DefaultSerializer`)가 다른 파일이라 Semgrep OSS의 파일 단위 taint 분석 한계에 걸림(기존 OWASP Benchmark 발견과 동일 패턴). CWE-321/798은 변수명이 일반적인 `password`/`secret`류가 아니고 값이 `Base64.decode("...")` 호출의 인자로 간접 대입되어 일반적인 패턴 룰이 못 잡음(추정).
+
+**LLM 단독 판정 결과 — 1단계(12건, claude-sonnet-5, thinking 비활성, VulnJudgment)**:
+- `AbstractRememberMeManager.java` 하드코딩 키: 1.2.4 정확히 탐지(vulnerable=True, confidence=0.95)
+- 역직렬화(deserial): 3파일×2버전 **6/6 모두 vulnerable=True** — `DefaultSerializer.java` 단독으로도(호출 맥락 없이) "타입 검증 없는 역직렬화 패턴"을 일관되게 지적(실제 익스플로잇 가능성 확인이 아니라 패턴 지적이라는 점에 주의)
+- **1.2.5 오판**: `AbstractRememberMeManager` 하드코딩 키 재확인 시 1.2.5(패치됨, 실제로는 안전)도 여전히 vulnerable=True(confidence=0.85) — reasoning에 "이 코드 자체만 보면 generateNewKey()의 실제 구현을 직접 확인할 수는 없으나... Shiro의 알려진 취약점 이력을 고려할 때"라고 **사전 학습 지식을 코드보다 우선시**함(기존 "교차 파일 헬퍼 오판"과 같은 종류의 실패, 이번엔 유명 CVE에 대한 사전 지식이 원인)
+
+**A/B 확인(추가 10건)** — 상세 전문은 `docs/cve-2016-4437-precheck-results.md`:
+- **A(재현성, 5회)**: 1.2.5 오판이 5/5 재현(vulnerable=True, confidence 0.83~0.85로 매우 좁게 모임) — 1~4회차 reasoning 전문은 스크립트 저장 버그로 소실(사실 그대로 기록)
+- **B(컨텍스트 효과, 5회)**: `generateNewKey()`의 실제 구현(`AbstractSymmetricCipherService`, `KeyGenerator` 기반 난수 생성)을 같은 프롬프트에 함께 주자 **4/5가 올바르게 "안전"으로 바뀜** — 바뀐 4건 모두 실제 코드(`KeyGenerator`)를 근거로 정확히 추론. 1건(B-1)은 정보를 줘도 여전히 사전 지식("Shiro 라이브러리에서 잘 알려진 문제")을 근거로 오판 유지
+- **해석**: 1.2.5 오판은 교차 파일 정보 부족과 사전 지식 편향이 섞인 것(정보를 주면 대부분 고쳐지지만 100%는 아님). **B는 grounding 확장(헬퍼 실제 소스 제공) 과제(9장 참고)의 예비 근거(n=5)** — 단일 케이스·작은 표본이라 확정적이지 않음
+
+**웹훅 구현**: `app/main.py`에 `DEMO_CATEGORIES`(기본 off) 환경변수로 켜는 `DEMO_ONLY_CATEGORIES=["deserial","hardcoded"]` 경로 추가. 기존 캐스케이드(`SUPPORTED_CATEGORIES`)와 완전히 분리된 루프 — Semgrep이 이 패턴들을 못 잡으므로 캐스케이드 게이트 없이 LLM을 항상 호출(LLM 단독), 티어도 기존 high/medium/filtered/low와 겹치지 않는 `demo-flagged`/`demo-clear`로 표시. `CATEGORY_TO_CWE`/`CATEGORY_TO_NAME`에는 메모리상으로만 항목을 추가해(디스크의 `scripts/*.py`는 무수정) 기존 12개 카테고리·CI 회귀 테스트에 영향 없음(Windows/Linux 양쪽 확인).
+
+**실증**: PR #3(`demo/shiro-cve-2016-4437`, 머지 안 함)로 실제 웹훅 검증 — delivery `202`/`0.78초`, 데모 카테고리 LLM 호출 6건(3파일×2카테고리), 1단계 결과와 판정 방향 일치(`AbstractRememberMeManager`=하드코딩 키 탐지, 3파일 전부 역직렬화 패턴 지적). 기존 4개 카테고리는 Semgrep 미탐지로 LLM 호출 0건(캐스케이드 정상).
 
 ### 다운로드/필터링/스캔 완료 카테고리 (2026-08-03 기준)
 
