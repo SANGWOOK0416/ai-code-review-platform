@@ -104,7 +104,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
 - [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
-- [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료, **실제 PR E2E 검증 완료(2026-10-18, PR #2)** — `BenchmarkTest00024`(취약)→**high**, `BenchmarkTest00105`(안전)→**filtered**, `BenchmarkTest00107`(Semgrep 미탐지)→**low**(LLM 호출 0건) 전부 배치 결과와 정확히 일치, 라인 코멘트 2건·요약 코멘트 정상 게시, 실 API 호출 2건 사용. 단 **처리 시간(~41초)이 GitHub 웹훅 delivery 타임아웃(~10초)을 초과해 GitHub Recent Deliveries에는 500(타임아웃)으로 기록됨** — 기능 자체는 정상(응답 소켓이 끊긴 뒤에도 서버가 분석을 끝까지 진행해 코멘트는 별도 REST 호출로 정상 게시됨)이지만, 운영 전환 전에는 즉시 200 ACK 후 백그라운드로 분석하는 비동기 구조로 개선이 필요함. 10장 참고
+- [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료, **실제 PR E2E 검증 완료(2026-10-18, PR #2)** — `BenchmarkTest00024`(취약)→**high**, `BenchmarkTest00105`(안전)→**filtered**, `BenchmarkTest00107`(Semgrep 미탐지)→**low**(LLM 호출 0건) 전부 배치 결과와 정확히 일치, 라인 코멘트 2건·요약 코멘트 정상 게시, 실 API 호출 2건 사용. 처음엔 **처리 시간(~41초)이 GitHub 웹훅 delivery 타임아웃(~10초)을 초과해 GitHub Recent Deliveries에 500(타임아웃)으로 기록되는 문제**가 있었으나 **해결(2026-10-18, 커밋 `85cd919`)** — `/webhook`을 서명 검증·이벤트 필터링까지만 동기 처리하고 즉시 202로 응답, 실제 분석(Semgrep 스캔+LLM 호출+코멘트 게시)은 FastAPI `BackgroundTasks`로 분리. PR #2에 빈 커밋을 push해 `synchronize`로 재검증한 결과 delivery `status_code=202`, `duration=0.54초`(수정 전 `500`/`10초`)로 확인, 코멘트도 정상 재게시됨. 10장 참고
 
 ## 10. 리포지토리 메모
 
@@ -446,5 +446,4 @@ logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여�
 
 **2026-10-18 추가 갱신 — 실제 PR E2E(실 API 모드) 검증 완료**: 새 `GITHUB_WEBHOOK_SECRET` 발급 + ngrok 재설정 후 PR #2(`test/webhook-e2e-real-api`)로 검증. 3개 케이스(취약/안전/Semgrep 미탐지) 전부 기대 티어와 일치, LLM 실 API 호출 2건(Semgrep 미탐지 케이스는 0건으로 캐스케이드 게이트 정상 확인). 상세는 9장 "웹훅 mock→실 API 전환" 항목 참고.
 
-**남은 항목**:
-- 웹훅 처리의 비동기화 — `/webhook` 핸들러가 Semgrep 스캔+LLM 호출을 동기로 전부 처리해 실측 ~41초가 걸림. GitHub의 웹훅 delivery 타임아웃(~10초)을 넘겨 Recent Deliveries에는 500(타임아웃)으로 기록되지만, 서버는 응답 후에도 처리를 이어가 코멘트 게시 자체는 정상 동작함. 운영 전환 전에는 즉시 200 ACK 후 백그라운드로 분석하는 구조로 바꿀 필요
+**웹훅 delivery 타임아웃 — 해결(2026-10-18, 커밋 `85cd919`)**: 최초 E2E 검증 시 처리 시간(~41초)이 GitHub 웹훅 delivery 타임아웃(~10초)을 넘겨 Recent Deliveries에 500으로 기록되던 문제를, `/webhook`을 즉시 202 응답 + 실제 분석은 FastAPI `BackgroundTasks`로 분리하는 구조로 수정. 같은 PR #2에 빈 커밋을 push해 재검증한 결과 `status_code=202`, `duration=0.54초`로 확인, 코멘트도 정상 재게시됨.
