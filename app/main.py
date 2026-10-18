@@ -13,6 +13,11 @@ FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + L
   - 캐스케이드 설계상 LLM은 "Semgrep이 그 카테고리를 탐지한 파일"에만 호출한다
     (배치 스크립트의 cascade 결과와 동일하게 만들기 위함 + API 비용 절감).
     Semgrep이 침묵한 카테고리는 LLM 호출 없이 바로 'low' 티어로 처리한다.
+  - `/webhook`은 서명 검증 + 이벤트/액션 필터링까지만 동기로 처리하고 즉시 202로
+    응답한다. 실제 분석(Semgrep 스캔 + LLM 호출 + PR 코멘트 게시)은 FastAPI
+    BackgroundTasks로 넘겨 응답 이후에 처리한다 — Semgrep 스캔(~25초)+LLM 호출이
+    GitHub의 웹훅 delivery 타임아웃(~10초)을 넘겨 Recent Deliveries가 500(타임아웃)
+    으로 기록되던 문제 대응 (실측 ~41초 vs 타임아웃 ~10초, CLAUDE.md 참고).
 
 환경변수:
   GITHUB_TOKEN            (필수) PR 파일 조회 + 코멘트 게시용 GitHub 토큰. 코드에 직접 넣지 말 것.
@@ -33,7 +38,8 @@ from typing import Optional
 
 import anthropic
 import requests
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request
+from fastapi.responses import JSONResponse
 
 # scripts/의 기존 스크립트를 모듈로 import해서 로직을 재사용한다.
 # (각 스크립트는 `if __name__ == "__main__":` 가드가 있어 import 시 CLI가 실행되지 않음)
@@ -306,22 +312,68 @@ def health() -> dict:
     return {"status": "ok", "llm_mode": "real"}
 
 
+def process_pr_analysis(owner: str, repo: str, pr_number: int, head_sha: str, action: str) -> None:
+    """실제 분석(Semgrep 스캔 + LLM 호출 + PR 코멘트 게시) — 응답을 보낸 뒤 백그라운드에서 실행된다.
+
+    여기서 발생하는 예외는 절대 상위로 전파하지 않는다 — BackgroundTasks 안에서
+    예외가 나도 서버 프로세스에는 영향이 없지만, 원인을 알 수 있게 PR 번호와
+    함께 로그로 남긴다.
+    """
+    try:
+        java_files = list_pr_java_files(owner, repo, pr_number)
+        if not java_files:
+            logger.info("PR #%s: 변경된 .java 파일 없음 — 스킵", pr_number)
+            return
+
+        result = analyze_pr_files(java_files, owner, repo, head_sha)
+
+        line_comments_posted = 0
+        line_comments_failed = 0
+        for real_path, line, body in result["line_comments"]:
+            ok = post_line_comment(owner, repo, pr_number, head_sha, real_path, line, body)
+            if ok:
+                line_comments_posted += 1
+            else:
+                line_comments_failed += 1
+
+        summary_lines = result["summary_lines"]
+        if line_comments_failed:
+            summary_lines.append("")
+            summary_lines.append(
+                f"⚠️ 라인 코멘트 {line_comments_failed}건은 diff 범위 밖 라인이라 게시에 실패했습니다 "
+                "(GitHub는 PR diff에 포함되지 않은 라인에 리뷰 코멘트를 허용하지 않음)."
+            )
+
+        post_summary_comment(owner, repo, pr_number, "\n".join(summary_lines))
+
+        logger.info(
+            "PR #%s 분석 완료 — 파일 %d개, 라인 코멘트 %d건 게시 / %d건 실패",
+            pr_number,
+            len(java_files),
+            line_comments_posted,
+            line_comments_failed,
+        )
+    except Exception:
+        logger.exception("PR #%s 백그라운드 분석 중 예외 발생 (action=%s)", pr_number, action)
+
+
 @app.post("/webhook")
 async def webhook(
     request: Request,
+    background_tasks: BackgroundTasks,
     x_github_event: Optional[str] = Header(default=None),
     x_hub_signature_256: Optional[str] = Header(default=None),
-) -> dict:
+) -> JSONResponse:
     raw_body = await request.body()
-    verify_signature(raw_body, x_hub_signature_256)
+    verify_signature(raw_body, x_hub_signature_256)  # 실패 시 즉시 401 — 백그라운드로 넘기지 않음
 
     if x_github_event != "pull_request":
-        return {"status": "ignored", "reason": f"unsupported event: {x_github_event}"}
+        return JSONResponse({"status": "ignored", "reason": f"unsupported event: {x_github_event}"})
 
     payload: dict = await request.json()
     action = payload.get("action")
     if action not in ("opened", "synchronize"):
-        return {"status": "ignored", "reason": f"unsupported action: {action}"}
+        return JSONResponse({"status": "ignored", "reason": f"unsupported action: {action}"})
 
     pr = payload["pull_request"]
     owner = payload["repository"]["owner"]["login"]
@@ -329,45 +381,10 @@ async def webhook(
     pr_number = pr["number"]
     head_sha = pr["head"]["sha"]
 
-    logger.info("PR #%s (%s/%s) 분석 시작 — action=%s", pr_number, owner, repo, action)
+    logger.info("PR #%s (%s/%s) 웹훅 수신 — action=%s, 백그라운드 분석 큐에 등록", pr_number, owner, repo, action)
+    background_tasks.add_task(process_pr_analysis, owner, repo, pr_number, head_sha, action)
 
-    java_files = list_pr_java_files(owner, repo, pr_number)
-    if not java_files:
-        logger.info("PR #%s: 변경된 .java 파일 없음 — 스킵", pr_number)
-        return {"status": "skipped", "reason": "변경된 .java 파일 없음"}
-
-    result = analyze_pr_files(java_files, owner, repo, head_sha)
-
-    line_comments_posted = 0
-    line_comments_failed = 0
-    for real_path, line, body in result["line_comments"]:
-        ok = post_line_comment(owner, repo, pr_number, head_sha, real_path, line, body)
-        if ok:
-            line_comments_posted += 1
-        else:
-            line_comments_failed += 1
-
-    summary_lines = result["summary_lines"]
-    if line_comments_failed:
-        summary_lines.append("")
-        summary_lines.append(
-            f"⚠️ 라인 코멘트 {line_comments_failed}건은 diff 범위 밖 라인이라 게시에 실패했습니다 "
-            "(GitHub는 PR diff에 포함되지 않은 라인에 리뷰 코멘트를 허용하지 않음)."
-        )
-
-    post_summary_comment(owner, repo, pr_number, "\n".join(summary_lines))
-
-    logger.info(
-        "PR #%s 분석 완료 — 파일 %d개, 라인 코멘트 %d건 게시 / %d건 실패",
-        pr_number,
-        len(java_files),
-        line_comments_posted,
-        line_comments_failed,
+    return JSONResponse(
+        status_code=202,
+        content={"status": "accepted", "pr_number": pr_number, "action": action},
     )
-    return {
-        "status": "ok",
-        "pr_number": pr_number,
-        "files_analyzed": len(java_files),
-        "line_comments_posted": line_comments_posted,
-        "line_comments_failed": line_comments_failed,
-    }
