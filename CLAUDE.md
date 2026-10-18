@@ -104,7 +104,7 @@ GitHub PR 이벤트 → 웹훅 트리거
 - [ ] (선택) 스키마를 `reasoning`이 `vulnerable`보다 먼저 나오도록 재설계해 재실험 — 악화 사례 1건에서 verdict가 reasoning보다 먼저 커밋되는 듯한 패턴 발견(10장 참고). 표본이 1건뿐이라 확증은 아니며, 착수한다면 예산 재확보 필요
 - [ ] (선택) grounding 정의를 "Semgrep 탐지 여부"에서 "관련 헬퍼 클래스의 실제 소스"로 확장하는 실험 — 교차 파일 오판을 구조적으로 고칠 수 있는지 검증. 어떤 파일을 "관련"으로 판단할지 자동화 필요, 예산도 재확보 필요
 - [ ] CWE-502/798 대체 방안 결정 필요 (3단계 실사례 CVE 데이터 활용 또는 별도 데이터셋 조사 — 10장 참고)
-- [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료(2026-10-18), 실제 PR E2E 검증 예정
+- [x] **웹훅 mock→실 API 전환**: 코드·로컬·Docker 검증 완료, **실제 PR E2E 검증 완료(2026-10-18, PR #2)** — `BenchmarkTest00024`(취약)→**high**, `BenchmarkTest00105`(안전)→**filtered**, `BenchmarkTest00107`(Semgrep 미탐지)→**low**(LLM 호출 0건) 전부 배치 결과와 정확히 일치, 라인 코멘트 2건·요약 코멘트 정상 게시, 실 API 호출 2건 사용. 단 **처리 시간(~41초)이 GitHub 웹훅 delivery 타임아웃(~10초)을 초과해 GitHub Recent Deliveries에는 500(타임아웃)으로 기록됨** — 기능 자체는 정상(응답 소켓이 끊긴 뒤에도 서버가 분석을 끝까지 진행해 코멘트는 별도 REST 호출로 정상 게시됨)이지만, 운영 전환 전에는 즉시 200 ACK 후 백그라운드로 분석하는 비동기 구조로 개선이 필요함. 10장 참고
 
 ## 10. 리포지토리 메모
 
@@ -444,5 +444,7 @@ logit P(취약) = logit(사전확률) + log LR_semgrep[카테고리][발화여�
 - Docker 이미지 빌드: `docker build` 성공(semgrep 1.181.0, `python:3.11-slim` 베이스에서 정상 설치·동작). 컨테이너 내 `semgrep --version` 정상, `ANTHROPIC_API_KEY`를 값 노출 없이 주입해 기동 후 `GET /health` → `200 {"status":"ok","llm_mode":"real"}` 확인. `BenchmarkTest00024.java`를 컨테이너 안에서 직접 스캔해 CWE-89(`tainted-sql-from-http-request`) finding도 정상 탐지(웹훅 실 배포 경로의 캐스케이드 게이트가 실제로 열림을 증명)
 - `.github/workflows/ci.yml`의 실제 GitHub Actions 실행 결과: **2026-08-05(`dd1dabb`)부터 2026-10-18 이전까지 전부 failure였음을 확인** — 원인과 수정은 9장 "CI의 Linux 실패 원인 조사·수정 완료" 참고. 수정 커밋(`f72ea29`) push 후 **Actions green 확인(2026-08-03 이후 첫 성공)**
 
+**2026-10-18 추가 갱신 — 실제 PR E2E(실 API 모드) 검증 완료**: 새 `GITHUB_WEBHOOK_SECRET` 발급 + ngrok 재설정 후 PR #2(`test/webhook-e2e-real-api`)로 검증. 3개 케이스(취약/안전/Semgrep 미탐지) 전부 기대 티어와 일치, LLM 실 API 호출 2건(Semgrep 미탐지 케이스는 0건으로 캐스케이드 게이트 정상 확인). 상세는 9장 "웹훅 mock→실 API 전환" 항목 참고.
+
 **남은 항목**:
-- 실제 PR E2E(실 API 모드) — 웹훅이 mock이 아닌 실 API로 실제 GitHub PR에서 동작하는지는 아직 미검증(webhook secret 재발급 후 진행 예정)
+- 웹훅 처리의 비동기화 — `/webhook` 핸들러가 Semgrep 스캔+LLM 호출을 동기로 전부 처리해 실측 ~41초가 걸림. GitHub의 웹훅 delivery 타임아웃(~10초)을 넘겨 Recent Deliveries에는 500(타임아웃)으로 기록되지만, 서버는 응답 후에도 처리를 이어가 코멘트 게시 자체는 정상 동작함. 운영 전환 전에는 즉시 200 ACK 후 백그라운드로 분석하는 구조로 바꿀 필요
