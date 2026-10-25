@@ -386,6 +386,80 @@ class TestDemoFailure:
         assert "… (이하 생략, 전체" in block
 
 
+class TestSemgrepFailure:
+    """Semgrep 실패/타임아웃 시: 오류 원문 없이 실패 요약 코멘트만 게시, LLM은 부르지 않음."""
+
+    PROXY_LIKE = "ProxyError host=semgrep.dev via http://10.255.255.1:9"
+
+    def _wire(self, monkeypatch, semgrep_behavior, llm_responses=None):
+        from conftest import FakeLLM
+
+        llm = FakeLLM(llm_responses or {})
+        line_calls, summary_calls = [], []
+
+        def failing_semgrep(*args, **kwargs):
+            raise semgrep_behavior
+
+        monkeypatch.setattr(webhook_app, "run_semgrep", failing_semgrep)
+        monkeypatch.setattr(webhook_app, "classify_file_via_api", llm)
+        monkeypatch.setattr(webhook_app, "fetch_file_content", lambda o, r, p, ref: "class X {}")
+        monkeypatch.setattr(webhook_app, "list_pr_java_files", lambda o, r, n: JAVA_FILES)
+        monkeypatch.setattr(webhook_app, "post_line_comment", lambda *a: line_calls.append(a) or True)
+        monkeypatch.setattr(webhook_app, "post_summary_comment", lambda o, r, n, body: summary_calls.append(body))
+        return llm, line_calls, summary_calls
+
+    def test_semgrep_error_posts_failure_summary_without_details(self, monkeypatch, caplog):
+        """B22: Semgrep이 비정상 종료하면 '정적분석 실패로 이번 PR은 분석하지 못함' 요약만 게시되고,
+        라인 코멘트·LLM 호출은 없다. 오류 원문(프록시 주소 등)은 코멘트에 없고 로그에만 남는다.
+        """
+        from run_semgrep_scan import SemgrepError
+
+        llm, line_calls, summary_calls = self._wire(monkeypatch, SemgrepError(f"exit code 2 — {self.PROXY_LIKE}"))
+        with caplog.at_level(logging.ERROR, logger="webhook"):
+            webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abcdef1", "opened")
+
+        assert llm.calls == [] and line_calls == []
+        assert len(summary_calls) == 1
+        summary = summary_calls[0]
+        assert "정적분석 실패로 이번 PR은 분석하지 못함" in summary and "실행 오류" in summary
+        assert "10.255.255.1" not in summary and "ProxyError" not in summary and "exit code" not in summary
+        log_text = "\n".join(r.getMessage() for r in caplog.records)
+        assert "Semgrep 실패 — SemgrepError" in log_text and "10.255.255.1" in log_text
+
+    def test_semgrep_timeout_posts_timeout_summary(self, monkeypatch):
+        """B23: Semgrep이 제한 시간을 넘기면 '시간 초과(90초)' 사유로 실패 요약을 게시한다."""
+        from run_semgrep_scan import SemgrepTimeout
+
+        _, line_calls, summary_calls = self._wire(monkeypatch, SemgrepTimeout("semgrep이 90초 안에 끝나지 않아 종료함"))
+        webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abcdef1", "opened")
+        assert line_calls == [] and len(summary_calls) == 1
+        assert "정적분석 실패로 이번 PR은 분석하지 못함" in summary_calls[0]
+        assert "시간 초과(90초)" in summary_calls[0]
+
+    def test_semgrep_binary_missing_is_same_failure(self, monkeypatch):
+        """B23: semgrep 실행 파일이 없어도(OSError) 같은 실패 요약으로 처리한다."""
+        _, _, summary_calls = self._wire(monkeypatch, FileNotFoundError("semgrep"))
+        webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abcdef1", "opened")
+        assert len(summary_calls) == 1 and "정적분석 실패로 이번 PR은 분석하지 못함" in summary_calls[0]
+
+    def test_webhook_passes_timeout_to_semgrep(self, pipeline):
+        """B23: 웹훅은 Semgrep을 SEMGREP_TIMEOUT_SEC(90초) 제한으로 실행한다."""
+        pipeline({})
+        run_analysis()
+        assert webhook_app.SEMGREP_TIMEOUT_SEC == 90
+        assert webhook_app.run_semgrep.timeouts == [90]
+
+    def test_semgrep_failure_skips_demo_categories(self, demo_app, monkeypatch):
+        """B24: DEMO_CATEGORIES=on이어도 Semgrep이 실패하면 데모 카테고리 LLM 판정도 하지 않는다."""
+        from run_semgrep_scan import SemgrepError
+
+        llm, _, summary_calls = self._wire(monkeypatch, SemgrepError("exit code 2"))
+        demo_app.process_pr_analysis("o", "r", 9, "abcdef1", "opened")
+        assert llm.calls == []
+        assert "정적분석 실패로 이번 PR은 분석하지 못함" in summary_calls[0]
+        assert "정성 데모" not in summary_calls[0]
+
+
 class TestSignatureConfig:
     @pytest.mark.parametrize("secret", [None, ""])
     @pytest.mark.parametrize(

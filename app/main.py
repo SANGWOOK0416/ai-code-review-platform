@@ -51,7 +51,7 @@ from fastapi.responses import JSONResponse
 SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from run_semgrep_scan import DEFAULT_CONFIGS, run_semgrep  # noqa: E402
+from run_semgrep_scan import DEFAULT_CONFIGS, SemgrepError, SemgrepTimeout, run_semgrep  # noqa: E402
 from run_llm_only_sqli import CATEGORY_TO_NAME, classify_file_via_api  # noqa: E402
 from evaluate_semgrep import (  # noqa: E402
     CATEGORY_TO_CWE,
@@ -138,6 +138,25 @@ DEMO_DISPLAY_NAME = {
 }
 
 LLM_FAILURE_NOTE = "LLM 판정 실패로 수동 확인 필요"
+
+# 정상 스캔 실측 최대 48.2초(웹훅 PR #2/#4/#5/#6: 24.6/34.5/48.2/42.3초)의 약 1.9배.
+# 응답 없는 네트워크 차단(실측 127초 후 실패)을 일찍 끊고, 실패 코멘트가 데모의
+# "2분 넘으면 캡처 슬라이드로 전환" 시점 전에 달리게 하는 값.
+SEMGREP_TIMEOUT_SEC = 90
+SEMGREP_FAILURE_NOTE = "정적분석 실패로 이번 PR은 분석하지 못함"
+
+
+def semgrep_failure_summary(file_count: int, error: Exception) -> list:
+    """Semgrep 실패 시 PR 요약 코멘트. 오류 원문은 넣지 않는다 (로그에만)."""
+    reason = f"시간 초과({SEMGREP_TIMEOUT_SEC}초)" if isinstance(error, SemgrepTimeout) else "실행 오류"
+    return [
+        "## 🤖 AI 코드 리뷰 (Semgrep + LLM 하이브리드, 4개 카테고리)",
+        "",
+        f"⚠️ **{SEMGREP_FAILURE_NOTE}** — 정적분석(Semgrep) {reason}.",
+        "",
+        f"변경된 `.java` 파일 {file_count}개에 대해 LLM 판정도 하지 않았습니다. "
+        "새 커밋을 push하면 다시 분석합니다.",
+    ]
 
 # --------------------------------------------------------------------------
 # 라인 코멘트의 "AI 판단 근거" (LLM reasoning)
@@ -356,9 +375,19 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
 
         # run_semgrep_scan.py 로직 재사용
         stage_started = time.monotonic()
-        semgrep_out = run_semgrep(sources_dir, output_dir, DEFAULT_CONFIGS, ["json"])
-        with semgrep_out["json"].open(encoding="utf-8") as fh:
-            semgrep_data = json.load(fh)
+        try:
+            semgrep_out = run_semgrep(
+                sources_dir, output_dir, DEFAULT_CONFIGS, ["json"], timeout=SEMGREP_TIMEOUT_SEC
+            )
+            with semgrep_out["json"].open(encoding="utf-8") as fh:
+                semgrep_data = json.load(fh)
+        except (SemgrepError, OSError, ValueError) as e:
+            # 원인(오류 원문·프록시 주소 등)은 로그에만 남기고, 코멘트에는 실패 사실만 쓴다
+            logger.error(
+                "커밋 %s: Semgrep 실패 — %s: %s (%.1fs)",
+                head_sha[:7], type(e).__name__, e, time.monotonic() - stage_started,
+            )
+            return {"summary_lines": semgrep_failure_summary(len(java_files), e), "line_comments": []}
         logger.info(
             "커밋 %s: Semgrep 스캔 finding %d건 (%.1fs)",
             head_sha[:7], len(semgrep_data.get("results", [])), time.monotonic() - stage_started,

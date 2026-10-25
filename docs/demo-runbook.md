@@ -16,9 +16,8 @@
 | T-28 | 데모 브랜치 준비: `python scripts/demo_reset.py` (계획 확인) → `python scripts/demo_reset.py --yes` | 두 장면 모두 "준비 상태", 열린 데모 PR 없음 (약 15초, PR을 닫으면 건당 +7초) |
 | T-25 | 서버 기동 (장면 1용, 아래 "서버 기동") | 콘솔 첫 줄 `DEMO_CATEGORIES=off` |
 | T-24 | ngrok 기동 (아래 "ngrok 기동") | `Forwarding https://subsidy-sierra-sheath.ngrok-free.dev -> http://localhost:8000` |
-| T-22 | `python scripts/demo_preflight.py --scene 1 --server-log "$LOG"` | 8개 항목 전부 OK (약 7초) |
-| T-21 | semgrep.dev 접속 확인 (Semgrep은 스캔할 때마다 룰을 semgrep.dev에서 받는다 — preflight는 이 항목을 보지 않음): `curl -s -o /dev/null -w "%{http_code}\n" https://semgrep.dev/c/p/java` | `200` |
-| T-20 | **Semgrep 미리 실행** (첫 실행이 느려서 한 번 데워 둔다, 아래 "Semgrep 미리 실행") | 에러 없이 끝남, finding 4건 출력 (약 20초) |
+| T-22 | `python scripts/demo_preflight.py --scene 1 --server-log "$LOG"` | 9개 항목 전부 OK (약 7초). `semgrep.dev 접속` 항목이 Semgrep 룰 다운로드 경로를 확인한다(Semgrep은 스캔할 때마다 룰을 semgrep.dev에서 받음) |
+| T-20 | **Semgrep 미리 실행** (첫 실행이 느려서 한 번 데워 둔다, 아래 "Semgrep 미리 실행") | 에러 없이 끝남, finding 4건 출력 (약 20초). 스캔 대상이 `test-fixtures/VulnerableLogin.java`라 PR 로그의 finding 수(장면 1은 2건)와 다른 게 정상 |
 | T-18 | 브라우저 탭 준비: 장면 1·2 비교 화면, PR #2, PR #3, 캡처 슬라이드 | 아래 "브라우저 탭" |
 | T-15 | 캡처 슬라이드가 바로 열리는지 확인 | — |
 | T-5 | preflight 한 번 더 | 전부 OK |
@@ -98,10 +97,10 @@ python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 2>&1 | tee "$LOG"
 | 웹훅 실패 — 401 | Recent Deliveries 응답 401 | 서버와 GitHub 웹훅의 시크릿이 다름. 현장에서 고치지 말고 캡처 슬라이드 |
 | 웹훅 실패 — 500 `웹훅 서버 설정 오류` | 서버 콘솔에 `웹훅 시크릿 미설정 — 요청 거절` | 서버를 띄운 셸에 `GITHUB_WEBHOOK_SECRET`이 없음 → 설정 후 서버 재시작 → Redeliver |
 | 웹훅 전송 자체가 없음 | Recent Deliveries에 새 항목 없음 | 웹훅 비활성 또는 URL 불일치(preflight의 GitHub 웹훅 URL 항목). 캡처 슬라이드 |
-| **Semgrep 실패** (semgrep.dev 접속 불가 등) | 서버 콘솔에 `분석 시작`·`파일 내용 조회` 뒤 `Semgrep 스캔` 줄 없이 Semgrep 오류 출력(`ProxyError`/연결 오류, `host='semgrep.dev'`)과 `[ERROR] PR #N 백그라운드 분석 중 예외 발생` + `RuntimeError: semgrep이 json 포맷에서 exit code 2로 종료됨`. **PR에는 요약·라인 코멘트가 하나도 달리지 않는다**(LLM도 호출 안 됨) | 실패까지 오래 걸린다 — 연결 거부 시 약 45초, 응답 없는 차단 시 약 2분. 2분 기준으로 캡처 슬라이드로 전환. 네트워크가 돌아오면 Recent Deliveries에서 Redeliver. 예방: T-21 접속 확인 |
+| **Semgrep 실패** (semgrep.dev 접속 불가 등) | 서버 콘솔에 `분석 시작`·`파일 내용 조회` 뒤 Semgrep 오류 출력(`ProxyError`/연결 오류, `host='semgrep.dev'`)과 `[ERROR] 커밋 xxxxxxx: Semgrep 실패 — SemgrepError`(시간 초과면 `SemgrepTimeout`). PR에는 **"정적분석 실패로 이번 PR은 분석하지 못함"** 요약 코멘트 1개만 달린다(라인 코멘트·LLM 호출 없음, 오류 원문은 로그에만) | 연결 거부면 약 45초, 응답 없는 차단이면 90초 타임아웃 후 실패 코멘트가 뜬다 — 2분 전환 기준 안에 끝나므로 코멘트를 보여주고 "정적분석 실패 시 분석을 멈추고 알린다"로 설명한 뒤 캡처 슬라이드로 전환. 네트워크가 돌아오면 Recent Deliveries에서 Redeliver. 예방: preflight의 `semgrep.dev 접속` 항목 |
 | LLM 지연 | 서버 콘솔이 `Semgrep 스캔` 이후 `LLM 판정 완료` 없이 멈춤 | LLM 호출은 레이트리밋/서버 오류 시 최대 5회 재시도(대기 최대 60초)라 몇 분까지 걸릴 수 있음. 2분 기준으로 캡처 슬라이드 전환하고, 그동안 PR #2/#3 결과로 설명 |
 | LLM 실패 | 콘솔에 `LLM 판정 실패 — ... 예외=...`, 코멘트에 "LLM 판정 실패로 수동 확인 필요" + **medium** (데모 카테고리는 **demo-unavailable**) | 분석과 코멘트 게시는 계속되므로 그대로 보여주고 "LLM 실패 시 Semgrep 단독 판정으로 폴백한다"는 설계로 설명. 나머지 결과는 PR #2/#3으로 보완 |
-| 네트워크 차단 (GitHub·Anthropic·ngrok·**semgrep.dev** 중 하나라도 막힘) | preflight에서 GitHub 웹훅 URL/ngrok 항목 FAIL, T-21 접속 확인이 `200`이 아님, 또는 서버 콘솔에 연결 오류 | 휴대폰 핫스팟으로 바꿔 preflight와 T-21 재확인. 안 되면 캡처 슬라이드 + PR #2/#3 화면(오프라인이면 캡처 슬라이드만) |
+| 네트워크 차단 (GitHub·Anthropic·ngrok·**semgrep.dev** 중 하나라도 막힘) | preflight에서 GitHub 웹훅 URL/ngrok/semgrep.dev 접속 항목 FAIL, 또는 서버 콘솔에 연결 오류 | 휴대폰 핫스팟으로 바꿔 preflight 재확인. 안 되면 캡처 슬라이드 + PR #2/#3 화면(오프라인이면 캡처 슬라이드만) |
 
 ## 발표 후 정리
 

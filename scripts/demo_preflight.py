@@ -10,6 +10,7 @@
      서명 검증에서 바로 거절되므로 분석이 돌거나 코멘트가 달리지 않는다.
   3. ngrok 터널 — 로컬 ngrok API(4040)에서 https 공개 URL과 8000번 포트 연결 확인
   4. GitHub 웹훅 Payload URL이 '<ngrok 공개 URL>/webhook'과 같은지 (GitHub API로 자동 조회)
+  4-1. semgrep.dev 접속 (웹훅의 Semgrep이 스캔마다 여기서 룰을 받음)
   5. 이 셸의 GITHUB_WEBHOOK_SECRET / ANTHROPIC_API_KEY / GITHUB_TOKEN 존재 여부 (값은 출력 안 함)
   6. DEMO_CATEGORIES 값 — --scene을 주면 장면에 맞는지(1=off, 2=on) 판정.
      --server-log를 주면 서버 시작 로그의 실제 값으로 판정 (서버는 시작 시점에만 읽음)
@@ -125,6 +126,18 @@ def check_webhook_url(report: Report, repo: str, public_url: str | None):
     report.add("FAIL", "GitHub 웹훅 URL", f"불일치 — 기대 {expected}, 등록된 pull_request 웹훅: {registered}")
 
 
+SEMGREP_REGISTRY_URL = "https://semgrep.dev/c/p/java"
+
+
+def check_semgrep_registry(report: Report, url: str = SEMGREP_REGISTRY_URL):
+    """웹훅의 Semgrep은 스캔마다 semgrep.dev에서 룰을 받는다 — 막혀 있으면 PR 분석이 통째로 실패한다."""
+    status, text = http("GET", url)
+    if status == 200:
+        report.add("OK", "semgrep.dev 접속", f"200 ({url})")
+    else:
+        report.add("FAIL", "semgrep.dev 접속", f"룰 다운로드 불가 ({status or text}) — 네트워크/프록시 확인, 안 되면 핫스팟")
+
+
 def check_env(report: Report):
     for key in ENV_KEYS:
         present = bool(os.environ.get(key))
@@ -176,6 +189,7 @@ def main() -> int:
     check_server_secret(report, args.server)
     public_url = check_ngrok(report, args.ngrok_api)
     check_webhook_url(report, args.repo, public_url)
+    check_semgrep_registry(report)
     check_env(report)
     check_demo(report, args.scene, args.server_log)
 

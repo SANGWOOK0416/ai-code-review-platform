@@ -71,7 +71,8 @@ def finding(cwe: str, line: int = 10, check_id: str = "test.rule") -> dict:
 def make_fake_semgrep(findings_by_filename: dict):
     """run_semgrep 대체 — PR 파일명별 finding을 semgrep JSON 형식으로 써서 돌려준다."""
 
-    def fake_run_semgrep(sources_dir, output_dir, configs, formats):
+    def fake_run_semgrep(sources_dir, output_dir, configs, formats, timeout=None):
+        fake_run_semgrep.timeouts.append(timeout)
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         results = []
@@ -83,6 +84,7 @@ def make_fake_semgrep(findings_by_filename: dict):
         out.write_text(json.dumps({"results": results}), encoding="utf-8")
         return {"json": out}
 
+    fake_run_semgrep.timeouts = []
     return fake_run_semgrep
 
 
