@@ -36,6 +36,7 @@ import logging
 import os
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -106,6 +107,7 @@ TIER_VERDICT = {
 # 기본값은 off — 정량 벤치마크가 없는 카테고리를 실수로 운영 PR에 노출하지 않기 위함.
 DEMO_CATEGORIES_ENABLED = os.environ.get("DEMO_CATEGORIES", "off").strip().lower() == "on"
 DEMO_ONLY_CATEGORIES = ["deserial", "hardcoded"]
+logger.info("DEMO_CATEGORIES=%s (서버 시작 시점 값, 재시작 전까지 고정)", "on" if DEMO_CATEGORIES_ENABLED else "off")
 
 if DEMO_CATEGORIES_ENABLED:
     # run_llm_only_sqli.build_system_prompt/build_user_prompt가 참조하는 딕셔너리와
@@ -233,12 +235,18 @@ def _classify_or_error(source_code: str, category: str, real_path: str):
     배치 run_llm_only_sqli.py와 같은 기준(모든 Exception — API 오류, 재시도 소진, JSON 파싱
     실패·응답 잘림)으로 잡는다. 예외 메시지에는 요청/응답 내용이 섞일 수 있어 타입 이름만 남긴다.
     """
+    started = time.monotonic()
     try:
-        return classify_file_via_api(anthropic_client, source_code, category), None
+        judgment = classify_file_via_api(anthropic_client, source_code, category)
     except Exception as e:  # noqa: BLE001
         error_type = type(e).__name__
-        logger.warning("LLM 판정 실패 — 파일=%s 카테고리=%s 예외=%s", real_path, category, error_type)
+        logger.warning(
+            "LLM 판정 실패 — 파일=%s 카테고리=%s 예외=%s (%.1fs)",
+            real_path, category, error_type, time.monotonic() - started,
+        )
         return None, error_type
+    logger.info("LLM 판정 완료 — 파일=%s 카테고리=%s (%.1fs)", real_path, category, time.monotonic() - started)
+    return judgment, None
 
 
 def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> dict:
@@ -263,17 +271,27 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
         output_dir = Path(tmp_dir) / "semgrep_out"
 
         # GitHub 경로(디렉토리 포함)를 평평한 파일명으로 변환해 임시 디렉토리에 저장
+        stage_started = time.monotonic()
         safe_name_to_path = {}
         for f in java_files:
             content = fetch_file_content(owner, repo, f["filename"], head_sha)
             safe_name = f["filename"].replace("/", "__")
             (sources_dir / safe_name).write_text(content, encoding="utf-8")
             safe_name_to_path[safe_name] = f["filename"]
+        logger.info(
+            "커밋 %s: 파일 내용 조회 %d개 (%.1fs)", head_sha[:7], len(java_files), time.monotonic() - stage_started
+        )
 
         # run_semgrep_scan.py 로직 재사용
+        stage_started = time.monotonic()
         semgrep_out = run_semgrep(sources_dir, output_dir, DEFAULT_CONFIGS, ["json"])
         with semgrep_out["json"].open(encoding="utf-8") as fh:
             semgrep_data = json.load(fh)
+        logger.info(
+            "커밋 %s: Semgrep 스캔 finding %d건 (%.1fs)",
+            head_sha[:7], len(semgrep_data.get("results", [])), time.monotonic() - stage_started,
+        )
+        judging_started = time.monotonic()
 
         # finding마다 (있다면) 매칭되는 카테고리를 한 번만 계산해 결과 dict에 붙여둔다
         # — 이후 라인 코멘트 루프에서 재계산하지 않고 그대로 재사용.
@@ -405,6 +423,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 body = f"**[{rule_id}]**{tier_note}\n\n{message}"
                 line_comments.append((real_path, line, body))
 
+        logger.info("커밋 %s: 카테고리 판정(LLM 포함) (%.1fs)", head_sha[:7], time.monotonic() - judging_started)
         return {"summary_lines": summary_lines, "line_comments": line_comments}
 
 
@@ -423,6 +442,8 @@ def process_pr_analysis(owner: str, repo: str, pr_number: int, head_sha: str, ac
     예외가 나도 서버 프로세스에는 영향이 없지만, 원인을 알 수 있게 PR 번호와
     함께 로그로 남긴다.
     """
+    started = time.monotonic()
+    logger.info("PR #%s 분석 시작 (action=%s, 커밋 %s)", pr_number, action, head_sha[:7])
     try:
         java_files = list_pr_java_files(owner, repo, pr_number)
         if not java_files:
@@ -431,6 +452,7 @@ def process_pr_analysis(owner: str, repo: str, pr_number: int, head_sha: str, ac
 
         result = analyze_pr_files(java_files, owner, repo, head_sha)
 
+        posting_started = time.monotonic()
         line_comments_posted = 0
         line_comments_failed = 0
         for real_path, line, body in result["line_comments"]:
@@ -449,13 +471,15 @@ def process_pr_analysis(owner: str, repo: str, pr_number: int, head_sha: str, ac
             )
 
         post_summary_comment(owner, repo, pr_number, "\n".join(summary_lines))
+        logger.info("PR #%s 코멘트 게시 (%.1fs)", pr_number, time.monotonic() - posting_started)
 
         logger.info(
-            "PR #%s 분석 완료 — 파일 %d개, 라인 코멘트 %d건 게시 / %d건 실패",
+            "PR #%s 분석 완료 — 파일 %d개, 라인 코멘트 %d건 게시 / %d건 실패 (분석 시작 후 총 %.1fs)",
             pr_number,
             len(java_files),
             line_comments_posted,
             line_comments_failed,
+            time.monotonic() - started,
         )
     except Exception:
         logger.exception("PR #%s 백그라운드 분석 중 예외 발생 (action=%s)", pr_number, action)
@@ -468,6 +492,7 @@ async def webhook(
     x_github_event: Optional[str] = Header(default=None),
     x_hub_signature_256: Optional[str] = Header(default=None),
 ) -> JSONResponse:
+    received = time.monotonic()
     raw_body = await request.body()
     verify_signature(raw_body, x_hub_signature_256)  # 실패 시 즉시 401 — 백그라운드로 넘기지 않음
 
@@ -488,6 +513,7 @@ async def webhook(
     logger.info("PR #%s (%s/%s) 웹훅 수신 — action=%s, 백그라운드 분석 큐에 등록", pr_number, owner, repo, action)
     background_tasks.add_task(process_pr_analysis, owner, repo, pr_number, head_sha, action)
 
+    logger.info("PR #%s 202 응답 반환 (수신 후 %.3fs)", pr_number, time.monotonic() - received)
     return JSONResponse(
         status_code=202,
         content={"status": "accepted", "pr_number": pr_number, "action": action},
