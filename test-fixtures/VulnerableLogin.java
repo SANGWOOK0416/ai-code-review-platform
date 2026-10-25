@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * README_DEPLOY.md의 웹훅 테스트 시나리오용 더미 파일입니다.
  * 의도적으로 SQL Injection(CWE-89) 취약점을 포함하고 있습니다 — 실제 서비스에 사용하지 마세요.
+ * (웹훅 데모 PR 트리거용 변경)
  */
 public class VulnerableLogin extends HttpServlet {
 
@@ -20,16 +21,16 @@ public class VulnerableLogin extends HttpServlet {
         String password = request.getParameter("password");
 
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/testdb", "root", "");
-        Statement statement = conn.createStatement();
+        Statement statement = conn.createStatement(); // demo: diff에 포함시키기 위한 변경
 
         // SQL Injection: 사용자 입력을 검증/이스케이프 없이 그대로 쿼리 문자열에 이어붙임
         // (PreparedStatement + 파라미터 바인딩을 썼어야 함)
         String query = "SELECT * FROM users WHERE username = '" + username
                 + "' AND password = '" + password + "'";
 
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = statement.executeQuery(query); // demo: diff에 포함시키기 위한 변경
         if (rs.next()) {
-            response.getWriter().write("로그인 성공: " + rs.getString("username"));
+            response.getWriter().write("로그인 성공: " + rs.getString("username")); // demo: diff에 포함시키기 위한 변경
         } else {
             response.getWriter().write("로그인 실패");
         }
