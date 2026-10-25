@@ -34,6 +34,7 @@ import hmac
 import json
 import logging
 import os
+import re
 import sys
 import tempfile
 import time
@@ -132,6 +133,66 @@ DEMO_VERDICT_CLEAR = "demo-clear"
 DEMO_VERDICT_UNAVAILABLE = "demo-unavailable"
 
 LLM_FAILURE_NOTE = "LLM 판정 실패로 수동 확인 필요"
+
+# --------------------------------------------------------------------------
+# 라인 코멘트의 "AI 판단 근거" (LLM reasoning)
+# --------------------------------------------------------------------------
+REASONING_MAX_CHARS = 600
+MASK_KEEP_CHARS = 4
+MASK_SUFFIX = "****"
+# reasoning은 PR 코드를 인용하므로, 코드에 박힌 키·토큰이 코멘트로 다시 퍼지지 않게 가린다.
+_SECRET_PATTERNS = [
+    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", re.DOTALL),
+    re.compile(r"\bsk-ant-[A-Za-z0-9_\-]{8,}"),
+    re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}"),
+    re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}"),
+    re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
+    # 32자 이상 hex (해시·키)
+    re.compile(r"(?<![0-9A-Za-z])(?=[0-9a-fA-F]*[0-9])(?=[0-9a-fA-F]*[a-fA-F])[0-9a-fA-F]{32,}(?![0-9A-Za-z])"),
+    # base64 키: 대소문자·숫자가 섞이고 '=' 패딩이 있거나 '+'가 들어간 16자 이상.
+    # 1,478건 실측 reasoning 감사에서 'StringBuilder/HashMap/Base64', 'x=BenchmarkTest00039' 같은
+    # 식별자 나열이 범용 규칙에 걸려서, 키에만 나타나는 '='·'+' 특징이 있을 때만 가린다.
+    re.compile(
+        r"(?<![A-Za-z0-9+/])(?=[A-Za-z0-9+/]*[0-9])(?=[A-Za-z0-9+/]*[a-z])(?=[A-Za-z0-9+/]*[A-Z])"
+        r"(?:[A-Za-z0-9+/]{14,}={1,2}|(?=[A-Za-z0-9/]*\+)[A-Za-z0-9+/]{16,})(?![A-Za-z0-9+/=])"
+    ),
+]
+# password = "..." 처럼 이름 뒤 따옴표 리터럴만 (SQL 문자열 연결 PASSWORD='+bar+' 같은 건 제외)
+_SECRET_ASSIGNMENT = re.compile(
+    r"(?i)\b(password|passwd|pwd|secret|token|api[_-]?key)(\s*[:=]\s*)([\"'])([^\s\"'+]{4,})\3"
+)
+
+
+def mask_value(value: str) -> str:
+    """부분 마스킹 — 앞 4글자만 남기고 나머지는 ****."""
+    return value[:MASK_KEEP_CHARS] + MASK_SUFFIX
+
+
+def redact_secrets(text: str) -> str:
+    for pattern in _SECRET_PATTERNS:
+        text = pattern.sub(lambda m: mask_value(m.group(0)), text)
+    return _SECRET_ASSIGNMENT.sub(
+        lambda m: f"{m.group(1)}{m.group(2)}{m.group(3)}{mask_value(m.group(4))}{m.group(3)}", text
+    )
+
+
+def comment_reasoning_block(reasoning, category_name: str) -> str:
+    """LLM reasoning을 라인 코멘트용 인용 블록으로. 비어 있으면 빈 문자열."""
+    text = (reasoning or "").replace("\r\n", "\n").strip()
+    if not text:
+        return ""
+    text = redact_secrets(text)
+    # '@Override' 같은 문자열이 GitHub 사용자 멘션(알림)이 되지 않게 @ 뒤에 폭 0 공백을 넣는다
+    text = re.sub(r"@(?=[A-Za-z0-9_\-])", "@\u200b", text)
+    total = len(text)
+    if total > REASONING_MAX_CHARS:
+        cut = text[:REASONING_MAX_CHARS]
+        last_space = cut.rfind(" ")
+        if last_space >= REASONING_MAX_CHARS - 60:
+            cut = cut[:last_space]
+        text = cut.rstrip() + f" … (이하 생략, 전체 {total}자)"
+    quoted = "\n".join(f"> {line}" if line else ">" for line in text.split("\n"))
+    return f"**AI 판단 근거** ({category_name}, LLM):\n{quoted}"
 
 app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=실 API)")
 
@@ -245,7 +306,10 @@ def _classify_or_error(source_code: str, category: str, real_path: str):
             real_path, category, error_type, time.monotonic() - started,
         )
         return None, error_type
-    logger.info("LLM 판정 완료 — 파일=%s 카테고리=%s (%.1fs)", real_path, category, time.monotonic() - started)
+    logger.info(
+        "LLM 판정 완료 — 파일=%s 카테고리=%s vulnerable=%s confidence=%s (%.1fs)",
+        real_path, category, judgment.vulnerable, judgment.confidence, time.monotonic() - started,
+    )
     return judgment, None
 
 
@@ -335,6 +399,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 llm_detected = None
                 llm_confidence = None
                 llm_error = None
+                llm_reasoning = None
                 if semgrep_detected:
                     # LLM 분석 — Claude Sonnet 5 실 API 호출
                     # (scripts/run_llm_only_sqli.py와 동일 설정)
@@ -342,6 +407,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     if judgment is not None:
                         llm_detected = bool(judgment.vulnerable)
                         llm_confidence = judgment.confidence
+                        llm_reasoning = judgment.reasoning
                 # LLM 실패 시 llm_available=False -> 배치 merge_hybrid와 같은 규칙으로
                 # Semgrep 단독 판정(medium)으로 폴백한다.
                 tier = confidence_tier(
@@ -356,6 +422,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     "llm_detected": llm_detected,
                     "llm_confidence": llm_confidence,
                     "llm_error": llm_error,
+                    "llm_reasoning": llm_reasoning,
                     "tier": tier,
                 }
 
@@ -396,6 +463,11 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                         f"    - {name}: LLM 판정={judgment.vulnerable}"
                         f"(confidence={judgment.confidence}) → **{demo_verdict}**"
                     )
+                    # 데모 카테고리는 라인 코멘트가 없으므로(Semgrep finding 기반이 아님) 근거를 요약에 붙인다.
+                    # 목록 항목 안에 렌더링되도록 들여쓴다.
+                    reasoning_block = comment_reasoning_block(judgment.reasoning, name)
+                    if reasoning_block:
+                        summary_lines.extend(f"      {line}" for line in reasoning_block.split("\n"))
 
             for finding in file_findings:
                 line = finding.get("start", {}).get("line")
@@ -421,6 +493,13 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                         f" confidence={r['llm_confidence']})"
                     )
                 body = f"**[{rule_id}]**{tier_note}\n\n{message}"
+                # LLM을 호출해 판정을 받은 카테고리만 근거를 붙인다 (실패·대상 밖은 기존 문구 그대로)
+                if matched_cat is not None and not category_results[matched_cat]["llm_error"]:
+                    reasoning_block = comment_reasoning_block(
+                        category_results[matched_cat]["llm_reasoning"], CATEGORY_TO_NAME[matched_cat]
+                    )
+                    if reasoning_block:
+                        body += "\n\n" + reasoning_block
                 line_comments.append((real_path, line, body))
 
         logger.info("커밋 %s: 카테고리 판정(LLM 포함) (%.1fs)", head_sha[:7], time.monotonic() - judging_started)

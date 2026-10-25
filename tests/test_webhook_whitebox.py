@@ -116,6 +116,16 @@ class TestCascade:
         assert llm.calls == ["sqli"]
         assert tier_of(summary, DISPLAY["sqli"]) == "high"
 
+    def test_llm_judgment_logged_with_confidence(self, pipeline, caplog):
+        """B21: LLM 판정마다 서버 로그에 판정 결과와 confidence 값이 남는다 (코멘트와 같은 값)."""
+        pipeline({FILE: [finding("89")]}, {"sqli": (False, 0.85)})
+        with caplog.at_level(logging.INFO, logger="webhook"):
+            summary = run_analysis()["summary_lines"]
+        logs = [r.getMessage() for r in caplog.records if r.getMessage().startswith("LLM 판정 완료")]
+        assert len(logs) == 1
+        assert f"파일={FILE} 카테고리=sqli vulnerable=False confidence=0.85" in logs[0]
+        assert any("confidence=0.85) → **filtered**" in line for line in summary)
+
     def test_detected_and_llm_confident_safe_is_filtered(self, pipeline):
         """B4: Semgrep 탐지 + LLM 안전 + confidence >= 임계값(sqli 0.85) -> filtered."""
         pipeline({FILE: [finding("89")]}, {"sqli": (False, 0.95)})
@@ -199,6 +209,46 @@ class TestCommentPosting:
         assert "SQL Injection: 탐지됨" in summary and "**high**" in summary
         assert "Path Traversal: 탐지 없음 → **low**" in summary
 
+    def test_llm_reasoning_appended_below_semgrep_message(self, monkeypatch, pipeline):
+        """B15: LLM을 호출한 카테고리(high/filtered/medium)의 라인 코멘트에 'AI 판단 근거'로 reasoning이 붙고,
+        Semgrep 규칙 메시지는 그대로 그 위에 남는다.
+        """
+        findings = [
+            finding("89", line=1, check_id="rule.sqli"),
+            finding("79", line=2, check_id="rule.xss"),
+            finding("78", line=3, check_id="rule.cmdi"),
+        ]
+        responses = {
+            "sqli": (True, 0.97, "param이 쿼리 문자열에 그대로 연결됨"),
+            "xss": (False, 0.95, "출력 전에 HTML 인코딩됨"),
+            "cmdi": (False, 0.50, "인자가 고정값일 가능성이 높지만 확실하지 않음"),
+        }
+        line_calls, _ = self._wire(monkeypatch, pipeline, findings, responses)
+        webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abc", "opened")
+
+        bodies = {call[3]: call[4] for call in line_calls}
+        expected = {
+            1: ("**high**", "rule.sqli", "SQL Injection", "param이 쿼리 문자열에 그대로 연결됨"),
+            2: ("**filtered**", "rule.xss", "Cross-Site Scripting(XSS)", "출력 전에 HTML 인코딩됨"),
+            3: ("**medium**", "rule.cmdi", "OS Command Injection", "인자가 고정값일 가능성이 높지만 확실하지 않음"),
+        }
+        for line, (tier, rule, name, reasoning) in expected.items():
+            body = bodies[line]
+            assert tier in body
+            semgrep_at = body.index(f"mock finding {rule}")
+            reasoning_at = body.index(f"**AI 판단 근거** ({name}, LLM):")
+            assert semgrep_at < reasoning_at
+            assert f"> {reasoning}" in body[reasoning_at:]
+
+    def test_no_reasoning_for_out_of_scope_or_failed_llm(self, monkeypatch, pipeline):
+        """B16: 4개 카테고리 밖 finding과 LLM이 실패한 카테고리에는 근거를 붙이지 않고 기존 문구만 남긴다."""
+        findings = [finding("327", line=1, check_id="rule.crypto"), finding("89", line=2, check_id="rule.sqli")]
+        line_calls, _ = self._wire(monkeypatch, pipeline, findings, {"sqli": RuntimeError("simulated")})
+        webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abc", "opened")
+        bodies = {call[3]: call[4] for call in line_calls}
+        assert "LLM 검증 대상 아님" in bodies[1] and "AI 판단 근거" not in bodies[1]
+        assert "LLM 판정 실패로 수동 확인 필요" in bodies[2] and "AI 판단 근거" not in bodies[2]
+
     def test_out_of_scope_finding_marked_not_llm_verified(self, monkeypatch, pipeline):
         """B8: 4개 카테고리 밖 finding(CWE-327)은 LLM 검증 없이 'LLM 검증 대상 아님'으로 게시된다."""
         line_calls, _ = self._wire(monkeypatch, pipeline, [finding("327", check_id="test.crypto.rule")], {})
@@ -230,6 +280,7 @@ class TestCommentPosting:
         assert "SQL Injection: 탐지됨 → ⚠️ LLM 판정 실패로 수동 확인 필요(RuntimeError) → **medium**" in summary
         assert len(line_calls) == 1
         assert "**medium**" in line_calls[0][4] and "LLM 판정 실패로 수동 확인 필요" in line_calls[0][4]
+        assert "AI 판단 근거" not in line_calls[0][4]
 
         log_text = "\n".join(r.getMessage() for r in caplog.records)
         assert "RuntimeError" in log_text and "sqli" in log_text
@@ -301,6 +352,30 @@ class TestDemoFailure:
         assert llm.calls == ["deserial", "hardcoded"]
         assert "LLM 판정 실패로 수동 확인 필요(RuntimeError) → **demo-unavailable**" in text
         assert "**demo-flagged**" in text
+        assert "AI 판단 근거** (Insecure Deserialization" not in text
+        assert "AI 판단 근거** (Use of Hard-coded Credentials" in text
+
+    def test_demo_reasoning_in_summary_with_same_rules(self, demo_app, pipeline):
+        """B20: 데모 카테고리 판정의 reasoning이 요약 코멘트의 각 데모 항목 바로 아래에 'AI 판단 근거'로
+        붙고, 라인 코멘트와 같은 규칙(600자 자르기, 부분 마스킹, 멘션 차단)이 적용된다.
+        """
+        long_reasoning = "DEFAULT_CIPHER_KEY_BYTES = Base64.decode(\"kPH+bIxk5D2deZiIxcaaaA==\") @Override " + "근거 " * 400
+        pipeline({}, {
+            "deserial": (True, 0.92, "ObjectInputStream.readObject()에 타입 검증이 없음"),
+            "hardcoded": (True, 0.95, long_reasoning),
+        })
+        summary = demo_app.analyze_pr_files(JAVA_FILES, "o", "r", "s")["summary_lines"]
+
+        deserial_at = next(i for i, line in enumerate(summary) if line.startswith("    - Insecure Deserialization:"))
+        assert summary[deserial_at + 1] == "      **AI 판단 근거** (Insecure Deserialization, LLM):"
+        assert summary[deserial_at + 2] == "      > ObjectInputStream.readObject()에 타입 검증이 없음"
+
+        hardcoded_at = next(i for i, line in enumerate(summary) if line.startswith("    - Use of Hard-coded Credentials"))
+        block = summary[hardcoded_at + 2]
+        assert block.startswith("      > ")
+        assert "kPH+****" in block and "kPH+bIxk5D2deZiIxcaaaA==" not in block
+        assert "@\u200bOverride" in block
+        assert "… (이하 생략, 전체" in block
 
 
 class TestSignatureConfig:

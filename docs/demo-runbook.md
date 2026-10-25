@@ -45,7 +45,7 @@ python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 2>&1 | tee "$LOG"
 2. 서버 콘솔에서 `웹훅 수신` → `202 응답 반환` → `분석 시작` 로그가 바로 뜨는 걸 보여준다
 3. 기다리는 동안(약 1분) 캐스케이드 설명: Semgrep이 탐지한 카테고리만 LLM에 묻고, 탐지 없으면 LLM을 부르지 않는다
 4. `분석 완료` 로그가 뜨면 PR 화면 새로고침 → 요약 코멘트 1건 + 라인 코멘트 2건
-5. 짚을 결과: `BenchmarkTest00024` = **high**, `BenchmarkTest00105` = **filtered**(Semgrep 오탐을 LLM이 기각), `BenchmarkTest00107` = 4개 카테고리 모두 **low**(LLM 호출 없음). LLM 호출은 2번뿐
+5. 짚을 결과: `BenchmarkTest00024` = **high**, `BenchmarkTest00105` = **filtered**(Semgrep 오탐을 LLM이 기각), `BenchmarkTest00107` = 4개 카테고리 모두 **low**(LLM 호출 없음). LLM 호출은 2번뿐. 00024·00105 라인 코멘트 아래의 **AI 판단 근거**에서 LLM이 왜 그렇게 봤는지(00105는 "조건이 항상 참이라 상수만 들어감") 보여준다
 6. 00105가 **medium**으로 나와도 정상이다: SQLi 기각 임계값이 0.85인데 00105의 confidence는 지금까지 0.9 다섯 번, 0.85 한 번이었다. 한 단계만 내려가도(0.8) 기각하지 않고 남기는 쪽으로 판정한다 — "확신이 충분할 때만 Semgrep 경보를 뒤집는다"는 설계로 설명
 
 **리허설 측정값 (2026-10-25, PR #4)**
