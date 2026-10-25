@@ -21,7 +21,7 @@ FastAPI 웹훅 서버 — GitHub PR 이벤트를 받아 Semgrep 정적분석 + L
 
 환경변수:
   GITHUB_TOKEN            (필수) PR 파일 조회 + 코멘트 게시용 GitHub 토큰. 코드에 직접 넣지 말 것.
-  GITHUB_WEBHOOK_SECRET   (권장) GitHub 웹훅 서명 검증용 secret. 미설정 시 검증을 건너뜀(테스트 전용).
+  GITHUB_WEBHOOK_SECRET   (필수) GitHub 웹훅 서명 검증용 secret. 미설정 시 모든 웹훅 요청을 500으로 거절(fail-closed).
   ANTHROPIC_API_KEY       (필수) LLM 판단용 Claude API 키. 코드에 직접 넣지 말 것.
   DEMO_CATEGORIES         (선택) 'on'이면 CWE-502(역직렬화)/CWE-798(하드코딩 자격증명) 정성
                           데모 카테고리를 추가로 분석(기본값 off — 정량 벤치마크 데이터가
@@ -127,6 +127,9 @@ if DEMO_CATEGORIES_ENABLED:
 # "정성 데모 전용, LLM 단독"임을 티어 이름에서부터 구분하기 위함.
 DEMO_VERDICT_FLAGGED = "demo-flagged"
 DEMO_VERDICT_CLEAR = "demo-clear"
+DEMO_VERDICT_UNAVAILABLE = "demo-unavailable"
+
+LLM_FAILURE_NOTE = "LLM 판정 실패로 수동 확인 필요"
 
 app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, LLM=실 API)")
 
@@ -136,8 +139,11 @@ app = FastAPI(title="AI 코드 리뷰 플랫폼 — 웹훅 서버 (3단계 MVP, 
 # --------------------------------------------------------------------------
 def verify_signature(raw_body: bytes, signature_header: Optional[str]) -> None:
     if not GITHUB_WEBHOOK_SECRET:
-        logger.warning("GITHUB_WEBHOOK_SECRET 미설정 — 웹훅 서명 검증을 건너뜁니다 (테스트 전용, 운영 배포 시 필수)")
-        return
+        # fail-closed: 시크릿이 없으면 서명을 확인할 수 없으므로 요청을 받지 않는다.
+        # 일시적 장애가 아니라 운영자가 고쳐야 하는 설정 오류라 503이 아닌 500
+        # (GITHUB_TOKEN 미설정과 같은 코드). 응답 본문엔 원인을 밝히지 않는다.
+        logger.error("웹훅 시크릿 미설정 — 요청 거절")
+        raise HTTPException(status_code=500, detail="웹훅 서버 설정 오류")
     if not signature_header or not signature_header.startswith("sha256="):
         raise HTTPException(status_code=401, detail="X-Hub-Signature-256 헤더가 없거나 형식이 잘못됨")
     expected = "sha256=" + hmac.new(GITHUB_WEBHOOK_SECRET.encode(), raw_body, hashlib.sha256).hexdigest()
@@ -221,6 +227,20 @@ def post_summary_comment(owner: str, repo: str, pr_number: int, body: str) -> No
 # --------------------------------------------------------------------------
 # 분석 파이프라인 (정적분석 + LLM 실 API + 하이브리드 통합, 4개 카테고리)
 # --------------------------------------------------------------------------
+def _classify_or_error(source_code: str, category: str, real_path: str):
+    """LLM 판정 1건. 실패하면 (None, 예외 타입 이름)을 돌려주고 나머지 분석은 계속한다.
+
+    배치 run_llm_only_sqli.py와 같은 기준(모든 Exception — API 오류, 재시도 소진, JSON 파싱
+    실패·응답 잘림)으로 잡는다. 예외 메시지에는 요청/응답 내용이 섞일 수 있어 타입 이름만 남긴다.
+    """
+    try:
+        return classify_file_via_api(anthropic_client, source_code, category), None
+    except Exception as e:  # noqa: BLE001
+        error_type = type(e).__name__
+        logger.warning("LLM 판정 실패 — 파일=%s 카테고리=%s 예외=%s", real_path, category, error_type)
+        return None, error_type
+
+
 def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> dict:
     """PR의 .java 파일들을 받아와 semgrep 스캔 + LLM 판단 + 하이브리드 통합을 수행.
 
@@ -296,12 +316,16 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 semgrep_detected = safe_name in flagged_files_by_category[cat]
                 llm_detected = None
                 llm_confidence = None
+                llm_error = None
                 if semgrep_detected:
                     # LLM 분석 — Claude Sonnet 5 실 API 호출
                     # (scripts/run_llm_only_sqli.py와 동일 설정)
-                    judgment = classify_file_via_api(anthropic_client, source_code, cat)
-                    llm_detected = bool(judgment.vulnerable)
-                    llm_confidence = judgment.confidence
+                    judgment, llm_error = _classify_or_error(source_code, cat, real_path)
+                    if judgment is not None:
+                        llm_detected = bool(judgment.vulnerable)
+                        llm_confidence = judgment.confidence
+                # LLM 실패 시 llm_available=False -> 배치 merge_hybrid와 같은 규칙으로
+                # Semgrep 단독 판정(medium)으로 폴백한다.
                 tier = confidence_tier(
                     semgrep_detected,
                     bool(llm_detected),
@@ -313,6 +337,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     "semgrep_detected": semgrep_detected,
                     "llm_detected": llm_detected,
                     "llm_confidence": llm_confidence,
+                    "llm_error": llm_error,
                     "tier": tier,
                 }
 
@@ -323,6 +348,11 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 name = CATEGORY_TO_NAME[cat]
                 if not r["semgrep_detected"]:
                     summary_lines.append(f"  - {name}: 탐지 없음 → **{r['tier']}** (LLM 호출 안 함)")
+                elif r["llm_error"]:
+                    summary_lines.append(
+                        f"  - {name}: 탐지됨 → ⚠️ {LLM_FAILURE_NOTE}({r['llm_error']}) "
+                        f"→ **{r['tier']}** (Semgrep 단독 판정)"
+                    )
                 else:
                     summary_lines.append(
                         f"  - {name}: 탐지됨 → LLM 검증={r['llm_detected']}"
@@ -336,9 +366,14 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 for cat in DEMO_ONLY_CATEGORIES:
                     # 캐스케이드 게이트 없음 — Semgrep 탐지 여부와 무관하게 항상 LLM 호출
                     # (사전 조사로 Semgrep 무료 룰셋이 이 패턴들을 전혀 탐지 못함을 확인했기 때문)
-                    judgment = classify_file_via_api(anthropic_client, source_code, cat)
-                    demo_verdict = DEMO_VERDICT_FLAGGED if judgment.vulnerable else DEMO_VERDICT_CLEAR
+                    judgment, demo_error = _classify_or_error(source_code, cat, real_path)
                     name = CATEGORY_TO_NAME[cat]
+                    if judgment is None:
+                        summary_lines.append(
+                            f"    - {name}: ⚠️ {LLM_FAILURE_NOTE}({demo_error}) → **{DEMO_VERDICT_UNAVAILABLE}**"
+                        )
+                        continue
+                    demo_verdict = DEMO_VERDICT_FLAGGED if judgment.vulnerable else DEMO_VERDICT_CLEAR
                     summary_lines.append(
                         f"    - {name}: LLM 판정={judgment.vulnerable}"
                         f"(confidence={judgment.confidence}) → **{demo_verdict}**"
@@ -353,6 +388,12 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                 matched_cat = finding.get("_matched_category")
                 if matched_cat is None:
                     tier_note = " · LLM 검증 대상 아님 (지원 카테고리 밖 — Semgrep 단독 결과)"
+                elif category_results[matched_cat]["llm_error"]:
+                    r = category_results[matched_cat]
+                    tier_note = (
+                        f" · {CATEGORY_TO_NAME[matched_cat]} 하이브리드 판정: **{r['tier']}** — "
+                        f"⚠️ {LLM_FAILURE_NOTE} (Semgrep 단독 판정)"
+                    )
                 else:
                     r = category_results[matched_cat]
                     verdict = TIER_VERDICT.get(r["tier"], r["tier"])

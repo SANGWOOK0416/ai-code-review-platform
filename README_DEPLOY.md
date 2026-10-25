@@ -19,15 +19,15 @@ pip install -r requirements.txt
 # 필수: PR 파일 조회 + 코멘트 게시용 GitHub 토큰
 export GITHUB_TOKEN="ghp_..."          # PowerShell: $env:GITHUB_TOKEN="ghp_..."
 
-# 권장(선택): 웹훅 서명 검증용 secret. 아래 4번에서 GitHub 웹훅 설정과 같은 값을 넣어야 함
+# 필수: 웹훅 서명 검증용 secret. 아래 4번에서 GitHub 웹훅 설정과 같은 값을 넣어야 함
 export GITHUB_WEBHOOK_SECRET="아무-임의-문자열"
 
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-`GITHUB_WEBHOOK_SECRET`을 설정하지 않으면 서버는 서명 검증을 건너뛰고 경고 로그만 남깁니다
-(로컬 테스트는 되지만, ngrok URL이 공개되어 있는 동안 아무나 그 URL로 가짜 웹훅을 보낼 수
-있다는 뜻입니다 — 잠깐 테스트할 때만 생략하고, 오래 열어둘 거면 반드시 설정하세요).
+`GITHUB_WEBHOOK_SECRET`을 설정하지 않으면 서버는 모든 웹훅 요청을 500으로 거절합니다
+(fail-closed — ngrok URL이 공개된 동안 누구나 가짜 웹훅을 보낼 수 있으므로 서명 없이는 받지 않음).
+`/health`는 secret 없이도 응답합니다.
 
 정상 기동 확인:
 
@@ -78,7 +78,7 @@ Forwarding    https://xxxx-xxxx-xxxx.ngrok-free.app -> http://localhost:8000
 1. 테스트할 저장소 → **Settings → Webhooks → Add webhook**
 2. **Payload URL**: `https://xxxx-xxxx-xxxx.ngrok-free.app/webhook` (3번에서 얻은 주소 + `/webhook`)
 3. **Content type**: `application/json`
-4. **Secret**: 1번에서 설정한 `GITHUB_WEBHOOK_SECRET`과 동일한 값 (설정 안 했다면 비워둠)
+4. **Secret**: 1번에서 설정한 `GITHUB_WEBHOOK_SECRET`과 동일한 값 (비워두면 서버가 서명을 검증할 수 없어 401로 거절됨)
 5. **Which events would you like to trigger this webhook?** → "Let me select individual events" 선택 후
    **Pull requests**만 체크 (다른 이벤트는 불필요)
 6. Active 체크 후 **Add webhook**
@@ -129,6 +129,7 @@ PR #1 분석 완료 — 파일 1개, 라인 코멘트 2건 게시 / 0건 실패
 | 증상 | 원인 / 해결 |
 |---|---|
 | 웹훅 목록 "Recent Deliveries"에 빨간 X, 401 응답 | `GITHUB_WEBHOOK_SECRET`이 서버와 GitHub 설정에서 서로 다름 |
+| 모든 웹훅이 500 `웹훅 서버 설정 오류`, 서버 로그에 `웹훅 시크릿 미설정` | 서버를 실행한 셸에 `GITHUB_WEBHOOK_SECRET`이 없음 — 설정 후 서버 재시작 |
 | 500 에러, `GITHUB_TOKEN 환경변수가 설정되지 않음` | 서버를 실행한 셸에 `GITHUB_TOKEN`이 없음 — 새 터미널을 열었다면 다시 `export`/`$env:` 필요 |
 | 라인 코멘트 일부가 안 달리고 요약에 "diff 범위 밖" 문구 | GitHub는 PR diff에 실제로 포함된 라인에만 리뷰 코멘트를 허용함 — 정상 동작(요약 코멘트에는 항상 전체 결과가 남음) |
 | `semgrep: command not found` (로컬 실행 시) | `pip install -r requirements.txt`가 제대로 안 됐거나 다른 가상환경에서 실행 중 |

@@ -87,7 +87,10 @@ def make_fake_semgrep(findings_by_filename: dict):
 
 
 class FakeLLM:
-    """classify_file_via_api 대체 — 카테고리별 응답을 지정하고 호출 기록을 남긴다."""
+    """classify_file_via_api 대체 — 카테고리별 응답을 지정하고 호출 기록을 남긴다.
+
+    responses 값은 (vulnerable, confidence) 튜플이거나, 그 카테고리 호출 시 던질 예외 객체.
+    """
 
     def __init__(self, responses: dict, default=(True, 0.9)):
         self.responses = responses
@@ -96,7 +99,10 @@ class FakeLLM:
 
     def __call__(self, client, source_code, category):
         self.calls.append(category)
-        vulnerable, confidence = self.responses.get(category, self.default)
+        response = self.responses.get(category, self.default)
+        if isinstance(response, BaseException):
+            raise response
+        vulnerable, confidence = response
         return run_llm_only_sqli.VulnJudgment(
             vulnerable=vulnerable, confidence=confidence, reasoning=f"mock reasoning for {category}"
         )

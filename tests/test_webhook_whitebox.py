@@ -214,31 +214,125 @@ class TestCommentPosting:
         webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abc", "opened")
         assert "라인 코멘트 1건은 diff 범위 밖" in summary_calls[0][1]
 
-    def test_llm_error_aborts_whole_pr_without_comment(self, monkeypatch, pipeline, caplog):
-        """B11(추가, 현재 동작 기록): LLM 호출이 예외를 내면 카테고리별 폴백(medium) 없이
-        PR 전체 분석이 중단되고 코멘트가 하나도 게시되지 않는다. 예외는 PR 번호와 함께 로그로 남는다.
+    def test_llm_error_falls_back_to_medium_and_still_posts(self, monkeypatch, pipeline, caplog):
+        """B11: LLM 호출이 예외를 내면 그 카테고리만 medium(Semgrep 단독 판정)으로 처리하고,
+        라인·요약 코멘트는 '수동 확인 필요' 사유와 함께 정상 게시된다. 로그엔 예외 타입만 남는다.
         """
-        line_calls, summary_calls = self._wire(monkeypatch, pipeline, [finding("89")], {})
-
-        def failing_llm(client, source_code, category):
-            raise RuntimeError("simulated LLM failure")
-
-        monkeypatch.setattr(webhook_app, "classify_file_via_api", failing_llm)
-        with caplog.at_level(logging.ERROR, logger="webhook"):
+        leaked = "sk-ant-THIS-MUST-NOT-APPEAR-IN-LOGS"
+        line_calls, summary_calls = self._wire(
+            monkeypatch, pipeline, [finding("89", line=12)], {"sqli": RuntimeError(f"boom {leaked}")}
+        )
+        with caplog.at_level(logging.WARNING, logger="webhook"):
             webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abc", "opened")
-        assert line_calls == [] and summary_calls == []
-        assert any("PR #9" in r.getMessage() for r in caplog.records)
+
+        assert len(summary_calls) == 1
+        summary = summary_calls[0][1]
+        assert "SQL Injection: 탐지됨 → ⚠️ LLM 판정 실패로 수동 확인 필요(RuntimeError) → **medium**" in summary
+        assert len(line_calls) == 1
+        assert "**medium**" in line_calls[0][4] and "LLM 판정 실패로 수동 확인 필요" in line_calls[0][4]
+
+        log_text = "\n".join(r.getMessage() for r in caplog.records)
+        assert "RuntimeError" in log_text and "sqli" in log_text
+        assert leaked not in log_text and leaked not in summary and leaked not in line_calls[0][4]
+
+    def test_one_category_failure_does_not_affect_others(self, monkeypatch, pipeline):
+        """B12: 4개 카테고리가 모두 탐지됐는데 xss만 LLM이 실패하면 xss만 medium, 나머지는 정상 판정되고
+        코멘트(라인 4건 + 요약 1건)가 모두 게시된다.
+        """
+        findings = [finding("89", line=1), finding("79", line=2), finding("78", line=3), finding("22", line=4)]
+        responses = {
+            "sqli": (True, 0.9),
+            "xss": TimeoutError("simulated"),
+            "cmdi": (False, 0.9),
+            "pathtraver": (False, 0.5),
+        }
+        line_calls, summary_calls = self._wire(monkeypatch, pipeline, findings, responses)
+        webhook_app.process_pr_analysis("test-owner", "test-repo", 9, "abc", "opened")
+
+        assert len(line_calls) == 4 and len(summary_calls) == 1
+        lines = summary_calls[0][1].split("\n")
+        assert tier_of(lines, DISPLAY["sqli"]) == "high"
+        assert tier_of(lines, DISPLAY["xss"]) == "medium"
+        assert tier_of(lines, DISPLAY["cmdi"]) == "filtered"
+        assert tier_of(lines, DISPLAY["pathtraver"]) == "medium"
+        failure_lines = [line for line in lines if "LLM 판정 실패" in line]
+        assert len(failure_lines) == 1 and failure_lines[0].startswith(f"  - {DISPLAY['xss']}:")
+
+
+class TestLLMResponseFailures:
+    """실제 classify_file_via_api를 쓰되 Anthropic 클라이언트만 가짜로 바꿔, SDK 단계의 실패를 재현한다."""
+
+    class _FakeClient:
+        def __init__(self, parse):
+            self.messages = type("M", (), {"parse": staticmethod(parse)})()
+
+    def _run(self, monkeypatch, pipeline, parse):
+        import run_llm_only_sqli
+
+        pipeline({FILE: [finding("89")]})
+        monkeypatch.setattr(webhook_app, "classify_file_via_api", run_llm_only_sqli.classify_file_via_api)
+        monkeypatch.setattr(webhook_app, "anthropic_client", self._FakeClient(parse))
+        return run_analysis()["summary_lines"]
+
+    def test_truncated_json_falls_back_to_medium(self, monkeypatch, pipeline):
+        """B13: 응답이 max_tokens에서 잘려 JSON 파싱(ValidationError)이 실패해도 medium으로 처리된다."""
+        import run_llm_only_sqli
+
+        def truncated(**kwargs):
+            run_llm_only_sqli.VulnJudgment.model_validate_json('{"vulnerable":true,"confidence":0.9,"reasoning":"잘린')
+
+        summary = self._run(monkeypatch, pipeline, truncated)
+        assert tier_of(summary, DISPLAY["sqli"]) == "medium"
+        assert any("LLM 판정 실패로 수동 확인 필요(ValidationError)" in line for line in summary)
+
+    def test_missing_parsed_output_falls_back_to_medium(self, monkeypatch, pipeline):
+        """B13: 구조화 출력이 비어 있어(parsed_output=None) ValueError가 나도 medium으로 처리된다."""
+        summary = self._run(monkeypatch, pipeline, lambda **kwargs: type("R", (), {"parsed_output": None})())
+        assert tier_of(summary, DISPLAY["sqli"]) == "medium"
+        assert any("LLM 판정 실패로 수동 확인 필요(ValueError)" in line for line in summary)
+
+
+class TestDemoFailure:
+    def test_demo_llm_failure_marked_and_analysis_continues(self, demo_app, pipeline):
+        """B14: 데모 카테고리에서 LLM이 실패하면 demo-unavailable로 표시하고 나머지 데모 판정은 계속한다."""
+        llm = pipeline({}, {"deserial": RuntimeError("simulated"), "hardcoded": (True, 0.9)})
+        summary = demo_app.analyze_pr_files(JAVA_FILES, "o", "r", "s")["summary_lines"]
+        text = "\n".join(summary)
+        assert llm.calls == ["deserial", "hardcoded"]
+        assert "LLM 판정 실패로 수동 확인 필요(RuntimeError) → **demo-unavailable**" in text
+        assert "**demo-flagged**" in text
 
 
 class TestSignatureConfig:
-    def test_missing_header_accepted_when_secret_unset(self, monkeypatch):
-        """A2-보충(그레이, 현재 동작 기록): 서버에 GITHUB_WEBHOOK_SECRET이 없으면 서명 검증을 건너뛰어
-        헤더 없는 요청도 202로 받아들인다.
+    @pytest.mark.parametrize("secret", [None, ""])
+    @pytest.mark.parametrize(
+        "event, payload, with_header",
+        [
+            ("pull_request", pr_payload("opened"), False),
+            ("pull_request", pr_payload("opened"), True),
+            ("ping", {"zen": "test"}, False),
+        ],
+    )
+    def test_requests_rejected_when_secret_unset(self, monkeypatch, caplog, secret, event, payload, with_header):
+        """A2b: 서버에 GITHUB_WEBHOOK_SECRET이 없으면(fail-closed) 서명 유무·이벤트 종류와 상관없이 500으로
+        거절하고 분석을 등록하지 않는다. 응답 본문은 원인을 밝히지 않고, 로그엔 '시크릿 미설정'만 남는다.
         """
+        monkeypatch.setattr(webhook_app, "GITHUB_WEBHOOK_SECRET", secret)
+        spy = MagicMock()
+        monkeypatch.setattr(webhook_app, "process_pr_analysis", spy)
+        body = encode(payload)
+        headers = {"X-GitHub-Event": event, "Content-Type": "application/json"}
+        if with_header:
+            headers["X-Hub-Signature-256"] = sign(body)
+        with caplog.at_level(logging.ERROR, logger="webhook"):
+            resp = TestClient(webhook_app.app).post("/webhook", content=body, headers=headers)
+
+        assert resp.status_code == 500
+        assert resp.json() == {"detail": "웹훅 서버 설정 오류"}
+        spy.assert_not_called()
+        assert [r.getMessage() for r in caplog.records] == ["웹훅 시크릿 미설정 — 요청 거절"]
+
+    def test_health_still_available_when_secret_unset(self, monkeypatch):
+        """A2b: 시크릿이 없어도 /health는 응답한다 (거절은 /webhook 요청 단위)."""
         monkeypatch.setattr(webhook_app, "GITHUB_WEBHOOK_SECRET", None)
-        monkeypatch.setattr(webhook_app, "process_pr_analysis", MagicMock())
-        resp = TestClient(webhook_app.app).post(
-            "/webhook", content=encode(pr_payload("opened")),
-            headers={"X-GitHub-Event": "pull_request", "Content-Type": "application/json"},
-        )
-        assert resp.status_code == 202
+        assert TestClient(webhook_app.app).get("/health").status_code == 200
