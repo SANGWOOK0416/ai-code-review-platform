@@ -172,8 +172,16 @@ class TestDemoCategories:
         assert llm.calls == ["deserial", "hardcoded"]
         text = "\n".join(summary)
         assert "정성 데모 전용" in text
-        assert "Insecure Deserialization" in text and "**demo-flagged**" in text
-        assert "Use of Hard-coded Credentials" in text and "**demo-clear**" in text
+        assert "    - Insecure Deserialization (CWE-502): LLM 판정=True" in text and "**demo-flagged**" in text
+        assert "    - Hard-coded Credentials (CWE-798): LLM 판정=False" in text and "**demo-clear**" in text
+
+    def test_demo_label_short_but_prompt_unchanged(self, demo_app):
+        """B7: 코멘트 라벨은 짧게(Hard-coded Credentials (CWE-798)), LLM 프롬프트 이름은 그대로(암호화 키 포함 설명)."""
+        import run_llm_only_sqli
+
+        assert demo_app.DEMO_DISPLAY_NAME["hardcoded"] == "Hard-coded Credentials (CWE-798)"
+        prompt = run_llm_only_sqli.build_system_prompt("hardcoded")
+        assert "암호화 키 하드코딩 포함" in prompt and "CWE-798" in prompt
 
 
 class TestCommentPosting:
@@ -353,7 +361,7 @@ class TestDemoFailure:
         assert "LLM 판정 실패로 수동 확인 필요(RuntimeError) → **demo-unavailable**" in text
         assert "**demo-flagged**" in text
         assert "AI 판단 근거** (Insecure Deserialization" not in text
-        assert "AI 판단 근거** (Use of Hard-coded Credentials" in text
+        assert "AI 판단 근거** (Hard-coded Credentials (CWE-798)" in text
 
     def test_demo_reasoning_in_summary_with_same_rules(self, demo_app, pipeline):
         """B20: 데모 카테고리 판정의 reasoning이 요약 코멘트의 각 데모 항목 바로 아래에 'AI 판단 근거'로
@@ -366,11 +374,11 @@ class TestDemoFailure:
         })
         summary = demo_app.analyze_pr_files(JAVA_FILES, "o", "r", "s")["summary_lines"]
 
-        deserial_at = next(i for i, line in enumerate(summary) if line.startswith("    - Insecure Deserialization:"))
-        assert summary[deserial_at + 1] == "      **AI 판단 근거** (Insecure Deserialization, LLM):"
+        deserial_at = next(i for i, line in enumerate(summary) if line.startswith("    - Insecure Deserialization (CWE-502):"))
+        assert summary[deserial_at + 1] == "      **AI 판단 근거** (Insecure Deserialization (CWE-502), LLM):"
         assert summary[deserial_at + 2] == "      > ObjectInputStream.readObject()에 타입 검증이 없음"
 
-        hardcoded_at = next(i for i, line in enumerate(summary) if line.startswith("    - Use of Hard-coded Credentials"))
+        hardcoded_at = next(i for i, line in enumerate(summary) if line.startswith("    - Hard-coded Credentials (CWE-798):"))
         block = summary[hardcoded_at + 2]
         assert block.startswith("      > ")
         assert "kPH+****" in block and "kPH+bIxk5D2deZiIxcaaaA==" not in block

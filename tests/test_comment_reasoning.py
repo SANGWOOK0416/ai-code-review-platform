@@ -1,7 +1,7 @@
 """단위 테스트 — 라인 코멘트의 'AI 판단 근거' 블록 (app.main.comment_reasoning_block / redact_secrets)."""
 import pytest
 
-from app.main import REASONING_MAX_CHARS, comment_reasoning_block, redact_secrets
+from app.main import REASONING_MAX_CHARS, comment_reasoning_block, mask_value, redact_secrets
 
 
 def test_long_reasoning_truncated_with_marker():
@@ -49,7 +49,27 @@ def test_secret_assignment_values_are_redacted():
     """B18: password = "..." / api_key: '...' 처럼 이름 뒤 따옴표 리터럴은 짧아도 가린다 (이름은 남김)."""
     text = redact_secrets("password = \"hunter22\" 이고 api_key: 'abcd1234' 를 사용")
     assert "hunter22" not in text and "abcd1234" not in text
-    assert text == "password = \"hunt****\" 이고 api_key: 'abcd****' 를 사용"
+    assert text == "password = \"****\" 이고 api_key: '****' 를 사용"
+
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [
+        ("a" * 15, "****"),            # 16자 미만: 전부 가림
+        ("b" * 16, "bbbb****"),        # 16자부터 앞 4글자 유지
+        ("hunter22", "****"),
+        ("kPH+bIxk5D2deZiIxcaaaA==", "kPH+****"),
+    ],
+)
+def test_mask_length_rule(value, expected):
+    """B18: 16자 미만 값은 전부 ****, 16자 이상만 앞 4글자를 남긴다."""
+    assert mask_value(value) == expected
+
+
+def test_short_secret_literal_fully_masked():
+    """B18: 이름 뒤 짧은 비밀번호(16자 미만)는 앞글자도 남기지 않는다."""
+    assert redact_secrets('token: "abcdefghijklmno"') == 'token: "****"'
+    assert redact_secrets('token: "abcdefghijklmnop"') == 'token: "abcd****"'
 
 
 def test_shiro_default_key_masked_as_documented():

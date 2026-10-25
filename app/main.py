@@ -131,6 +131,11 @@ if DEMO_CATEGORIES_ENABLED:
 DEMO_VERDICT_FLAGGED = "demo-flagged"
 DEMO_VERDICT_CLEAR = "demo-clear"
 DEMO_VERDICT_UNAVAILABLE = "demo-unavailable"
+# 코멘트 표시용 짧은 이름. LLM 프롬프트는 CATEGORY_TO_NAME(암호화 키 포함 등 설명이 붙은 이름)을 그대로 쓴다.
+DEMO_DISPLAY_NAME = {
+    "deserial": "Insecure Deserialization (CWE-502)",
+    "hardcoded": "Hard-coded Credentials (CWE-798)",
+}
 
 LLM_FAILURE_NOTE = "LLM 판정 실패로 수동 확인 필요"
 
@@ -139,6 +144,7 @@ LLM_FAILURE_NOTE = "LLM 판정 실패로 수동 확인 필요"
 # --------------------------------------------------------------------------
 REASONING_MAX_CHARS = 600
 MASK_KEEP_CHARS = 4
+MASK_MIN_LEN_TO_KEEP = 16  # 이보다 짧은 값은 앞 4글자도 남기지 않는다 (짧은 비밀번호의 절반 노출 방지)
 MASK_SUFFIX = "****"
 # reasoning은 PR 코드를 인용하므로, 코드에 박힌 키·토큰이 코멘트로 다시 퍼지지 않게 가린다.
 _SECRET_PATTERNS = [
@@ -164,7 +170,9 @@ _SECRET_ASSIGNMENT = re.compile(
 
 
 def mask_value(value: str) -> str:
-    """부분 마스킹 — 앞 4글자만 남기고 나머지는 ****."""
+    """부분 마스킹 — 16자 이상이면 앞 4글자만 남기고 나머지는 ****, 16자 미만은 전부 ****."""
+    if len(value) < MASK_MIN_LEN_TO_KEEP:
+        return MASK_SUFFIX
     return value[:MASK_KEEP_CHARS] + MASK_SUFFIX
 
 
@@ -452,7 +460,7 @@ def analyze_pr_files(java_files: list, owner: str, repo: str, head_sha: str) -> 
                     # 캐스케이드 게이트 없음 — Semgrep 탐지 여부와 무관하게 항상 LLM 호출
                     # (사전 조사로 Semgrep 무료 룰셋이 이 패턴들을 전혀 탐지 못함을 확인했기 때문)
                     judgment, demo_error = _classify_or_error(source_code, cat, real_path)
-                    name = CATEGORY_TO_NAME[cat]
+                    name = DEMO_DISPLAY_NAME[cat]
                     if judgment is None:
                         summary_lines.append(
                             f"    - {name}: ⚠️ {LLM_FAILURE_NOTE}({demo_error}) → **{DEMO_VERDICT_UNAVAILABLE}**"
