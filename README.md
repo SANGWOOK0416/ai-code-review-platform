@@ -251,6 +251,6 @@ class VulnJudgment(BaseModel):
 
 ## 👤 Author
 
-**Sang Wook Lim (임상욱)** · 동국대학교 WISE캠퍼스 컴퓨터공학과
+**Sang Wook Lim (임상욱)** · 동국대학교 컴퓨터공학과
 지도교수: 오승현 교수님
 졸업자격 실험보고: *정적분석-LLM 캐스케이드 기반 보안 취약점 탐지 시스템 실험* (2026)
